@@ -4,6 +4,34 @@
         this._uid = this.props.params.uid;
         let _this = this;
         this.state = { detail: null, analysis: null };
+        //pv统计
+        //localStorage.setItem('viewLog', null);
+        if (window.localStorage) {
+            let viewLog = JSON.parse(localStorage.getItem('viewLog'));
+            let obj = {};
+            if (Array.isArray(viewLog)) {
+                for (let i = 0; i < viewLog.length; i++) {
+                    if (viewLog[i].uid == _this._uid.substr(4)) {
+                        viewLog[i].count = parseInt(viewLog[i].count) + 1;
+                        obj = viewLog[i];
+                        viewLog.splice(i, 1);
+                    } else {
+                        obj = { uid: _this._uid.substr(4), count: 1 }
+                    }
+                }
+                viewLog[viewLog.length] = { count: -1 };
+                for (let j = 0; j < viewLog.length; j++) {
+                    if (parseInt(viewLog[j].count) < obj.count) {
+                        viewLog.splice(j, 0, obj);
+                        viewLog.pop(1);
+                        break;
+                    }
+                }
+            } else {
+                viewLog = [{ uid: _this._uid.substr(4), count: 1 }];
+            }
+            localStorage.setItem('viewLog', JSON.stringify(viewLog));
+        }
         fetch(`/FlowMeter/Detail`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body: _this._uid }).then((response) => {
             if (response.status !== 200) {
                 throw new Error('Fail to get response with status ' + response.status);
@@ -40,7 +68,7 @@
                         <div className="ibox-content">
                             <div className="row" id="dataAnalysis">
                                 <div className="col-md-3">
-                                    <MiniCard bigH={{ header: '昨日总流量', content: analysis ? analysis.lastdaytotal : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.lastdayproportion}%` :'加载中...'}} />
+                                    <MiniCard bigH={{ header: '昨日总流量', content: analysis ? analysis.lastdaytotal : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.lastdayproportion}%` : '加载中...' }} />
                                 </div>
                                 <div className="col-md-3">
                                     <MiniCard bigH={{ header: '上月总流量', content: analysis ? analysis.monthflow : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.result}%` : '加载中...' }} />

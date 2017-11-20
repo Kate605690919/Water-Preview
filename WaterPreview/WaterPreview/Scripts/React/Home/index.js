@@ -1,6 +1,9 @@
 ﻿class Home extends React.Component {
     constructor(props) {
         super(props);
+        if (window.localStorage) {
+            this._viewLog = JSON.parse(localStorage.getItem('viewLog'));
+        }
     }
     componentDidMount() {
         let preData = [83.8281696600678, 56.6014272481756, 52.4266481213743, 50.8078892242481, 74.3907730800399, 74.1093181674194, 100.646304358387, 162.319468066664, 176.903639682744, 149.563206077522, 163.148820126547, 107.050213940757, 156.266316216881, 101.982669373231, 99.8255425048380, 140.086194405267, 123.482363765647, 157.709357822321, 132.903577895222, 162.816489934505, 176.345672422926, 189.456355450432, 209.696443447765, 169.558472349785];
@@ -105,19 +108,19 @@
     }
     render() {
         return (
-            <div className="homeBody" style={{width: '100%'}}>
+            <div className="homeBody" style={{ width: '100%' }}>
                 <div className="row">
                     <div className="col-md-2 homeCard">
-                        <MiniCard bigH={{ header: '旺塘泵站', content: '706.159' }} smallH={{ header: '昨日总流量', content: '3%' }} />
+                        <MiniCard bigH={{ header: this._viewLog ? (this._viewLog[0] ? this._viewLog[0].uid : '暂无') : '暂无', content: '706.159' }} smallH={{ header: '昨日总流量', content: '3%' }} />
                     </div>
                     <div className="col-md-2 homeCard">
-                        <MiniCard bigH={{ header: '佳兆业-城市广场', content: '604.531' }} smallH={{ header: '昨日总流量', content: '2%' }} />
+                        <MiniCard bigH={{ header: this._viewLog ? (this._viewLog[1] ? this._viewLog[1].uid : '暂无') : '暂无', content: '604.531' }} smallH={{ header: '昨日总流量', content: '2%' }} />
                     </div>
                     <div className="col-md-2 homeCard">
-                        <MiniCard bigH={{ header: '慢城金积嘉', content: '123.7969' }} smallH={{ header: '昨日总流量', content: '5%' }} />
+                        <MiniCard bigH={{ header: this._viewLog ? (this._viewLog[2] ? this._viewLog[2].uid : '暂无') : '暂无', content: '123.7969' }} smallH={{ header: '昨日总流量', content: '5%' }} />
                     </div>
                     <div className="col-md-2 homeCard">
-                        <MiniCard bigH={{ header: '中粮地产', content: '21184.59' }} smallH={{ header: '昨日总流量', content: '40%' }} />
+                        <MiniCard bigH={{ header: this._viewLog ? (this._viewLog[3] ? this._viewLog[3].uid : '暂无') : '暂无', content: '21184.59' }} smallH={{ header: '昨日总流量', content: '40%' }} />
                     </div>
                     <div className="col-md-4 homeCard">
                         <div className="ibox float-e-margins">

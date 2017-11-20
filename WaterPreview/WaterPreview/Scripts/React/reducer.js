@@ -63,7 +63,7 @@
         }
         case GET_FM_SUCCESS: {
             newState.FM.status = Status.SUCCESS;
-            newState.FM.tableInfo.data = action.result.data;
+            newState.FM.tableInfo.data = action.result;
             return { ...state, areaUid: action.areaUid, FM: Object.assign({}, newState.FM) };
         }
         case GET_FM_FAILURE: {
@@ -76,7 +76,7 @@
         }
         case GET_PM_SUCCESS: {
             newState.PM.status = Status.SUCCESS;
-            newState.PM.tableInfo.data = action.result.data;
+            newState.PM.tableInfo.data = action.result;
             return { ...state, areaUid: action.areaUid, PM: Object.assign({}, newState.PM) };
         }
         case GET_PM_FAILURE: {
@@ -89,7 +89,7 @@
         }
         case GET_QM_SUCCESS: {
             newState.QM.status = Status.SUCCESS;
-            newState.QM.tableInfo.data = action.result.data;
+            newState.QM.tableInfo.data = action.result;
             return { ...state, areaUid: action.areaUid, QM: Object.assign({}, newState.QM) };
         }
         case GET_QM_FAILURE: {

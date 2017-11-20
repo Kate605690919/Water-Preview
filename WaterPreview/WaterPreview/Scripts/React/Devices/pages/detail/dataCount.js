@@ -31,7 +31,7 @@
             }
             response.json().then((res) => {
                 if (res.length !== 0) {
-                    this.setState({ echartData: true , data: res});
+                    this.setState({ echartData: true, data: res });
                 } else {
                     this.setState({ echartData: false });
                 }
@@ -48,13 +48,13 @@
         return (
             <div className="ibox-content" style={{ borderColor: 'transparent' }}>
                 <div className="row" id="dataStat" >
-                    <div className="form-group" id="calender" style={{ display: 'flex', float: 'left'}}>                                
+                    <div className="form-group" id="calender" style={{ display: 'flex', float: 'left' }}>
                         <DatePicker />
                         <button className="btn btn-primary btn-sm" id="calenderBtn" onClick={this.onSearch} >搜索</button>
                     </div>
                     <div className="tg-list-item" style={{ display: 'flex', float: 'right' }}>
                         <h4 style={{ margin: '0px 10px', lineHeight: '30px' }}>图/表切换</h4>
-                        <input className="tgl tgl-ios" id="cb2" type="checkbox" checked={this.state.check} onChange={this.onCheckedChange}/>
+                        <input className="tgl tgl-ios" id="cb2" type="checkbox" checked={this.state.check} onChange={this.onCheckedChange} />
                         <label className="tgl-btn" for="cb2"></label>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                     <div className="col-md-12">
                         {this.state.echartData ? (<EchartsLine data={this.state.data} />) : <h3 style={{ textAlign: 'center' }}>暂无数据</h3>}
                     </div>
-                    </div>)
+                </div>)
                 }
             </div>
         );

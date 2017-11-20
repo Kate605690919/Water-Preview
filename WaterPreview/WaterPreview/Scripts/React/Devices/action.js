@@ -29,11 +29,9 @@ const getFMStarted = () => ({
 });
 
 const getFMSuccess = (result, areaUid) => {
-    result = JSON.parse(result);
-    result.data = eval(result.data);
     return {
         type: GET_FM_SUCCESS,
-        result: result,
+        result: JSON.parse(result),
         areaUid: areaUid
     }
 };
@@ -48,11 +46,9 @@ const getPMStarted = () => ({
 });
 
 const getPMSuccess = (result, areaUid) => {
-    result = JSON.parse(result);
-    result.data = eval(result.data);
     return {
         type: GET_PM_SUCCESS,
-        result: result,
+        result: JSON.parse(result),
         areaUid: areaUid
     }
 };
@@ -67,11 +63,9 @@ const getQMStarted = () => ({
 });
 
 const getQMSuccess = (result, areaUid) => {
-    result = JSON.parse(result);
-    result.data = eval(result.data);
     return {
         type: GET_QM_SUCCESS,
-        result: result,
+        result: JSON.parse(result),
         areaUid: areaUid
     }
 };
