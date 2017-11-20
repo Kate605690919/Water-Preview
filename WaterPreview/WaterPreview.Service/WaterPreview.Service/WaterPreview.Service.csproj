@@ -1,0 +1,265 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{92CDC5B3-F1D9-490F-81C1-E9518B1DD2F7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>WaterPreview.Service</RootNamespace>
+    <AssemblyName>WaterPreview.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="csredis, Version=3.2.1.0, Culture=neutral, PublicKeyToken=1afd0264bbe4a44a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\csredis.3.2.1\lib\net40\csredis.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlarmType_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Alarm_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AreaDevice_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AreaUser_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Area_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Authority_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Base\BaseService.cs" />
+    <Compile Include="DeviceOperationCondition_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlowCount_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlowDay_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlowHour_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlowMeterStatus_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlowMeter_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlowMonth_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlowReport_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FlowYear_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Flow_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InnerRoleAuthority_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="InnerRole_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\IAreaDeviceService.cs" />
+    <Compile Include="Interface\IAreaService.cs" />
+    <Compile Include="Interface\IAreaUserService.cs" />
+    <Compile Include="Interface\IFlowDayService.cs" />
+    <Compile Include="Interface\IFlowMeterService.cs" />
+    <Compile Include="Interface\IFlowMeterStatusService.cs" />
+    <Compile Include="Interface\IFlowMonthService.cs" />
+    <Compile Include="Interface\IPressureHourService.cs" />
+    <Compile Include="Interface\IPressureMeterService.cs" />
+    <Compile Include="Interface\IPressureMeterStatusService.cs" />
+    <Compile Include="Interface\IPressureMonthService.cs" />
+    <Compile Include="Interface\IQualityMeterService.cs" />
+    <Compile Include="Interface\IQualityMeterStatusService.cs" />
+    <Compile Include="RedisContract\FlowMeterStatusAndArea.cs" />
+    <Compile Include="RedisContract\PressureMeterStatusAndArea.cs" />
+    <Compile Include="RedisContract\QualityMeterStatusAndArea.cs" />
+    <Compile Include="Service\AreaDeviceService.cs" />
+    <Compile Include="Service\AreaService.cs" />
+    <Compile Include="Interface\IAccountService.cs" />
+    <Compile Include="OldQuality_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PressureDay_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PressureHour_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PressureMeterStatus_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PressureMeter_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PressureMonth_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PressureYear_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Pressure_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QualityDay_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QualityHour_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QualityMeterStatus_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QualityMeter_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QualityMonth_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QualityYear_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Quality_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Service\AccountService.cs" />
+    <Compile Include="Service\AreaUserService.cs" />
+    <Compile Include="Service\FlowDayService.cs" />
+    <Compile Include="Service\FlowMeterService.cs" />
+    <Compile Include="Service\FlowMeterStatusService.cs" />
+    <Compile Include="Service\FlowMonthService.cs" />
+    <Compile Include="Service\PressureHourService.cs" />
+    <Compile Include="Service\PressureMeterService.cs" />
+    <Compile Include="Service\PressureMeterStatusService.cs" />
+    <Compile Include="Service\PressureMonthService.cs" />
+    <Compile Include="Service\QualityMeterService.cs" />
+    <Compile Include="Service\QualityMeterStatusService.cs" />
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SysInfo_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserInnerRole_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User_t.cs">
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WaterModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WaterModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WaterModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WaterModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WaterModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WaterModel.edmx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EntityDeploy Include="WaterModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WaterModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="packages.config" />
+    <None Include="WaterModel.edmx.diagram">
+      <DependentUpon>WaterModel.edmx</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="WaterModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WaterModel.edmx</DependentUpon>
+      <LastGenOutput>WaterModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="WaterModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WaterModel.edmx</DependentUpon>
+      <LastGenOutput>WaterModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

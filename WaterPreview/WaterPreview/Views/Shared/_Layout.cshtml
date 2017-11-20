@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 智慧水务</title>
+    @Styles.Render("~/Content/css")
+    @RenderSection("style", false)
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <input type="hidden" value="@WaterPreview.Other.UserContext.GetCurrentAccount().Usr_Name" id="roleName" />
+    <input type="hidden" value="@WaterPreview.Other.UserContext.GetCurrentAccount().Usr_Type" id="role" />
+    <input type="hidden" value="@WaterPreview.Other.UserContext.GetCurrentAccount().Usr_UId" id="userUid" />
+    <input type="hidden" value="@WaterPreview.Other.UserContext.GetAreaByUserUid(@WaterPreview.Other.UserContext.GetCurrentAccount().Usr_UId)" id="UserAreaUid" />
+    <div class="container-fluid body-content">
+        <div id="content">
+            @RenderBody()
+        </div>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    <script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+    <script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+    <script src="https://cdn.bootcss.com/redux/3.7.2/redux.min.js"></script>
+    <script src="https://cdn.bootcss.com/react-redux/5.0.6/react-redux.min.js"></script>
+    <script src="https://cdn.bootcss.com/redux-thunk/2.2.0/redux-thunk.min.js"></script>
+    <script src="https://cdn.bootcss.com/react-router/2.8.1/ReactRouter.min.js"></script>
+    <script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+    <script type="text/babel" src="~/Scripts/React/Components/footer.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

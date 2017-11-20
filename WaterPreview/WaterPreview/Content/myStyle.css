@@ -1,0 +1,422 @@
+﻿body {
+    background-color: #fff;
+    font-family: "Microsoft YaHei";
+}
+
+a {
+    text-decoration: none;
+    color: rgb(0, 188, 212);
+}
+
+a:hover, a:active {
+    text-decoration: none;
+    color: #00c6e0;
+}
+
+/*导航栏*/
+.navbar-default {
+    background-color: #00c6e0;
+    padding: 0 10px 0 10px;
+    color: rgba(0, 0, 0, 0.87);
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    box-sizing: border-box;
+    font-family: Roboto, sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    border-radius: 0px;
+    z-index: 1100;
+    width: 100%;
+    padding-left: 24px;
+    padding-right: 24px;
+    border: none !important;
+}
+
+.navbar-brand {
+    height: 50px;
+    padding: 15px 50px 15px 20px;
+    line-height: 20px;
+}
+
+.navbar-default .navbar-brand {
+    font-size: 20px;
+    color: #082b2b;
+}
+
+    .navbar-default .navbar-brand:hover, navbar-default .navbar-brand:focus {
+        color: #e8e8e7;
+    }
+
+.navbar-nav > li {
+    padding: 0 16px;
+    font-size: 15px;
+    list-style: none;
+    padding-top: 2px;
+}
+
+.navbar-default .navbar-nav > li > a {
+    font-family: 'Microsoft YaHei';
+    color: #fff;
+}
+/*#f8f459*/ 
+.nav > li > a {
+    font-weight: normal;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .nav > li > a:focus {
+    color: #ebebeb;
+    background-color: #39393c;
+}
+/*导航栏子菜单*/
+.navbar-nav > li > .dropdown-menu {
+    left: auto;
+    right: 50%;
+    margin-right: -80px;
+    width: 160px;
+    border-top: 5px solid #3b3c40;
+    min-width: 160px;
+}
+
+.dropdown-menu > li > a {
+    line-height: 1.6;
+}
+
+    .dropdown-menu > li > a:hover {
+        background-color: #e7e7e7;
+        color: #333;
+    }
+/*导航栏图标位置设置*/
+.glyphicon::before {
+    margin-right: 4px;
+    vertical-align: text-bottom;
+}
+
+.glyphicon-tint::before {
+    margin: 0 1px 0 0;
+    vertical-align: -0.1em;
+}
+
+.glyphicon-dashboard::before {
+    margin: 0 3px 0 0;
+    vertical-align: -0.1em;
+}
+
+.glyphicon-stats::before {
+    margin: 2px 5px 0 0;
+}
+
+.glyphicon-cog::before {
+    margin: 2px 3px 0 0;
+    vertical-align: -0.1em;
+}
+
+.glyphicon-transfer::before {
+    vertical-align: -0.2em;
+}
+/*导航栏右侧显示设置*/
+.navbar-right > li {
+    font-size: smaller;
+    padding: 16px 12px 0 6px;
+}
+
+.userLogined {
+    color: #e7e7e7;
+    background-color: transparent;
+}
+/*主体内容Container部分*/
+.wrapper-content {
+    padding-left: 1px;
+    padding-bottom: 0;
+    padding-top: 5px;
+}
+/*面包屑导航*/
+.breadcrumb {
+    background-color: #fff;
+    position: absolute;
+}
+
+    .breadcrumb > li a {
+        font-size: 16px;
+        font-weight: bold;
+    }
+/*主题内容content部分*/
+#content {
+    margin-top: 8px;
+}
+    /*table*/
+    .ibox-title {
+        padding: 10px 15px;
+    }
+
+    .ibox-title h5 {
+        font-size: 20px;
+    }
+/*form*/
+.form-horizontal .form-group{
+    margin-top: 0;
+}
+
+thead > tr > th {
+    color: #e7e7e7;
+    font-weight: normal;
+}
+
+#wrapper-detailTable_info {
+    padding: 13px 0;
+    padding-left: 5%;
+    float: left;
+}
+
+#wrapper-detailTable_paginate {
+    padding: 7px 0 0 0;
+}
+
+.pagination {
+    float: right;
+    padding-bottom: 5px;
+}
+
+.dataTables_length {
+    margin-top: 9px;
+}
+
+.input-sm {
+    padding: 0 12px;
+}
+
+.html5buttons, div.dataTables_wrapper div.dataTables_filter {
+    float: right;
+    padding: 9px 2px;
+}
+
+@media screen and (max-width: 768px) {
+    #wrapper-detailTable_info {
+        padding-left: 0;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    #wrapper-detailTable_info {
+        padding-left: 32%;
+    }
+}
+/*右侧电量及小导航栏显示*/
+.sidebarRight {
+    position: fixed;
+    right: 0;
+    padding: 0 0 0 2%;
+}
+
+#iboxBar {
+    margin-bottom: 2em;
+    padding-top: 1em;
+    padding-bottom: 1.5em;
+    border-bottom: 1px solid #e7e7e7;
+}
+
+.bs-docs-sidebar {
+    padding-left: 0;
+    font-weight: 700;
+    color: #563d7c;
+    background-color: transparent;
+}
+
+.bs-docs-sidenav > li {
+    list-style-type: none;
+    line-height: 2;
+}
+
+/*********压力计切换视图**********/
+@media screen and (min-width: 1400px) {
+    .bigMap {
+        min-height: 50em;
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .bigMap {
+        min-height: 34em;
+    }
+}
+
+@media scren and (max-width: 992px) {
+    .bigMap {
+        min-height: 24em;
+    }
+}
+
+/*去掉百度地图图标*/
+.anchorBL {
+    display: none;
+}
+
+/*选中文字的时候*/
+::selection {
+    color: #fff;
+    background-color: #25b99c;
+}
+/*设备页*/
+#root, #App {
+    width: 100%;
+}
+#App {
+    display: flex;
+}
+#root>aside, #App>aside {
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+}
+aside .affix {
+    position: relative;
+}
+#root > article, #App > article {
+    flex-grow: 1;
+}
+/*客户详情页*/
+.flex {
+    display: flex;
+}
+.clientDetail{
+    height: 100%;
+}
+.wizard > .content{
+    overflow: scroll;
+}
+.bootstrap-duallistbox-container label{
+    text-align: left;
+}
+.bootstrap-duallistbox-container .filter{
+    float: left;
+}
+.bootstrap-duallistbox-container.moveonselect .moveall,
+.bootstrap-duallistbox-container.moveonselect .removeall{
+    max-width: 280px;
+}
+.bootstrap-duallistbox-container .info-container .info,
+.bootstrap-duallistbox-container .box1.filtered .info-container .clear1,
+.bootstrap-duallistbox-container .box2.filtered .info-container .clear2 {
+    display: none;
+}
+#form .addAeraHelp{
+    margin: 5px 0 -10px;
+}
+/*.datepicker th, .datepicker td {
+    cursor: pointer;
+}*/
+/*设备详情*/
+.battery:hover .bbody {
+    border-left-color: hsla(187, 99%, 48%, 1) !important;
+}
+.battery:hover{
+    transform:scale(1.1);
+}
+.battery:hover .popove-bottom {
+    display: block!important;
+}
+.popove-bottom .arrow {
+    border: 8px solid transparent;
+    border-bottom-color: rgb(31,31,31);
+    position: relative;
+    top: -7px;
+}
+.MiniCard:hover {
+    transform: scale(1.05);
+}
+.breadcrumb li a{
+    font-weight: 500;
+}
+.breadcrumb li:first-child a {
+    font-weight: 600;
+}
+/*切换按钮*/
+.tg-list-item {
+    margin: 0 2em;
+    position: relative;
+}
+.tgl {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    z-index: 999;
+    cursor: pointer;
+}
+
+.tgl, .tgl:after, .tgl:before, .tgl *, .tgl *:after, .tgl *:before, .tgl + .tgl-btn {
+    box-sizing: border-box;
+}
+
+.tgl::-moz-selection, .tgl:after::-moz-selection, .tgl:before::-moz-selection, .tgl *::-moz-selection, .tgl *:after::-moz-selection, .tgl *:before::-moz-selection, .tgl + .tgl-btn::-moz-selection {
+    background: none;
+}
+
+.tgl::selection, .tgl:after::selection, .tgl:before::selection, .tgl *::selection, .tgl *:after::selection, .tgl *:before::selection, .tgl + .tgl-btn::selection {
+    background: none;
+}
+
+.tgl + .tgl-btn {
+    outline: 0;
+    display: block;
+    width: 4em;
+    height: 2em;
+    position: relative;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.tgl + .tgl-btn:after, .tgl + .tgl-btn:before {
+    position: relative;
+    display: block;
+    content: "";
+    width: 50%;
+    height: 100%;
+}
+
+.tgl + .tgl-btn:after {
+    left: 0;
+}
+
+.tgl + .tgl-btn:before {
+    display: none;
+}
+
+.tgl:checked + .tgl-btn:after {
+    left: 50%;
+}
+.tgl-ios + .tgl-btn {
+  background: #fbfbfb;
+  border-radius: 2em;
+  padding: 2px;
+  -webkit-transition: all .4s ease;
+  transition: all .4s ease;
+  border: 1px solid #e8eae9;
+}
+.tgl-ios + .tgl-btn:after {
+  border-radius: 2em;
+  background: #fbfbfb;
+  -webkit-transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.3s ease, margin 0.3s ease;
+  transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), padding 0.3s ease, margin 0.3s ease;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 0 rgba(0, 0, 0, 0.08);
+}
+.tgl-ios + .tgl-btn:hover:after {
+  will-change: padding;
+}
+.tgl-ios + .tgl-btn:active {
+  box-shadow: inset 0 0 0 2em #e8eae9;
+}
+.tgl-ios + .tgl-btn:active:after {
+  padding-right: .8em;
+}
+.tgl-ios:checked + .tgl-btn {
+    background: #01c6e0;
+}
+.tgl-ios:checked + .tgl-btn:active {
+  box-shadow: none;
+}
+.tgl-ios:checked + .tgl-btn:active:after {
+  margin-left: -.8em;
+}

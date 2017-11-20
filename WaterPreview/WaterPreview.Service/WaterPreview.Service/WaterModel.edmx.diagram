@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8ae0aa52e09547aebbd9358facd4863a" Name="Diagram1">
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.Alarm_t" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.AlarmType_t" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.Area_t" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.AreaDevice_t" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.AreaUser_t" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.Authority_t" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.DeviceOperationCondition_t" Width="1.5" PointX="6.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.Flow_t" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.FlowCount_t" Width="1.5" PointX="2.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.FlowDay_t" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.FlowHour_t" Width="1.5" PointX="8.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.FlowMeter_t" Width="1.5" PointX="4.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.FlowMeterStatus_t" Width="1.5" PointX="6.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.FlowMonth_t" Width="1.5" PointX="8.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.FlowReport_t" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.FlowYear_t" Width="1.5" PointX="10.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.InnerRole_t" Width="1.5" PointX="10.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.InnerRoleAuthority_t" Width="1.5" PointX="0.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.OldQuality_t" Width="1.5" PointX="10.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.Pressure_t" Width="1.5" PointX="12.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.PressureDay_t" Width="1.5" PointX="12.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.PressureHour_t" Width="1.5" PointX="6.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.PressureMeter_t" Width="1.5" PointX="12.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.PressureMeterStatus_t" Width="1.5" PointX="12.75" PointY="11.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.PressureMonth_t" Width="1.5" PointX="14.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.PressureYear_t" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.Quality_t" Width="1.5" PointX="14.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.QualityDay_t" Width="1.5" PointX="14.75" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.QualityHour_t" Width="1.5" PointX="14.75" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.QualityMeter_t" Width="1.5" PointX="2.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.QualityMeterStatus_t" Width="1.5" PointX="8.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.QualityMonth_t" Width="1.5" PointX="10.75" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.QualityYear_t" Width="1.5" PointX="16.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.sysdiagram" Width="1.5" PointX="4.75" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.SysInfo_t" Width="1.5" PointX="16.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.User_t" Width="1.5" PointX="16.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dpnetwork_data_20160419_NewModel.UserInnerRole_t" Width="1.5" PointX="16.75" PointY="13.75" IsExpanded="true" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

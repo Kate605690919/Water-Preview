@@ -1,0 +1,1810 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="dpnetwork_data_20160419_NewModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Alarm_t">
+          <Key>
+            <PropertyRef Name="Alarm_Id" />
+          </Key>
+          <Property Name="Alarm_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Alarm_DeviceUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Alarm_Uid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Alarm_Message" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Alarm_Starttime" Type="datetime" Nullable="false" />
+          <Property Name="Alarm_Type" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Alarm_Endtime" Type="datetime" />
+          <Property Name="Alarm_Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AlarmType_t">
+          <Key>
+            <PropertyRef Name="AT_Id" />
+          </Key>
+          <Property Name="AT_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AT_Uid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AT_Type" Type="int" Nullable="false" />
+          <Property Name="AT_Description" Type="varchar" MaxLength="200" />
+          <Property Name="AT_Enable" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Area_t">
+          <Key>
+            <PropertyRef Name="Ara_Id" />
+          </Key>
+          <Property Name="Ara_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ara_UId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Ara_Code" Type="varchar" MaxLength="800" Nullable="false" />
+          <Property Name="Ara_Name" Type="varchar" MaxLength="800" />
+          <Property Name="Ara_Description" Type="text" />
+          <Property Name="Ara_Level" Type="int" Nullable="false" />
+          <Property Name="Ara_Up" Type="uniqueidentifier" />
+          <Property Name="Ara_Enable" Type="int" Nullable="false" />
+          <Property Name="Ara_Lat" Type="decimal" Precision="17" Scale="15" />
+          <Property Name="Ara_Lng" Type="decimal" Precision="17" Scale="14" />
+        </EntityType>
+        <EntityType Name="AreaDevice_t">
+          <Key>
+            <PropertyRef Name="AD_Id" />
+          </Key>
+          <Property Name="AD_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AD_AreaUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AD_DeviceUid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AreaUser_t">
+          <Key>
+            <PropertyRef Name="AU_Id" />
+          </Key>
+          <Property Name="AU_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AU_UId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AU_AreaUId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="AU_UserUId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Authority_t">
+          <Key>
+            <PropertyRef Name="Auth_Id" />
+          </Key>
+          <Property Name="Auth_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Auth_Uid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Auth_Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Auth_Description" Type="varchar" MaxLength="800" />
+          <Property Name="Auth_Action" Type="varchar" MaxLength="200" />
+          <Property Name="Auth_MenuNum" Type="int" Nullable="false" />
+          <Property Name="Auth_Enable" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeviceOperationCondition_t">
+          <Key>
+            <PropertyRef Name="Doc_Id" />
+          </Key>
+          <Property Name="Doc_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Doc_UId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Doc_FlowMeterUId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Doc_MainBatteryStatus" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="Doc_SecondaryBatteryStatus" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="Doc_ModemBatteryStatus" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="Doc_AntennaSignal" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="Doc_SendDt" Type="datetime" Nullable="false" />
+          <Property Name="Doc_ReceiveDt" Type="datetime" Nullable="false" />
+          <Property Name="Doc_CreateDt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Flow_t">
+          <Key>
+            <PropertyRef Name="Flw_Id" />
+          </Key>
+          <Property Name="Flw_Id" Type="bigint" Nullable="false" />
+          <Property Name="Flw_FlowMeterUId" Type="uniqueidentifier" />
+          <Property Name="Flw_Value" Type="decimal" Precision="14" Scale="4" Nullable="false" />
+          <Property Name="Flw_SendDt" Type="datetime" Nullable="false" />
+          <Property Name="Flw_ReceiveDt" Type="datetime" Nullable="false" />
+          <Property Name="Flw_CreateDt" Type="datetime" Nullable="false" />
+          <Property Name="Flw_EmailCode" Type="varchar" MaxLength="200" />
+          <Property Name="Flw_TotalValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FlowCount_t">
+          <Key>
+            <PropertyRef Name="FC_Id" />
+          </Key>
+          <Property Name="FC_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FC_FlowMeterUId" Type="uniqueidentifier" />
+          <Property Name="FC_MaxValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="FC_MinValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="FC_StartTime" Type="datetime" Nullable="false" />
+          <Property Name="FC_EndTime" Type="datetime" Nullable="false" />
+          <Property Name="FC_TotalValue" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FC_OriTotalValue" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="FC_AFUId" Type="uniqueidentifier" />
+          <Property Name="FC_Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FlowDay_t">
+          <Key>
+            <PropertyRef Name="Fld_Id" />
+          </Key>
+          <Property Name="Fld_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fld_MaxValue" Type="decimal" Precision="14" Scale="4" Nullable="false" />
+          <Property Name="Fld_MinValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="Fld_Time" Type="int" Nullable="false" />
+          <Property Name="Fld_TotalValue" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Fld_OriTotalValue" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Fld_FlowMeterUid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FlowHour_t">
+          <Key>
+            <PropertyRef Name="Flh_Id" />
+          </Key>
+          <Property Name="Flh_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Flh_MaxValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="Flh_MinValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="Flh_Time" Type="int" Nullable="false" />
+          <Property Name="Flh_TotalValue" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Flh_OriTotalValue" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Flh_FlowMeterUid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FlowMeter_t">
+          <Key>
+            <PropertyRef Name="FM_Id" />
+          </Key>
+          <Property Name="FM_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FM_UId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FM_AlarmThreshold" Type="varchar" MaxLength="200" />
+          <Property Name="FM_AlarmNumber" Type="varchar" MaxLength="200" />
+          <Property Name="FM_AlarmMode" Type="int" Nullable="false" />
+          <Property Name="FM_Lat" Type="decimal" Precision="17" Scale="15" />
+          <Property Name="FM_Lng" Type="decimal" Precision="17" Scale="14" />
+          <Property Name="FM_Class" Type="int" Nullable="false" />
+          <Property Name="FM_Code" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="FM_Description" Type="varchar" MaxLength="200" />
+          <Property Name="FM_ParentFlowMeterUId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FM_IsLeaf" Type="int" Nullable="false" />
+          <Property Name="FM_Level" Type="int" Nullable="false" />
+          <Property Name="FM_WaterConsumerUId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FM_BatteryAlarmThreshold" Type="decimal" Precision="5" Scale="3" Nullable="false" />
+          <Property Name="FM_ModemAlarmThreshold" Type="decimal" Precision="5" Scale="3" Nullable="false" />
+          <Property Name="FM_Enable" Type="int" Nullable="false" />
+          <Property Name="FM_DeviceAlarmNumber" Type="varchar" MaxLength="200" />
+          <Property Name="FM_AlarmTimeout" Type="int" />
+          <Property Name="FM_AlarmStatus" Type="int" />
+          <Property Name="FM_mLevel" Type="int" />
+          <Property Name="FM_FlowAlarmMode" Type="int" />
+          <Property Name="FM_FlowAlarmEnable" Type="int" />
+          <Property Name="FM_FlowAlarmThreshold" Type="decimal" Precision="10" Scale="3" />
+          <Property Name="FM_FlowAlarmLasttime" Type="datetime" />
+          <Property Name="FM_FlowHourAlarmThreshold" Type="varchar" MaxLength="200" />
+          <Property Name="FM_FlowCountLast" Type="datetime" />
+        </EntityType>
+        <EntityType Name="FlowMeterStatus_t">
+          <Key>
+            <PropertyRef Name="FMS_Id" />
+          </Key>
+          <Property Name="FMS_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FMS_DeviceUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FMS_FlowValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="FMS_MainBatteryStatus" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="FMS_SecondaryBatteryStatus" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="FMS_ModemBatteryStatus" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="FMS_AntennaSignal" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="FMS_UpdateDt" Type="datetime" Nullable="false" />
+          <Property Name="FMS_IsTimeOverException" Type="int" />
+          <Property Name="FMS_IsMainBatteryException" Type="int" />
+          <Property Name="FMS_IsModemBatteryException" Type="int" />
+          <Property Name="FMS_ValueExceptionNum" Type="int" />
+        </EntityType>
+        <EntityType Name="FlowMonth_t">
+          <Key>
+            <PropertyRef Name="Flm_Id" />
+          </Key>
+          <Property Name="Flm_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Flm_Time" Type="int" Nullable="false" />
+          <Property Name="Flm_MaxValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="Flm_MinValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="Flm_TotalValue" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Flm_OriTotalValue" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Flm_FlowMeterUid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FlowReport_t">
+          <Key>
+            <PropertyRef Name="FR_Id" />
+          </Key>
+          <Property Name="FR_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FR_Update" Type="date" Nullable="false" />
+          <Property Name="FR_FlowMeterUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FR_UserUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FR_LastReadValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="FR_currentReadValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="FR_LastMonthValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="FR_CurrentMonthValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="FR_LastYearMonthValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="FR_Memo" Type="varchar(max)" />
+          <Property Name="FR_MOM" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="FR_YOY" Type="decimal" Precision="14" Scale="4" />
+        </EntityType>
+        <EntityType Name="FlowYear_t">
+          <Key>
+            <PropertyRef Name="Fly_Id" />
+          </Key>
+          <Property Name="Fly_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Fly_MaxValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="Fly_MinValue" Type="decimal" Precision="14" Scale="4" />
+          <Property Name="Fly_Time" Type="int" Nullable="false" />
+          <Property Name="Fly_TotalValue" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Fly_OriTotalValue" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Fly_FlowMeterUid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InnerRole_t">
+          <Key>
+            <PropertyRef Name="Ir_Id" />
+          </Key>
+          <Property Name="Ir_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Ir_UId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Ir_Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Ir_Description" Type="varchar" MaxLength="200" />
+          <Property Name="Ir_UpUid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InnerRoleAuthority_t">
+          <Key>
+            <PropertyRef Name="IrAuth_Id" />
+          </Key>
+          <Property Name="IrAuth_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IrAuth_AuUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="IrAuth_IrUid" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OldQuality_t">
+          <Key>
+            <PropertyRef Name="Qua_Id" />
+          </Key>
+          <Property Name="Qua_Id" Type="bigint" Nullable="false" />
+          <Property Name="Qua_QualityMeterUId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Qua_PH" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_Chlorine" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_ORP" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_Turbidity" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_SendDt" Type="datetime" Nullable="false" />
+          <Property Name="Qua_ReceiveDt" Type="datetime" Nullable="false" />
+          <Property Name="Qua_CreateDt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pressure_t">
+          <Key>
+            <PropertyRef Name="Pre_Id" />
+          </Key>
+          <Property Name="Pre_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Pre_PressureMeterUId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Pre_Value" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Pre_SendDt" Type="datetime" Nullable="false" />
+          <Property Name="Pre_ReceiveDt" Type="datetime" Nullable="false" />
+          <Property Name="Pre_CreateDt" Type="datetime" Nullable="false" />
+          <Property Name="Pre_UserUid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="PressureDay_t">
+          <Key>
+            <PropertyRef Name="PD_Id" />
+          </Key>
+          <Property Name="PD_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PD_Time" Type="int" Nullable="false" />
+          <Property Name="PD_PressureMeterUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PD_MaxValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PD_MinValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PD_AverageValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PressureHour_t">
+          <Key>
+            <PropertyRef Name="PH_Id" />
+          </Key>
+          <Property Name="PH_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PH_Time" Type="int" Nullable="false" />
+          <Property Name="PH_PressureMeterUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PH_RealTimeValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PH_MaxValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PH_MinValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PH_AverageValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PressureMeter_t">
+          <Key>
+            <PropertyRef Name="PM_Id" />
+          </Key>
+          <Property Name="PM_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PM_UId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PM_Lat" Type="decimal" Precision="17" Scale="15" Nullable="false" />
+          <Property Name="PM_Lng" Type="decimal" Precision="17" Scale="14" Nullable="false" />
+          <Property Name="PM_Code" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PM_Description" Type="text" />
+          <Property Name="PM_CountLast" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PressureMeterStatus_t">
+          <Key>
+            <PropertyRef Name="PMS_Id" />
+          </Key>
+          <Property Name="PMS_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PMS_DeviceUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PMS_PressureValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PMS_MainBatteryStatus" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="PMS_SecondaryBatteryStatus" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="PMS_ModemBatteryStatus" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="PMS_AntennaSignal" Type="decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="PMS_UpdateDt" Type="datetime" Nullable="false" />
+          <Property Name="PMS_IsTimeOverException" Type="int" />
+          <Property Name="PMS_IsMainBatteryException" Type="int" />
+          <Property Name="PMS_IsModemBatteryException" Type="int" />
+          <Property Name="PMS_ValueExceptionNum" Type="int" />
+        </EntityType>
+        <EntityType Name="PressureMonth_t">
+          <Key>
+            <PropertyRef Name="PM_Id" />
+          </Key>
+          <Property Name="PM_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PM_Time" Type="int" Nullable="false" />
+          <Property Name="PM_PressureMeterUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PM_MaxValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PM_MinValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PM_AverageValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PressureYear_t">
+          <Key>
+            <PropertyRef Name="PY_Id" />
+          </Key>
+          <Property Name="PY_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PY_Time" Type="int" Nullable="false" />
+          <Property Name="PY_PressureMeterUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PY_MaxValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PY_MinValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PY_AverageValue" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Quality_t">
+          <Key>
+            <PropertyRef Name="Qua_Id" />
+          </Key>
+          <Property Name="Qua_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Qua_QualityMeterUId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Qua_Q1" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_Q2" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_Q3" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_Q4" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_T1" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_T2" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_T3" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_T4" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_SendDt" Type="datetime" Nullable="false" />
+          <Property Name="Qua_ReceiveDt" Type="datetime" Nullable="false" />
+          <Property Name="Qua_CreateDt" Type="datetime" Nullable="false" />
+          <Property Name="Qua_UserUid" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="QualityDay_t">
+          <Key>
+            <PropertyRef Name="QD_Id" />
+          </Key>
+          <Property Name="QD_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QD_QualityMeterUId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="QD_Q1" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_Q2" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_Q3" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_Q4" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_T1" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_T2" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_T3" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_T4" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_SendDt" Type="datetime" Nullable="false" />
+          <Property Name="QD_ReceiveDt" Type="datetime" Nullable="false" />
+          <Property Name="QD_CreateDt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QualityHour_t">
+          <Key>
+            <PropertyRef Name="QH_Id" />
+          </Key>
+          <Property Name="QH_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QH_QualityMeterUId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="QH_Q1" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_Q2" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_Q3" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_Q4" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_T1" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_T2" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_T3" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_T4" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_SendDt" Type="datetime" />
+          <Property Name="QH_ReceiveDt" Type="datetime" />
+          <Property Name="QH_CreateDt" Type="datetime" />
+        </EntityType>
+        <EntityType Name="QualityMeter_t">
+          <Key>
+            <PropertyRef Name="QM_Id" />
+          </Key>
+          <Property Name="QM_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QM_UId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="QM_Lat" Type="decimal" Precision="17" Scale="15" Nullable="false" />
+          <Property Name="QM_Lng" Type="decimal" Precision="17" Scale="14" Nullable="false" />
+          <Property Name="QM_Code" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="QM_Description" Type="text" />
+          <Property Name="QM_CountLast" Type="datetime" />
+          <Property Name="QM_MapId" Type="int" />
+          <Property Name="QM_RecevieLast" Type="datetime" />
+        </EntityType>
+        <EntityType Name="QualityMeterStatus_t">
+          <Key>
+            <PropertyRef Name="QMS_Id" />
+          </Key>
+          <Property Name="QMS_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QMS_DeviceUid" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="QMS_T1" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_T2" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_T3" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_T4" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_Q1" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_Q2" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_Q3" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_Q4" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_UpdateDt" Type="datetime" Nullable="false" />
+          <Property Name="QMS_BatteryStatus" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="QMS_AntennaSignal" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="QMS_IsTimeOverException" Type="int" />
+          <Property Name="QMS_IsMainBatteryException" Type="int" />
+          <Property Name="QMS_IsModemBatteryException" Type="int" />
+          <Property Name="QMS_ValueExceptionNum" Type="int" />
+        </EntityType>
+        <EntityType Name="QualityMonth_t">
+          <Key>
+            <PropertyRef Name="QM_Id" />
+          </Key>
+          <Property Name="QM_Id" Type="bigint" Nullable="false" />
+          <Property Name="QM_QualityMeterUId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="QM_PH" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MaxPH" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MinPH" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_Chlorine" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MaxChlorine" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MinChlorine" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_Turbidity" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MaxTurbidity" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MinTurbidity" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_ORP" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MaxORP" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MinORP" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_Time" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QualityYear_t">
+          <Key>
+            <PropertyRef Name="QY_Id" />
+          </Key>
+          <Property Name="QY_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QY_QualityMeterUId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="QY_PH" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MaxPH" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MinPH" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_Chlorine" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MaxChlorine" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MinChlorine" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_Turbidity" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MaxTurbidity" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MinTurbidity" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_ORP" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MaxORP" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MinORP" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_Time" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="SysInfo_t">
+          <Key>
+            <PropertyRef Name="Si_Id" />
+          </Key>
+          <Property Name="Si_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Si_InfoCode" Type="varchar" MaxLength="400" />
+          <Property Name="Si_IntInfo" Type="int" />
+          <Property Name="Si_VcInfo" Type="varchar" MaxLength="2000" />
+          <Property Name="Si_TextInfo" Type="text" />
+          <Property Name="Si_DtInfo" Type="datetime" />
+          <Property Name="Si_ModifyDt" Type="datetime" />
+          <Property Name="Si_Editor" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="User_t">
+          <Key>
+            <PropertyRef Name="Usr_Id" />
+          </Key>
+          <Property Name="Usr_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Usr_UId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Usr_Name" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Usr_Password" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Usr_Realname" Type="varchar" MaxLength="200" />
+          <Property Name="Usr_Memo" Type="text" />
+          <Property Name="Usr_Type" Type="int" Nullable="false" />
+          <Property Name="Usr_Phone" Type="varchar" MaxLength="200" />
+          <Property Name="Usr_PhoneCode" Type="varchar" MaxLength="200" />
+          <Property Name="Usr_PhoneCodeDt" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserInnerRole_t">
+          <Key>
+            <PropertyRef Name="UIr_Id" />
+          </Key>
+          <Property Name="UIr_Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UIr_UserUId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UIr_IrUId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="dpnetwork_data_20160419_NewModelStoreContainer">
+          <EntitySet Name="Alarm_t" EntityType="Self.Alarm_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AlarmType_t" EntityType="Self.AlarmType_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Area_t" EntityType="Self.Area_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AreaDevice_t" EntityType="Self.AreaDevice_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AreaUser_t" EntityType="Self.AreaUser_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Authority_t" EntityType="Self.Authority_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeviceOperationCondition_t" EntityType="Self.DeviceOperationCondition_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Flow_t" EntityType="Self.Flow_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FlowCount_t" EntityType="Self.FlowCount_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FlowDay_t" EntityType="Self.FlowDay_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FlowHour_t" EntityType="Self.FlowHour_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FlowMeter_t" EntityType="Self.FlowMeter_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FlowMeterStatus_t" EntityType="Self.FlowMeterStatus_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FlowMonth_t" EntityType="Self.FlowMonth_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FlowReport_t" EntityType="Self.FlowReport_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FlowYear_t" EntityType="Self.FlowYear_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InnerRole_t" EntityType="Self.InnerRole_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InnerRoleAuthority_t" EntityType="Self.InnerRoleAuthority_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OldQuality_t" EntityType="Self.OldQuality_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pressure_t" EntityType="Self.Pressure_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PressureDay_t" EntityType="Self.PressureDay_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PressureHour_t" EntityType="Self.PressureHour_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PressureMeter_t" EntityType="Self.PressureMeter_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PressureMeterStatus_t" EntityType="Self.PressureMeterStatus_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PressureMonth_t" EntityType="Self.PressureMonth_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PressureYear_t" EntityType="Self.PressureYear_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Quality_t" EntityType="Self.Quality_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QualityDay_t" EntityType="Self.QualityDay_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QualityHour_t" EntityType="Self.QualityHour_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QualityMeter_t" EntityType="Self.QualityMeter_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QualityMeterStatus_t" EntityType="Self.QualityMeterStatus_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QualityMonth_t" EntityType="Self.QualityMonth_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QualityYear_t" EntityType="Self.QualityYear_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SysInfo_t" EntityType="Self.SysInfo_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User_t" EntityType="Self.User_t" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserInnerRole_t" EntityType="Self.UserInnerRole_t" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="dpnetwork_data_20160419_NewModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Alarm_t">
+          <Key>
+            <PropertyRef Name="Alarm_Id" />
+          </Key>
+          <Property Name="Alarm_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Alarm_DeviceUid" Type="Guid" Nullable="false" />
+          <Property Name="Alarm_Uid" Type="Guid" Nullable="false" />
+          <Property Name="Alarm_Message" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Alarm_Starttime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Alarm_Type" Type="Guid" Nullable="false" />
+          <Property Name="Alarm_Endtime" Type="DateTime" Precision="3" />
+          <Property Name="Alarm_Status" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AlarmType_t">
+          <Key>
+            <PropertyRef Name="AT_Id" />
+          </Key>
+          <Property Name="AT_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AT_Uid" Type="Guid" Nullable="false" />
+          <Property Name="AT_Type" Type="Int32" Nullable="false" />
+          <Property Name="AT_Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="AT_Enable" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Area_t">
+          <Key>
+            <PropertyRef Name="Ara_Id" />
+          </Key>
+          <Property Name="Ara_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ara_UId" Type="Guid" Nullable="false" />
+          <Property Name="Ara_Code" Type="String" MaxLength="800" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ara_Name" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+          <Property Name="Ara_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Ara_Level" Type="Int32" Nullable="false" />
+          <Property Name="Ara_Up" Type="Guid" />
+          <Property Name="Ara_Enable" Type="Int32" Nullable="false" />
+          <Property Name="Ara_Lat" Type="Decimal" Precision="17" Scale="15" />
+          <Property Name="Ara_Lng" Type="Decimal" Precision="17" Scale="14" />
+        </EntityType>
+        <EntityType Name="AreaDevice_t">
+          <Key>
+            <PropertyRef Name="AD_Id" />
+          </Key>
+          <Property Name="AD_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AD_AreaUid" Type="Guid" Nullable="false" />
+          <Property Name="AD_DeviceUid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AreaUser_t">
+          <Key>
+            <PropertyRef Name="AU_Id" />
+          </Key>
+          <Property Name="AU_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AU_UId" Type="Guid" Nullable="false" />
+          <Property Name="AU_AreaUId" Type="Guid" Nullable="false" />
+          <Property Name="AU_UserUId" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Authority_t">
+          <Key>
+            <PropertyRef Name="Auth_Id" />
+          </Key>
+          <Property Name="Auth_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Auth_Uid" Type="Guid" Nullable="false" />
+          <Property Name="Auth_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Auth_Description" Type="String" MaxLength="800" FixedLength="false" Unicode="false" />
+          <Property Name="Auth_Action" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Auth_MenuNum" Type="Int32" Nullable="false" />
+          <Property Name="Auth_Enable" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeviceOperationCondition_t">
+          <Key>
+            <PropertyRef Name="Doc_Id" />
+          </Key>
+          <Property Name="Doc_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Doc_UId" Type="Guid" Nullable="false" />
+          <Property Name="Doc_FlowMeterUId" Type="Guid" Nullable="false" />
+          <Property Name="Doc_MainBatteryStatus" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="Doc_SecondaryBatteryStatus" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="Doc_ModemBatteryStatus" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="Doc_AntennaSignal" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="Doc_SendDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Doc_ReceiveDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Doc_CreateDt" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Flow_t">
+          <Key>
+            <PropertyRef Name="Flw_Id" />
+          </Key>
+          <Property Name="Flw_Id" Type="Int64" Nullable="false" />
+          <Property Name="Flw_FlowMeterUId" Type="Guid" />
+          <Property Name="Flw_Value" Type="Decimal" Precision="14" Scale="4" Nullable="false" />
+          <Property Name="Flw_SendDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Flw_ReceiveDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Flw_CreateDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Flw_EmailCode" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Flw_TotalValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FlowCount_t">
+          <Key>
+            <PropertyRef Name="FC_Id" />
+          </Key>
+          <Property Name="FC_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FC_FlowMeterUId" Type="Guid" />
+          <Property Name="FC_MaxValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="FC_MinValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="FC_StartTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FC_EndTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FC_TotalValue" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FC_OriTotalValue" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="FC_AFUId" Type="Guid" />
+          <Property Name="FC_Status" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FlowDay_t">
+          <Key>
+            <PropertyRef Name="Fld_Id" />
+          </Key>
+          <Property Name="Fld_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fld_MaxValue" Type="Decimal" Precision="14" Scale="4" Nullable="false" />
+          <Property Name="Fld_MinValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="Fld_Time" Type="Int32" Nullable="false" />
+          <Property Name="Fld_TotalValue" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Fld_OriTotalValue" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Fld_FlowMeterUid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FlowHour_t">
+          <Key>
+            <PropertyRef Name="Flh_Id" />
+          </Key>
+          <Property Name="Flh_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Flh_MaxValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="Flh_MinValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="Flh_Time" Type="Int32" Nullable="false" />
+          <Property Name="Flh_TotalValue" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Flh_OriTotalValue" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Flh_FlowMeterUid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FlowMeter_t">
+          <Key>
+            <PropertyRef Name="FM_Id" />
+          </Key>
+          <Property Name="FM_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FM_UId" Type="Guid" Nullable="false" />
+          <Property Name="FM_AlarmThreshold" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FM_AlarmNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FM_AlarmMode" Type="Int32" Nullable="false" />
+          <Property Name="FM_Lat" Type="Decimal" Precision="17" Scale="15" />
+          <Property Name="FM_Lng" Type="Decimal" Precision="17" Scale="14" />
+          <Property Name="FM_Class" Type="Int32" Nullable="false" />
+          <Property Name="FM_Code" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FM_Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FM_ParentFlowMeterUId" Type="Guid" Nullable="false" />
+          <Property Name="FM_IsLeaf" Type="Int32" Nullable="false" />
+          <Property Name="FM_Level" Type="Int32" Nullable="false" />
+          <Property Name="FM_WaterConsumerUId" Type="Guid" Nullable="false" />
+          <Property Name="FM_BatteryAlarmThreshold" Type="Decimal" Precision="5" Scale="3" Nullable="false" />
+          <Property Name="FM_ModemAlarmThreshold" Type="Decimal" Precision="5" Scale="3" Nullable="false" />
+          <Property Name="FM_Enable" Type="Int32" Nullable="false" />
+          <Property Name="FM_DeviceAlarmNumber" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FM_AlarmTimeout" Type="Int32" />
+          <Property Name="FM_AlarmStatus" Type="Int32" />
+          <Property Name="FM_mLevel" Type="Int32" />
+          <Property Name="FM_FlowAlarmMode" Type="Int32" />
+          <Property Name="FM_FlowAlarmEnable" Type="Int32" />
+          <Property Name="FM_FlowAlarmThreshold" Type="Decimal" Precision="10" Scale="3" />
+          <Property Name="FM_FlowAlarmLasttime" Type="DateTime" Precision="3" />
+          <Property Name="FM_FlowHourAlarmThreshold" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="FM_FlowCountLast" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="FlowMeterStatus_t">
+          <Key>
+            <PropertyRef Name="FMS_Id" />
+          </Key>
+          <Property Name="FMS_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FMS_DeviceUid" Type="Guid" Nullable="false" />
+          <Property Name="FMS_FlowValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="FMS_MainBatteryStatus" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="FMS_SecondaryBatteryStatus" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="FMS_ModemBatteryStatus" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="FMS_AntennaSignal" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="FMS_UpdateDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FMS_IsTimeOverException" Type="Int32" />
+          <Property Name="FMS_IsMainBatteryException" Type="Int32" />
+          <Property Name="FMS_IsModemBatteryException" Type="Int32" />
+          <Property Name="FMS_ValueExceptionNum" Type="Int32" />
+        </EntityType>
+        <EntityType Name="FlowMonth_t">
+          <Key>
+            <PropertyRef Name="Flm_Id" />
+          </Key>
+          <Property Name="Flm_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Flm_Time" Type="Int32" Nullable="false" />
+          <Property Name="Flm_MaxValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="Flm_MinValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="Flm_TotalValue" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Flm_OriTotalValue" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Flm_FlowMeterUid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FlowReport_t">
+          <Key>
+            <PropertyRef Name="FR_Id" />
+          </Key>
+          <Property Name="FR_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FR_Update" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="FR_FlowMeterUid" Type="Guid" Nullable="false" />
+          <Property Name="FR_UserUid" Type="Guid" Nullable="false" />
+          <Property Name="FR_LastReadValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="FR_currentReadValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="FR_LastMonthValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="FR_CurrentMonthValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="FR_LastYearMonthValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="FR_Memo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="FR_MOM" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="FR_YOY" Type="Decimal" Precision="14" Scale="4" />
+        </EntityType>
+        <EntityType Name="FlowYear_t">
+          <Key>
+            <PropertyRef Name="Fly_Id" />
+          </Key>
+          <Property Name="Fly_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fly_MaxValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="Fly_MinValue" Type="Decimal" Precision="14" Scale="4" />
+          <Property Name="Fly_Time" Type="Int32" Nullable="false" />
+          <Property Name="Fly_TotalValue" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Fly_OriTotalValue" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Fly_FlowMeterUid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InnerRole_t">
+          <Key>
+            <PropertyRef Name="Ir_Id" />
+          </Key>
+          <Property Name="Ir_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ir_UId" Type="Guid" Nullable="false" />
+          <Property Name="Ir_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Ir_Description" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Ir_UpUid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InnerRoleAuthority_t">
+          <Key>
+            <PropertyRef Name="IrAuth_Id" />
+          </Key>
+          <Property Name="IrAuth_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IrAuth_AuUid" Type="Guid" Nullable="false" />
+          <Property Name="IrAuth_IrUid" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OldQuality_t">
+          <Key>
+            <PropertyRef Name="Qua_Id" />
+          </Key>
+          <Property Name="Qua_Id" Type="Int64" Nullable="false" />
+          <Property Name="Qua_QualityMeterUId" Type="Guid" Nullable="false" />
+          <Property Name="Qua_PH" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_Chlorine" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_ORP" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_Turbidity" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_SendDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Qua_ReceiveDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Qua_CreateDt" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Pressure_t">
+          <Key>
+            <PropertyRef Name="Pre_Id" />
+          </Key>
+          <Property Name="Pre_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Pre_PressureMeterUId" Type="Guid" Nullable="false" />
+          <Property Name="Pre_Value" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Pre_SendDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Pre_ReceiveDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Pre_CreateDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Pre_UserUid" Type="Guid" />
+        </EntityType>
+        <EntityType Name="PressureDay_t">
+          <Key>
+            <PropertyRef Name="PD_Id" />
+          </Key>
+          <Property Name="PD_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PD_Time" Type="Int32" Nullable="false" />
+          <Property Name="PD_PressureMeterUid" Type="Guid" Nullable="false" />
+          <Property Name="PD_MaxValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PD_MinValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PD_AverageValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PressureHour_t">
+          <Key>
+            <PropertyRef Name="PH_Id" />
+          </Key>
+          <Property Name="PH_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PH_Time" Type="Int32" Nullable="false" />
+          <Property Name="PH_PressureMeterUid" Type="Guid" Nullable="false" />
+          <Property Name="PH_RealTimeValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PH_MaxValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PH_MinValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PH_AverageValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PressureMeter_t">
+          <Key>
+            <PropertyRef Name="PM_Id" />
+          </Key>
+          <Property Name="PM_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PM_UId" Type="Guid" Nullable="false" />
+          <Property Name="PM_Lat" Type="Decimal" Precision="17" Scale="15" Nullable="false" />
+          <Property Name="PM_Lng" Type="Decimal" Precision="17" Scale="14" Nullable="false" />
+          <Property Name="PM_Code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PM_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="PM_CountLast" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="PressureMeterStatus_t">
+          <Key>
+            <PropertyRef Name="PMS_Id" />
+          </Key>
+          <Property Name="PMS_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PMS_DeviceUid" Type="Guid" Nullable="false" />
+          <Property Name="PMS_PressureValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PMS_MainBatteryStatus" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="PMS_SecondaryBatteryStatus" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="PMS_ModemBatteryStatus" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="PMS_AntennaSignal" Type="Decimal" Precision="3" Scale="2" Nullable="false" />
+          <Property Name="PMS_UpdateDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="PMS_IsTimeOverException" Type="Int32" />
+          <Property Name="PMS_IsMainBatteryException" Type="Int32" />
+          <Property Name="PMS_IsModemBatteryException" Type="Int32" />
+          <Property Name="PMS_ValueExceptionNum" Type="Int32" />
+        </EntityType>
+        <EntityType Name="PressureMonth_t">
+          <Key>
+            <PropertyRef Name="PM_Id" />
+          </Key>
+          <Property Name="PM_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PM_Time" Type="Int32" Nullable="false" />
+          <Property Name="PM_PressureMeterUid" Type="Guid" Nullable="false" />
+          <Property Name="PM_MaxValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PM_MinValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PM_AverageValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PressureYear_t">
+          <Key>
+            <PropertyRef Name="PY_Id" />
+          </Key>
+          <Property Name="PY_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PY_Time" Type="Int32" Nullable="false" />
+          <Property Name="PY_PressureMeterUid" Type="Guid" Nullable="false" />
+          <Property Name="PY_MaxValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PY_MinValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="PY_AverageValue" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Quality_t">
+          <Key>
+            <PropertyRef Name="Qua_Id" />
+          </Key>
+          <Property Name="Qua_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Qua_QualityMeterUId" Type="Guid" Nullable="false" />
+          <Property Name="Qua_Q1" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_Q2" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_Q3" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_Q4" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_T1" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_T2" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_T3" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_T4" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="Qua_SendDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Qua_ReceiveDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Qua_CreateDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Qua_UserUid" Type="Guid" />
+        </EntityType>
+        <EntityType Name="QualityDay_t">
+          <Key>
+            <PropertyRef Name="QD_Id" />
+          </Key>
+          <Property Name="QD_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QD_QualityMeterUId" Type="Guid" Nullable="false" />
+          <Property Name="QD_Q1" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_Q2" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_Q3" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_Q4" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_T1" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_T2" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_T3" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_T4" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QD_SendDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="QD_ReceiveDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="QD_CreateDt" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="QualityHour_t">
+          <Key>
+            <PropertyRef Name="QH_Id" />
+          </Key>
+          <Property Name="QH_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QH_QualityMeterUId" Type="Guid" Nullable="false" />
+          <Property Name="QH_Q1" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_Q2" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_Q3" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_Q4" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_T1" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_T2" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_T3" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_T4" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QH_SendDt" Type="DateTime" Precision="3" />
+          <Property Name="QH_ReceiveDt" Type="DateTime" Precision="3" />
+          <Property Name="QH_CreateDt" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="QualityMeter_t">
+          <Key>
+            <PropertyRef Name="QM_Id" />
+          </Key>
+          <Property Name="QM_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QM_UId" Type="Guid" Nullable="false" />
+          <Property Name="QM_Lat" Type="Decimal" Precision="17" Scale="15" Nullable="false" />
+          <Property Name="QM_Lng" Type="Decimal" Precision="17" Scale="14" Nullable="false" />
+          <Property Name="QM_Code" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="QM_Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="QM_CountLast" Type="DateTime" Precision="3" />
+          <Property Name="QM_MapId" Type="Int32" />
+          <Property Name="QM_RecevieLast" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="QualityMeterStatus_t">
+          <Key>
+            <PropertyRef Name="QMS_Id" />
+          </Key>
+          <Property Name="QMS_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QMS_DeviceUid" Type="Guid" Nullable="false" />
+          <Property Name="QMS_T1" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_T2" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_T3" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_T4" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_Q1" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_Q2" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_Q3" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_Q4" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QMS_UpdateDt" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="QMS_BatteryStatus" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="QMS_AntennaSignal" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="QMS_IsTimeOverException" Type="Int32" />
+          <Property Name="QMS_IsMainBatteryException" Type="Int32" />
+          <Property Name="QMS_IsModemBatteryException" Type="Int32" />
+          <Property Name="QMS_ValueExceptionNum" Type="Int32" />
+        </EntityType>
+        <EntityType Name="QualityMonth_t">
+          <Key>
+            <PropertyRef Name="QM_Id" />
+          </Key>
+          <Property Name="QM_Id" Type="Int64" Nullable="false" />
+          <Property Name="QM_QualityMeterUId" Type="Guid" Nullable="false" />
+          <Property Name="QM_PH" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MaxPH" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MinPH" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_Chlorine" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MaxChlorine" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MinChlorine" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_Turbidity" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MaxTurbidity" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MinTurbidity" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_ORP" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MaxORP" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_MinORP" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QM_Time" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QualityYear_t">
+          <Key>
+            <PropertyRef Name="QY_Id" />
+          </Key>
+          <Property Name="QY_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QY_QualityMeterUId" Type="Guid" Nullable="false" />
+          <Property Name="QY_PH" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MaxPH" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MinPH" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_Chlorine" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MaxChlorine" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MinChlorine" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_Turbidity" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MaxTurbidity" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MinTurbidity" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_ORP" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MaxORP" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_MinORP" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="QY_Time" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="SysInfo_t">
+          <Key>
+            <PropertyRef Name="Si_Id" />
+          </Key>
+          <Property Name="Si_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Si_InfoCode" Type="String" MaxLength="400" FixedLength="false" Unicode="false" />
+          <Property Name="Si_IntInfo" Type="Int32" />
+          <Property Name="Si_VcInfo" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="Si_TextInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Si_DtInfo" Type="DateTime" Precision="3" />
+          <Property Name="Si_ModifyDt" Type="DateTime" Precision="3" />
+          <Property Name="Si_Editor" Type="Guid" />
+        </EntityType>
+        <EntityType Name="User_t">
+          <Key>
+            <PropertyRef Name="Usr_Id" />
+          </Key>
+          <Property Name="Usr_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Usr_UId" Type="Guid" Nullable="false" />
+          <Property Name="Usr_Name" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Usr_Password" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Usr_Realname" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Usr_Memo" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Usr_Type" Type="Int32" Nullable="false" />
+          <Property Name="Usr_Phone" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Usr_PhoneCode" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Usr_PhoneCodeDt" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="UserInnerRole_t">
+          <Key>
+            <PropertyRef Name="UIr_Id" />
+          </Key>
+          <Property Name="UIr_Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UIr_UserUId" Type="Guid" Nullable="false" />
+          <Property Name="UIr_IrUId" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="dpnetwork_data_20160419_NewEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Alarm_t" EntityType="Self.Alarm_t" />
+          <EntitySet Name="AlarmType_t" EntityType="Self.AlarmType_t" />
+          <EntitySet Name="Area_t" EntityType="Self.Area_t" />
+          <EntitySet Name="AreaDevice_t" EntityType="Self.AreaDevice_t" />
+          <EntitySet Name="AreaUser_t" EntityType="Self.AreaUser_t" />
+          <EntitySet Name="Authority_t" EntityType="Self.Authority_t" />
+          <EntitySet Name="DeviceOperationCondition_t" EntityType="Self.DeviceOperationCondition_t" />
+          <EntitySet Name="Flow_t" EntityType="Self.Flow_t" />
+          <EntitySet Name="FlowCount_t" EntityType="Self.FlowCount_t" />
+          <EntitySet Name="FlowDay_t" EntityType="Self.FlowDay_t" />
+          <EntitySet Name="FlowHour_t" EntityType="Self.FlowHour_t" />
+          <EntitySet Name="FlowMeter_t" EntityType="Self.FlowMeter_t" />
+          <EntitySet Name="FlowMeterStatus_t" EntityType="Self.FlowMeterStatus_t" />
+          <EntitySet Name="FlowMonth_t" EntityType="Self.FlowMonth_t" />
+          <EntitySet Name="FlowReport_t" EntityType="Self.FlowReport_t" />
+          <EntitySet Name="FlowYear_t" EntityType="Self.FlowYear_t" />
+          <EntitySet Name="InnerRole_t" EntityType="Self.InnerRole_t" />
+          <EntitySet Name="InnerRoleAuthority_t" EntityType="Self.InnerRoleAuthority_t" />
+          <EntitySet Name="OldQuality_t" EntityType="Self.OldQuality_t" />
+          <EntitySet Name="Pressure_t" EntityType="Self.Pressure_t" />
+          <EntitySet Name="PressureDay_t" EntityType="Self.PressureDay_t" />
+          <EntitySet Name="PressureHour_t" EntityType="Self.PressureHour_t" />
+          <EntitySet Name="PressureMeter_t" EntityType="Self.PressureMeter_t" />
+          <EntitySet Name="PressureMeterStatus_t" EntityType="Self.PressureMeterStatus_t" />
+          <EntitySet Name="PressureMonth_t" EntityType="Self.PressureMonth_t" />
+          <EntitySet Name="PressureYear_t" EntityType="Self.PressureYear_t" />
+          <EntitySet Name="Quality_t" EntityType="Self.Quality_t" />
+          <EntitySet Name="QualityDay_t" EntityType="Self.QualityDay_t" />
+          <EntitySet Name="QualityHour_t" EntityType="Self.QualityHour_t" />
+          <EntitySet Name="QualityMeter_t" EntityType="Self.QualityMeter_t" />
+          <EntitySet Name="QualityMeterStatus_t" EntityType="Self.QualityMeterStatus_t" />
+          <EntitySet Name="QualityMonth_t" EntityType="Self.QualityMonth_t" />
+          <EntitySet Name="QualityYear_t" EntityType="Self.QualityYear_t" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="SysInfo_t" EntityType="Self.SysInfo_t" />
+          <EntitySet Name="User_t" EntityType="Self.User_t" />
+          <EntitySet Name="UserInnerRole_t" EntityType="Self.UserInnerRole_t" />
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(dpnetwork_data_20160419_NewModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(dpnetwork_data_20160419_NewModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="dpnetwork_data_20160419_NewModelStoreContainer" CdmEntityContainer="dpnetwork_data_20160419_NewEntities">
+          <EntitySetMapping Name="Alarm_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.Alarm_t">
+              <MappingFragment StoreEntitySet="Alarm_t">
+                <ScalarProperty Name="Alarm_Id" ColumnName="Alarm_Id" />
+                <ScalarProperty Name="Alarm_DeviceUid" ColumnName="Alarm_DeviceUid" />
+                <ScalarProperty Name="Alarm_Uid" ColumnName="Alarm_Uid" />
+                <ScalarProperty Name="Alarm_Message" ColumnName="Alarm_Message" />
+                <ScalarProperty Name="Alarm_Starttime" ColumnName="Alarm_Starttime" />
+                <ScalarProperty Name="Alarm_Type" ColumnName="Alarm_Type" />
+                <ScalarProperty Name="Alarm_Endtime" ColumnName="Alarm_Endtime" />
+                <ScalarProperty Name="Alarm_Status" ColumnName="Alarm_Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlarmType_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.AlarmType_t">
+              <MappingFragment StoreEntitySet="AlarmType_t">
+                <ScalarProperty Name="AT_Id" ColumnName="AT_Id" />
+                <ScalarProperty Name="AT_Uid" ColumnName="AT_Uid" />
+                <ScalarProperty Name="AT_Type" ColumnName="AT_Type" />
+                <ScalarProperty Name="AT_Description" ColumnName="AT_Description" />
+                <ScalarProperty Name="AT_Enable" ColumnName="AT_Enable" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Area_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.Area_t">
+              <MappingFragment StoreEntitySet="Area_t">
+                <ScalarProperty Name="Ara_Id" ColumnName="Ara_Id" />
+                <ScalarProperty Name="Ara_UId" ColumnName="Ara_UId" />
+                <ScalarProperty Name="Ara_Code" ColumnName="Ara_Code" />
+                <ScalarProperty Name="Ara_Name" ColumnName="Ara_Name" />
+                <ScalarProperty Name="Ara_Description" ColumnName="Ara_Description" />
+                <ScalarProperty Name="Ara_Level" ColumnName="Ara_Level" />
+                <ScalarProperty Name="Ara_Up" ColumnName="Ara_Up" />
+                <ScalarProperty Name="Ara_Enable" ColumnName="Ara_Enable" />
+                <ScalarProperty Name="Ara_Lat" ColumnName="Ara_Lat" />
+                <ScalarProperty Name="Ara_Lng" ColumnName="Ara_Lng" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AreaDevice_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.AreaDevice_t">
+              <MappingFragment StoreEntitySet="AreaDevice_t">
+                <ScalarProperty Name="AD_Id" ColumnName="AD_Id" />
+                <ScalarProperty Name="AD_AreaUid" ColumnName="AD_AreaUid" />
+                <ScalarProperty Name="AD_DeviceUid" ColumnName="AD_DeviceUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AreaUser_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.AreaUser_t">
+              <MappingFragment StoreEntitySet="AreaUser_t">
+                <ScalarProperty Name="AU_Id" ColumnName="AU_Id" />
+                <ScalarProperty Name="AU_UId" ColumnName="AU_UId" />
+                <ScalarProperty Name="AU_AreaUId" ColumnName="AU_AreaUId" />
+                <ScalarProperty Name="AU_UserUId" ColumnName="AU_UserUId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Authority_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.Authority_t">
+              <MappingFragment StoreEntitySet="Authority_t">
+                <ScalarProperty Name="Auth_Id" ColumnName="Auth_Id" />
+                <ScalarProperty Name="Auth_Uid" ColumnName="Auth_Uid" />
+                <ScalarProperty Name="Auth_Name" ColumnName="Auth_Name" />
+                <ScalarProperty Name="Auth_Description" ColumnName="Auth_Description" />
+                <ScalarProperty Name="Auth_Action" ColumnName="Auth_Action" />
+                <ScalarProperty Name="Auth_MenuNum" ColumnName="Auth_MenuNum" />
+                <ScalarProperty Name="Auth_Enable" ColumnName="Auth_Enable" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeviceOperationCondition_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.DeviceOperationCondition_t">
+              <MappingFragment StoreEntitySet="DeviceOperationCondition_t">
+                <ScalarProperty Name="Doc_Id" ColumnName="Doc_Id" />
+                <ScalarProperty Name="Doc_UId" ColumnName="Doc_UId" />
+                <ScalarProperty Name="Doc_FlowMeterUId" ColumnName="Doc_FlowMeterUId" />
+                <ScalarProperty Name="Doc_MainBatteryStatus" ColumnName="Doc_MainBatteryStatus" />
+                <ScalarProperty Name="Doc_SecondaryBatteryStatus" ColumnName="Doc_SecondaryBatteryStatus" />
+                <ScalarProperty Name="Doc_ModemBatteryStatus" ColumnName="Doc_ModemBatteryStatus" />
+                <ScalarProperty Name="Doc_AntennaSignal" ColumnName="Doc_AntennaSignal" />
+                <ScalarProperty Name="Doc_SendDt" ColumnName="Doc_SendDt" />
+                <ScalarProperty Name="Doc_ReceiveDt" ColumnName="Doc_ReceiveDt" />
+                <ScalarProperty Name="Doc_CreateDt" ColumnName="Doc_CreateDt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Flow_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.Flow_t">
+              <MappingFragment StoreEntitySet="Flow_t">
+                <ScalarProperty Name="Flw_Id" ColumnName="Flw_Id" />
+                <ScalarProperty Name="Flw_FlowMeterUId" ColumnName="Flw_FlowMeterUId" />
+                <ScalarProperty Name="Flw_Value" ColumnName="Flw_Value" />
+                <ScalarProperty Name="Flw_SendDt" ColumnName="Flw_SendDt" />
+                <ScalarProperty Name="Flw_ReceiveDt" ColumnName="Flw_ReceiveDt" />
+                <ScalarProperty Name="Flw_CreateDt" ColumnName="Flw_CreateDt" />
+                <ScalarProperty Name="Flw_EmailCode" ColumnName="Flw_EmailCode" />
+                <ScalarProperty Name="Flw_TotalValue" ColumnName="Flw_TotalValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlowCount_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.FlowCount_t">
+              <MappingFragment StoreEntitySet="FlowCount_t">
+                <ScalarProperty Name="FC_Id" ColumnName="FC_Id" />
+                <ScalarProperty Name="FC_FlowMeterUId" ColumnName="FC_FlowMeterUId" />
+                <ScalarProperty Name="FC_MaxValue" ColumnName="FC_MaxValue" />
+                <ScalarProperty Name="FC_MinValue" ColumnName="FC_MinValue" />
+                <ScalarProperty Name="FC_StartTime" ColumnName="FC_StartTime" />
+                <ScalarProperty Name="FC_EndTime" ColumnName="FC_EndTime" />
+                <ScalarProperty Name="FC_TotalValue" ColumnName="FC_TotalValue" />
+                <ScalarProperty Name="FC_OriTotalValue" ColumnName="FC_OriTotalValue" />
+                <ScalarProperty Name="FC_AFUId" ColumnName="FC_AFUId" />
+                <ScalarProperty Name="FC_Status" ColumnName="FC_Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlowDay_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.FlowDay_t">
+              <MappingFragment StoreEntitySet="FlowDay_t">
+                <ScalarProperty Name="Fld_Id" ColumnName="Fld_Id" />
+                <ScalarProperty Name="Fld_MaxValue" ColumnName="Fld_MaxValue" />
+                <ScalarProperty Name="Fld_MinValue" ColumnName="Fld_MinValue" />
+                <ScalarProperty Name="Fld_Time" ColumnName="Fld_Time" />
+                <ScalarProperty Name="Fld_TotalValue" ColumnName="Fld_TotalValue" />
+                <ScalarProperty Name="Fld_OriTotalValue" ColumnName="Fld_OriTotalValue" />
+                <ScalarProperty Name="Fld_FlowMeterUid" ColumnName="Fld_FlowMeterUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlowHour_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.FlowHour_t">
+              <MappingFragment StoreEntitySet="FlowHour_t">
+                <ScalarProperty Name="Flh_Id" ColumnName="Flh_Id" />
+                <ScalarProperty Name="Flh_MaxValue" ColumnName="Flh_MaxValue" />
+                <ScalarProperty Name="Flh_MinValue" ColumnName="Flh_MinValue" />
+                <ScalarProperty Name="Flh_Time" ColumnName="Flh_Time" />
+                <ScalarProperty Name="Flh_TotalValue" ColumnName="Flh_TotalValue" />
+                <ScalarProperty Name="Flh_OriTotalValue" ColumnName="Flh_OriTotalValue" />
+                <ScalarProperty Name="Flh_FlowMeterUid" ColumnName="Flh_FlowMeterUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlowMeter_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.FlowMeter_t">
+              <MappingFragment StoreEntitySet="FlowMeter_t">
+                <ScalarProperty Name="FM_Id" ColumnName="FM_Id" />
+                <ScalarProperty Name="FM_UId" ColumnName="FM_UId" />
+                <ScalarProperty Name="FM_AlarmThreshold" ColumnName="FM_AlarmThreshold" />
+                <ScalarProperty Name="FM_AlarmNumber" ColumnName="FM_AlarmNumber" />
+                <ScalarProperty Name="FM_AlarmMode" ColumnName="FM_AlarmMode" />
+                <ScalarProperty Name="FM_Lat" ColumnName="FM_Lat" />
+                <ScalarProperty Name="FM_Lng" ColumnName="FM_Lng" />
+                <ScalarProperty Name="FM_Class" ColumnName="FM_Class" />
+                <ScalarProperty Name="FM_Code" ColumnName="FM_Code" />
+                <ScalarProperty Name="FM_Description" ColumnName="FM_Description" />
+                <ScalarProperty Name="FM_ParentFlowMeterUId" ColumnName="FM_ParentFlowMeterUId" />
+                <ScalarProperty Name="FM_IsLeaf" ColumnName="FM_IsLeaf" />
+                <ScalarProperty Name="FM_Level" ColumnName="FM_Level" />
+                <ScalarProperty Name="FM_WaterConsumerUId" ColumnName="FM_WaterConsumerUId" />
+                <ScalarProperty Name="FM_BatteryAlarmThreshold" ColumnName="FM_BatteryAlarmThreshold" />
+                <ScalarProperty Name="FM_ModemAlarmThreshold" ColumnName="FM_ModemAlarmThreshold" />
+                <ScalarProperty Name="FM_Enable" ColumnName="FM_Enable" />
+                <ScalarProperty Name="FM_DeviceAlarmNumber" ColumnName="FM_DeviceAlarmNumber" />
+                <ScalarProperty Name="FM_AlarmTimeout" ColumnName="FM_AlarmTimeout" />
+                <ScalarProperty Name="FM_AlarmStatus" ColumnName="FM_AlarmStatus" />
+                <ScalarProperty Name="FM_mLevel" ColumnName="FM_mLevel" />
+                <ScalarProperty Name="FM_FlowAlarmMode" ColumnName="FM_FlowAlarmMode" />
+                <ScalarProperty Name="FM_FlowAlarmEnable" ColumnName="FM_FlowAlarmEnable" />
+                <ScalarProperty Name="FM_FlowAlarmThreshold" ColumnName="FM_FlowAlarmThreshold" />
+                <ScalarProperty Name="FM_FlowAlarmLasttime" ColumnName="FM_FlowAlarmLasttime" />
+                <ScalarProperty Name="FM_FlowHourAlarmThreshold" ColumnName="FM_FlowHourAlarmThreshold" />
+                <ScalarProperty Name="FM_FlowCountLast" ColumnName="FM_FlowCountLast" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlowMeterStatus_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.FlowMeterStatus_t">
+              <MappingFragment StoreEntitySet="FlowMeterStatus_t">
+                <ScalarProperty Name="FMS_Id" ColumnName="FMS_Id" />
+                <ScalarProperty Name="FMS_DeviceUid" ColumnName="FMS_DeviceUid" />
+                <ScalarProperty Name="FMS_FlowValue" ColumnName="FMS_FlowValue" />
+                <ScalarProperty Name="FMS_MainBatteryStatus" ColumnName="FMS_MainBatteryStatus" />
+                <ScalarProperty Name="FMS_SecondaryBatteryStatus" ColumnName="FMS_SecondaryBatteryStatus" />
+                <ScalarProperty Name="FMS_ModemBatteryStatus" ColumnName="FMS_ModemBatteryStatus" />
+                <ScalarProperty Name="FMS_AntennaSignal" ColumnName="FMS_AntennaSignal" />
+                <ScalarProperty Name="FMS_UpdateDt" ColumnName="FMS_UpdateDt" />
+                <ScalarProperty Name="FMS_IsTimeOverException" ColumnName="FMS_IsTimeOverException" />
+                <ScalarProperty Name="FMS_IsMainBatteryException" ColumnName="FMS_IsMainBatteryException" />
+                <ScalarProperty Name="FMS_IsModemBatteryException" ColumnName="FMS_IsModemBatteryException" />
+                <ScalarProperty Name="FMS_ValueExceptionNum" ColumnName="FMS_ValueExceptionNum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlowMonth_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.FlowMonth_t">
+              <MappingFragment StoreEntitySet="FlowMonth_t">
+                <ScalarProperty Name="Flm_Id" ColumnName="Flm_Id" />
+                <ScalarProperty Name="Flm_Time" ColumnName="Flm_Time" />
+                <ScalarProperty Name="Flm_MaxValue" ColumnName="Flm_MaxValue" />
+                <ScalarProperty Name="Flm_MinValue" ColumnName="Flm_MinValue" />
+                <ScalarProperty Name="Flm_TotalValue" ColumnName="Flm_TotalValue" />
+                <ScalarProperty Name="Flm_OriTotalValue" ColumnName="Flm_OriTotalValue" />
+                <ScalarProperty Name="Flm_FlowMeterUid" ColumnName="Flm_FlowMeterUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlowReport_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.FlowReport_t">
+              <MappingFragment StoreEntitySet="FlowReport_t">
+                <ScalarProperty Name="FR_Id" ColumnName="FR_Id" />
+                <ScalarProperty Name="FR_Update" ColumnName="FR_Update" />
+                <ScalarProperty Name="FR_FlowMeterUid" ColumnName="FR_FlowMeterUid" />
+                <ScalarProperty Name="FR_UserUid" ColumnName="FR_UserUid" />
+                <ScalarProperty Name="FR_LastReadValue" ColumnName="FR_LastReadValue" />
+                <ScalarProperty Name="FR_currentReadValue" ColumnName="FR_currentReadValue" />
+                <ScalarProperty Name="FR_LastMonthValue" ColumnName="FR_LastMonthValue" />
+                <ScalarProperty Name="FR_CurrentMonthValue" ColumnName="FR_CurrentMonthValue" />
+                <ScalarProperty Name="FR_LastYearMonthValue" ColumnName="FR_LastYearMonthValue" />
+                <ScalarProperty Name="FR_Memo" ColumnName="FR_Memo" />
+                <ScalarProperty Name="FR_MOM" ColumnName="FR_MOM" />
+                <ScalarProperty Name="FR_YOY" ColumnName="FR_YOY" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FlowYear_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.FlowYear_t">
+              <MappingFragment StoreEntitySet="FlowYear_t">
+                <ScalarProperty Name="Fly_Id" ColumnName="Fly_Id" />
+                <ScalarProperty Name="Fly_MaxValue" ColumnName="Fly_MaxValue" />
+                <ScalarProperty Name="Fly_MinValue" ColumnName="Fly_MinValue" />
+                <ScalarProperty Name="Fly_Time" ColumnName="Fly_Time" />
+                <ScalarProperty Name="Fly_TotalValue" ColumnName="Fly_TotalValue" />
+                <ScalarProperty Name="Fly_OriTotalValue" ColumnName="Fly_OriTotalValue" />
+                <ScalarProperty Name="Fly_FlowMeterUid" ColumnName="Fly_FlowMeterUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InnerRole_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.InnerRole_t">
+              <MappingFragment StoreEntitySet="InnerRole_t">
+                <ScalarProperty Name="Ir_Id" ColumnName="Ir_Id" />
+                <ScalarProperty Name="Ir_UId" ColumnName="Ir_UId" />
+                <ScalarProperty Name="Ir_Name" ColumnName="Ir_Name" />
+                <ScalarProperty Name="Ir_Description" ColumnName="Ir_Description" />
+                <ScalarProperty Name="Ir_UpUid" ColumnName="Ir_UpUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InnerRoleAuthority_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.InnerRoleAuthority_t">
+              <MappingFragment StoreEntitySet="InnerRoleAuthority_t">
+                <ScalarProperty Name="IrAuth_Id" ColumnName="IrAuth_Id" />
+                <ScalarProperty Name="IrAuth_AuUid" ColumnName="IrAuth_AuUid" />
+                <ScalarProperty Name="IrAuth_IrUid" ColumnName="IrAuth_IrUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OldQuality_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.OldQuality_t">
+              <MappingFragment StoreEntitySet="OldQuality_t">
+                <ScalarProperty Name="Qua_Id" ColumnName="Qua_Id" />
+                <ScalarProperty Name="Qua_QualityMeterUId" ColumnName="Qua_QualityMeterUId" />
+                <ScalarProperty Name="Qua_PH" ColumnName="Qua_PH" />
+                <ScalarProperty Name="Qua_Chlorine" ColumnName="Qua_Chlorine" />
+                <ScalarProperty Name="Qua_ORP" ColumnName="Qua_ORP" />
+                <ScalarProperty Name="Qua_Turbidity" ColumnName="Qua_Turbidity" />
+                <ScalarProperty Name="Qua_SendDt" ColumnName="Qua_SendDt" />
+                <ScalarProperty Name="Qua_ReceiveDt" ColumnName="Qua_ReceiveDt" />
+                <ScalarProperty Name="Qua_CreateDt" ColumnName="Qua_CreateDt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pressure_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.Pressure_t">
+              <MappingFragment StoreEntitySet="Pressure_t">
+                <ScalarProperty Name="Pre_Id" ColumnName="Pre_Id" />
+                <ScalarProperty Name="Pre_PressureMeterUId" ColumnName="Pre_PressureMeterUId" />
+                <ScalarProperty Name="Pre_Value" ColumnName="Pre_Value" />
+                <ScalarProperty Name="Pre_SendDt" ColumnName="Pre_SendDt" />
+                <ScalarProperty Name="Pre_ReceiveDt" ColumnName="Pre_ReceiveDt" />
+                <ScalarProperty Name="Pre_CreateDt" ColumnName="Pre_CreateDt" />
+                <ScalarProperty Name="Pre_UserUid" ColumnName="Pre_UserUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PressureDay_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.PressureDay_t">
+              <MappingFragment StoreEntitySet="PressureDay_t">
+                <ScalarProperty Name="PD_Id" ColumnName="PD_Id" />
+                <ScalarProperty Name="PD_Time" ColumnName="PD_Time" />
+                <ScalarProperty Name="PD_PressureMeterUid" ColumnName="PD_PressureMeterUid" />
+                <ScalarProperty Name="PD_MaxValue" ColumnName="PD_MaxValue" />
+                <ScalarProperty Name="PD_MinValue" ColumnName="PD_MinValue" />
+                <ScalarProperty Name="PD_AverageValue" ColumnName="PD_AverageValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PressureHour_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.PressureHour_t">
+              <MappingFragment StoreEntitySet="PressureHour_t">
+                <ScalarProperty Name="PH_Id" ColumnName="PH_Id" />
+                <ScalarProperty Name="PH_Time" ColumnName="PH_Time" />
+                <ScalarProperty Name="PH_PressureMeterUid" ColumnName="PH_PressureMeterUid" />
+                <ScalarProperty Name="PH_RealTimeValue" ColumnName="PH_RealTimeValue" />
+                <ScalarProperty Name="PH_MaxValue" ColumnName="PH_MaxValue" />
+                <ScalarProperty Name="PH_MinValue" ColumnName="PH_MinValue" />
+                <ScalarProperty Name="PH_AverageValue" ColumnName="PH_AverageValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PressureMeter_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.PressureMeter_t">
+              <MappingFragment StoreEntitySet="PressureMeter_t">
+                <ScalarProperty Name="PM_Id" ColumnName="PM_Id" />
+                <ScalarProperty Name="PM_UId" ColumnName="PM_UId" />
+                <ScalarProperty Name="PM_Lat" ColumnName="PM_Lat" />
+                <ScalarProperty Name="PM_Lng" ColumnName="PM_Lng" />
+                <ScalarProperty Name="PM_Code" ColumnName="PM_Code" />
+                <ScalarProperty Name="PM_Description" ColumnName="PM_Description" />
+                <ScalarProperty Name="PM_CountLast" ColumnName="PM_CountLast" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PressureMeterStatus_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.PressureMeterStatus_t">
+              <MappingFragment StoreEntitySet="PressureMeterStatus_t">
+                <ScalarProperty Name="PMS_Id" ColumnName="PMS_Id" />
+                <ScalarProperty Name="PMS_DeviceUid" ColumnName="PMS_DeviceUid" />
+                <ScalarProperty Name="PMS_PressureValue" ColumnName="PMS_PressureValue" />
+                <ScalarProperty Name="PMS_MainBatteryStatus" ColumnName="PMS_MainBatteryStatus" />
+                <ScalarProperty Name="PMS_SecondaryBatteryStatus" ColumnName="PMS_SecondaryBatteryStatus" />
+                <ScalarProperty Name="PMS_ModemBatteryStatus" ColumnName="PMS_ModemBatteryStatus" />
+                <ScalarProperty Name="PMS_AntennaSignal" ColumnName="PMS_AntennaSignal" />
+                <ScalarProperty Name="PMS_UpdateDt" ColumnName="PMS_UpdateDt" />
+                <ScalarProperty Name="PMS_IsTimeOverException" ColumnName="PMS_IsTimeOverException" />
+                <ScalarProperty Name="PMS_IsMainBatteryException" ColumnName="PMS_IsMainBatteryException" />
+                <ScalarProperty Name="PMS_IsModemBatteryException" ColumnName="PMS_IsModemBatteryException" />
+                <ScalarProperty Name="PMS_ValueExceptionNum" ColumnName="PMS_ValueExceptionNum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PressureMonth_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.PressureMonth_t">
+              <MappingFragment StoreEntitySet="PressureMonth_t">
+                <ScalarProperty Name="PM_Id" ColumnName="PM_Id" />
+                <ScalarProperty Name="PM_Time" ColumnName="PM_Time" />
+                <ScalarProperty Name="PM_PressureMeterUid" ColumnName="PM_PressureMeterUid" />
+                <ScalarProperty Name="PM_MaxValue" ColumnName="PM_MaxValue" />
+                <ScalarProperty Name="PM_MinValue" ColumnName="PM_MinValue" />
+                <ScalarProperty Name="PM_AverageValue" ColumnName="PM_AverageValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PressureYear_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.PressureYear_t">
+              <MappingFragment StoreEntitySet="PressureYear_t">
+                <ScalarProperty Name="PY_Id" ColumnName="PY_Id" />
+                <ScalarProperty Name="PY_Time" ColumnName="PY_Time" />
+                <ScalarProperty Name="PY_PressureMeterUid" ColumnName="PY_PressureMeterUid" />
+                <ScalarProperty Name="PY_MaxValue" ColumnName="PY_MaxValue" />
+                <ScalarProperty Name="PY_MinValue" ColumnName="PY_MinValue" />
+                <ScalarProperty Name="PY_AverageValue" ColumnName="PY_AverageValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Quality_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.Quality_t">
+              <MappingFragment StoreEntitySet="Quality_t">
+                <ScalarProperty Name="Qua_Id" ColumnName="Qua_Id" />
+                <ScalarProperty Name="Qua_QualityMeterUId" ColumnName="Qua_QualityMeterUId" />
+                <ScalarProperty Name="Qua_Q1" ColumnName="Qua_Q1" />
+                <ScalarProperty Name="Qua_Q2" ColumnName="Qua_Q2" />
+                <ScalarProperty Name="Qua_Q3" ColumnName="Qua_Q3" />
+                <ScalarProperty Name="Qua_Q4" ColumnName="Qua_Q4" />
+                <ScalarProperty Name="Qua_T1" ColumnName="Qua_T1" />
+                <ScalarProperty Name="Qua_T2" ColumnName="Qua_T2" />
+                <ScalarProperty Name="Qua_T3" ColumnName="Qua_T3" />
+                <ScalarProperty Name="Qua_T4" ColumnName="Qua_T4" />
+                <ScalarProperty Name="Qua_SendDt" ColumnName="Qua_SendDt" />
+                <ScalarProperty Name="Qua_ReceiveDt" ColumnName="Qua_ReceiveDt" />
+                <ScalarProperty Name="Qua_CreateDt" ColumnName="Qua_CreateDt" />
+                <ScalarProperty Name="Qua_UserUid" ColumnName="Qua_UserUid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QualityDay_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.QualityDay_t">
+              <MappingFragment StoreEntitySet="QualityDay_t">
+                <ScalarProperty Name="QD_Id" ColumnName="QD_Id" />
+                <ScalarProperty Name="QD_QualityMeterUId" ColumnName="QD_QualityMeterUId" />
+                <ScalarProperty Name="QD_Q1" ColumnName="QD_Q1" />
+                <ScalarProperty Name="QD_Q2" ColumnName="QD_Q2" />
+                <ScalarProperty Name="QD_Q3" ColumnName="QD_Q3" />
+                <ScalarProperty Name="QD_Q4" ColumnName="QD_Q4" />
+                <ScalarProperty Name="QD_T1" ColumnName="QD_T1" />
+                <ScalarProperty Name="QD_T2" ColumnName="QD_T2" />
+                <ScalarProperty Name="QD_T3" ColumnName="QD_T3" />
+                <ScalarProperty Name="QD_T4" ColumnName="QD_T4" />
+                <ScalarProperty Name="QD_SendDt" ColumnName="QD_SendDt" />
+                <ScalarProperty Name="QD_ReceiveDt" ColumnName="QD_ReceiveDt" />
+                <ScalarProperty Name="QD_CreateDt" ColumnName="QD_CreateDt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QualityHour_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.QualityHour_t">
+              <MappingFragment StoreEntitySet="QualityHour_t">
+                <ScalarProperty Name="QH_Id" ColumnName="QH_Id" />
+                <ScalarProperty Name="QH_QualityMeterUId" ColumnName="QH_QualityMeterUId" />
+                <ScalarProperty Name="QH_Q1" ColumnName="QH_Q1" />
+                <ScalarProperty Name="QH_Q2" ColumnName="QH_Q2" />
+                <ScalarProperty Name="QH_Q3" ColumnName="QH_Q3" />
+                <ScalarProperty Name="QH_Q4" ColumnName="QH_Q4" />
+                <ScalarProperty Name="QH_T1" ColumnName="QH_T1" />
+                <ScalarProperty Name="QH_T2" ColumnName="QH_T2" />
+                <ScalarProperty Name="QH_T3" ColumnName="QH_T3" />
+                <ScalarProperty Name="QH_T4" ColumnName="QH_T4" />
+                <ScalarProperty Name="QH_SendDt" ColumnName="QH_SendDt" />
+                <ScalarProperty Name="QH_ReceiveDt" ColumnName="QH_ReceiveDt" />
+                <ScalarProperty Name="QH_CreateDt" ColumnName="QH_CreateDt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QualityMeter_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.QualityMeter_t">
+              <MappingFragment StoreEntitySet="QualityMeter_t">
+                <ScalarProperty Name="QM_Id" ColumnName="QM_Id" />
+                <ScalarProperty Name="QM_UId" ColumnName="QM_UId" />
+                <ScalarProperty Name="QM_Lat" ColumnName="QM_Lat" />
+                <ScalarProperty Name="QM_Lng" ColumnName="QM_Lng" />
+                <ScalarProperty Name="QM_Code" ColumnName="QM_Code" />
+                <ScalarProperty Name="QM_Description" ColumnName="QM_Description" />
+                <ScalarProperty Name="QM_CountLast" ColumnName="QM_CountLast" />
+                <ScalarProperty Name="QM_MapId" ColumnName="QM_MapId" />
+                <ScalarProperty Name="QM_RecevieLast" ColumnName="QM_RecevieLast" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QualityMeterStatus_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.QualityMeterStatus_t">
+              <MappingFragment StoreEntitySet="QualityMeterStatus_t">
+                <ScalarProperty Name="QMS_Id" ColumnName="QMS_Id" />
+                <ScalarProperty Name="QMS_DeviceUid" ColumnName="QMS_DeviceUid" />
+                <ScalarProperty Name="QMS_T1" ColumnName="QMS_T1" />
+                <ScalarProperty Name="QMS_T2" ColumnName="QMS_T2" />
+                <ScalarProperty Name="QMS_T3" ColumnName="QMS_T3" />
+                <ScalarProperty Name="QMS_T4" ColumnName="QMS_T4" />
+                <ScalarProperty Name="QMS_Q1" ColumnName="QMS_Q1" />
+                <ScalarProperty Name="QMS_Q2" ColumnName="QMS_Q2" />
+                <ScalarProperty Name="QMS_Q3" ColumnName="QMS_Q3" />
+                <ScalarProperty Name="QMS_Q4" ColumnName="QMS_Q4" />
+                <ScalarProperty Name="QMS_UpdateDt" ColumnName="QMS_UpdateDt" />
+                <ScalarProperty Name="QMS_BatteryStatus" ColumnName="QMS_BatteryStatus" />
+                <ScalarProperty Name="QMS_AntennaSignal" ColumnName="QMS_AntennaSignal" />
+                <ScalarProperty Name="QMS_IsTimeOverException" ColumnName="QMS_IsTimeOverException" />
+                <ScalarProperty Name="QMS_IsMainBatteryException" ColumnName="QMS_IsMainBatteryException" />
+                <ScalarProperty Name="QMS_IsModemBatteryException" ColumnName="QMS_IsModemBatteryException" />
+                <ScalarProperty Name="QMS_ValueExceptionNum" ColumnName="QMS_ValueExceptionNum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QualityMonth_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.QualityMonth_t">
+              <MappingFragment StoreEntitySet="QualityMonth_t">
+                <ScalarProperty Name="QM_Id" ColumnName="QM_Id" />
+                <ScalarProperty Name="QM_QualityMeterUId" ColumnName="QM_QualityMeterUId" />
+                <ScalarProperty Name="QM_PH" ColumnName="QM_PH" />
+                <ScalarProperty Name="QM_MaxPH" ColumnName="QM_MaxPH" />
+                <ScalarProperty Name="QM_MinPH" ColumnName="QM_MinPH" />
+                <ScalarProperty Name="QM_Chlorine" ColumnName="QM_Chlorine" />
+                <ScalarProperty Name="QM_MaxChlorine" ColumnName="QM_MaxChlorine" />
+                <ScalarProperty Name="QM_MinChlorine" ColumnName="QM_MinChlorine" />
+                <ScalarProperty Name="QM_Turbidity" ColumnName="QM_Turbidity" />
+                <ScalarProperty Name="QM_MaxTurbidity" ColumnName="QM_MaxTurbidity" />
+                <ScalarProperty Name="QM_MinTurbidity" ColumnName="QM_MinTurbidity" />
+                <ScalarProperty Name="QM_ORP" ColumnName="QM_ORP" />
+                <ScalarProperty Name="QM_MaxORP" ColumnName="QM_MaxORP" />
+                <ScalarProperty Name="QM_MinORP" ColumnName="QM_MinORP" />
+                <ScalarProperty Name="QM_Time" ColumnName="QM_Time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QualityYear_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.QualityYear_t">
+              <MappingFragment StoreEntitySet="QualityYear_t">
+                <ScalarProperty Name="QY_Id" ColumnName="QY_Id" />
+                <ScalarProperty Name="QY_QualityMeterUId" ColumnName="QY_QualityMeterUId" />
+                <ScalarProperty Name="QY_PH" ColumnName="QY_PH" />
+                <ScalarProperty Name="QY_MaxPH" ColumnName="QY_MaxPH" />
+                <ScalarProperty Name="QY_MinPH" ColumnName="QY_MinPH" />
+                <ScalarProperty Name="QY_Chlorine" ColumnName="QY_Chlorine" />
+                <ScalarProperty Name="QY_MaxChlorine" ColumnName="QY_MaxChlorine" />
+                <ScalarProperty Name="QY_MinChlorine" ColumnName="QY_MinChlorine" />
+                <ScalarProperty Name="QY_Turbidity" ColumnName="QY_Turbidity" />
+                <ScalarProperty Name="QY_MaxTurbidity" ColumnName="QY_MaxTurbidity" />
+                <ScalarProperty Name="QY_MinTurbidity" ColumnName="QY_MinTurbidity" />
+                <ScalarProperty Name="QY_ORP" ColumnName="QY_ORP" />
+                <ScalarProperty Name="QY_MaxORP" ColumnName="QY_MaxORP" />
+                <ScalarProperty Name="QY_MinORP" ColumnName="QY_MinORP" />
+                <ScalarProperty Name="QY_Time" ColumnName="QY_Time" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SysInfo_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.SysInfo_t">
+              <MappingFragment StoreEntitySet="SysInfo_t">
+                <ScalarProperty Name="Si_Id" ColumnName="Si_Id" />
+                <ScalarProperty Name="Si_InfoCode" ColumnName="Si_InfoCode" />
+                <ScalarProperty Name="Si_IntInfo" ColumnName="Si_IntInfo" />
+                <ScalarProperty Name="Si_VcInfo" ColumnName="Si_VcInfo" />
+                <ScalarProperty Name="Si_TextInfo" ColumnName="Si_TextInfo" />
+                <ScalarProperty Name="Si_DtInfo" ColumnName="Si_DtInfo" />
+                <ScalarProperty Name="Si_ModifyDt" ColumnName="Si_ModifyDt" />
+                <ScalarProperty Name="Si_Editor" ColumnName="Si_Editor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.User_t">
+              <MappingFragment StoreEntitySet="User_t">
+                <ScalarProperty Name="Usr_Id" ColumnName="Usr_Id" />
+                <ScalarProperty Name="Usr_UId" ColumnName="Usr_UId" />
+                <ScalarProperty Name="Usr_Name" ColumnName="Usr_Name" />
+                <ScalarProperty Name="Usr_Password" ColumnName="Usr_Password" />
+                <ScalarProperty Name="Usr_Realname" ColumnName="Usr_Realname" />
+                <ScalarProperty Name="Usr_Memo" ColumnName="Usr_Memo" />
+                <ScalarProperty Name="Usr_Type" ColumnName="Usr_Type" />
+                <ScalarProperty Name="Usr_Phone" ColumnName="Usr_Phone" />
+                <ScalarProperty Name="Usr_PhoneCode" ColumnName="Usr_PhoneCode" />
+                <ScalarProperty Name="Usr_PhoneCodeDt" ColumnName="Usr_PhoneCodeDt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInnerRole_t">
+            <EntityTypeMapping TypeName="dpnetwork_data_20160419_NewModel.UserInnerRole_t">
+              <MappingFragment StoreEntitySet="UserInnerRole_t">
+                <ScalarProperty Name="UIr_Id" ColumnName="UIr_Id" />
+                <ScalarProperty Name="UIr_UserUId" ColumnName="UIr_UserUId" />
+                <ScalarProperty Name="UIr_IrUId" ColumnName="UIr_IrUId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="dpnetwork_data_20160419_NewModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="dpnetwork_data_20160419_NewModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="dpnetwork_data_20160419_NewModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="dpnetwork_data_20160419_NewModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dpnetwork_data_20160419_NewModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="dpnetwork_data_20160419_NewModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="dpnetwork_data_20160419_NewModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="dpnetwork_data_20160419_NewModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="dpnetwork_data_20160419_NewModel.Store.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="无" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
