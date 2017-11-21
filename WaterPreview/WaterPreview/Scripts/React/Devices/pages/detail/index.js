@@ -32,7 +32,8 @@
             }
             localStorage.setItem('viewLog', JSON.stringify(viewLog));
         }
-        fetch(`/FlowMeter/Detail`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body: _this._uid }).then((response) => {
+        //利用sessionstorage减少和后台的请求
+        fetch(`/FlowMeter/GetFlowMeterByAreaUid`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body: _this._uid }).then((response) => {
             if (response.status !== 200) {
                 throw new Error('Fail to get response with status ' + response.status);
             }
@@ -51,6 +52,7 @@
     render() {
         if (this.state.detail) {
             let { ara, flowmeter, status } = this.state.detail;
+            debugger;
             let analysis = this.state.analysis;
             this.props.header.title[1].content = `设备详情(${flowmeter.FM_Code} ${flowmeter.FM_Description} ${dateFormat(flowmeter.FM_FlowCountLast, 2)})`
             return (

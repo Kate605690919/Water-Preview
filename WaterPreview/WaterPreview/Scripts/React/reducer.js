@@ -62,6 +62,7 @@
             return { ...state, FM: Object.assign({}, newState.FM) };
         }
         case GET_FM_SUCCESS: {
+
             newState.FM.status = Status.SUCCESS;
             newState.FM.tableInfo.data = action.result;
             return { ...state, areaUid: action.areaUid, FM: Object.assign({}, newState.FM) };
