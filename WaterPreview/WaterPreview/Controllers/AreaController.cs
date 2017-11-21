@@ -46,7 +46,7 @@ namespace WaterPreview.Controllers
             IAreaService area_service = new AreaService();
             Func<List<Area_t>> func = () => area_service.GetAllArea().ToList();
             List<Area_t> all = DBHelper.get<Area_t>(func, UserContext.allArea);
-            //var areaChild = new List<Area_t>();
+            var areaChild = new object();
             Area_t area = new Area_t();
             Guid areauid = new Guid();
 
@@ -59,8 +59,9 @@ namespace WaterPreview.Controllers
             {
                 areauid = UserContext.areaSourceUid;
                 area = all.First(p => p.Ara_UId == areauid);
+                areaChild = GetChild(area.Ara_UId, all);
+
             }
-            var areaChild = GetChild(area.Ara_UId, all);
             var list = new
             {
                 text = area.Ara_Name,
