@@ -286,3 +286,9 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+WaterPreview/WaterPreview/Scripts/React/Devices/pages/detail/index.js
+WaterPreview/WaterPreview/Scripts/React/reducer.js
+WaterPreview/WaterPreview/Scripts/React/Devices/pages/detail/index.js
+WaterPreview/WaterPreview/Scripts/React/util/WebStorage.js
+WaterPreview/WaterPreview/Scripts/React/reducer.js
+WaterPreview/WaterPreview/Scripts/React/util/Fetch.js
