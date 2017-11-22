@@ -38,7 +38,7 @@
             }
             response.json().then((res) => {
                 _this.setState({ detail: res });
-                $.get(`/flowmeter/Analysis?${_this._uid}&time=${dateFormat(res.flowmeter.FM_FlowCountLast, 2)}`, function (data) {
+                $.get(`/flowmeter/Analysis?${_this._uid}&time=${dateFormat(res[0].flowmeter.FM_FlowCountLast, 2)}`, function (data) {
                     _this.setState({ analysis: data });
                 });
             }).catch((error) => {
@@ -50,7 +50,8 @@
     }
     render() {
         if (this.state.detail) {
-            let { ara, flowmeter, status } = this.state.detail;
+            let { ara, flowmeter, status } = this.state.detail[0];
+            debugger;
             let analysis = this.state.analysis;
             this.props.header.title[1].content = `设备详情(${flowmeter.FM_Code} ${flowmeter.FM_Description} ${dateFormat(flowmeter.FM_FlowCountLast, 2)})`
             return (
@@ -59,10 +60,10 @@
                         <div className="ibox-title" style={{ position: 'relative', zIndex: '999' }}>
                             <Header header={this.props.header} />
                             <div className="battery-group" style={{ position: 'absolute', right: 0, display: 'flex' }}>
-                                <Battery electricity={this.state.detail.status.FMS_MainBatteryStatus} content={'主电源'} />
-                                <Battery electricity={this.state.detail.status.FMS_SecondaryBatteryStatus} content={'备用电源'} />
-                                <Battery electricity={this.state.detail.status.FMS_ModemBatteryStatus} content={'通信电池'} />
-                                <Battery electricity={this.state.detail.status.FMS_AntennaSignal} content={'信号强度'} />
+                                <Battery electricity={status.FMS_MainBatteryStatus} content={'主电源'} />
+                                <Battery electricity={status.FMS_SecondaryBatteryStatus} content={'备用电源'} />
+                                <Battery electricity={status.FMS_ModemBatteryStatus} content={'通信电池'} />
+                                <Battery electricity={status.FMS_AntennaSignal} content={'信号强度'} />
                             </div>
                         </div>
                         <div className="ibox-content">

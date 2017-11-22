@@ -115,5 +115,12 @@ namespace WaterPreview.Controllers
             phlist = pressurehour_service.GetPressureHourByUid(pmuid).Where(p => p.PH_Time >= (startday * 100 + 9)&&p.PH_Time<(endday*100+9)).ToList();
             return phlist;
         }
+
+        public JsonResult GetMostVisitsPressureMeter(string[] pmUids)
+        {
+            JsonResult result = new JsonResult();
+
+            return result;
+        }
     }
 }

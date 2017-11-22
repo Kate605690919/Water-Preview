@@ -8,6 +8,7 @@ using WaterPreview.Other;
 using WaterPreview.Redis;
 using WaterPreview.Service;
 using WaterPreview.Service.Interface;
+using WaterPreview.Service.RedisContract;
 
 
 namespace WaterPreview.Controllers
@@ -16,15 +17,20 @@ namespace WaterPreview.Controllers
     {
         private static IFlowMeterService flowmeter_Service;
         private static IFlowMonthService flowmonth_Service;
+        private static IFlowHourService flowhour_Service;
 
 
-        public FlowMeterController(IFlowMeterService fmservice,IFlowMonthService fmonthservice)
+
+        public FlowMeterController(IFlowMeterService fmservice,IFlowMonthService fmonthservice,IFlowHourService fhourservice)
         {
             this.AddDisposableObject(fmservice);
             flowmeter_Service = fmservice;
 
             this.AddDisposableObject(fmonthservice);
             flowmonth_Service = fmonthservice;
+
+            this.AddDisposableObject(fhourservice);
+            flowhour_Service = fhourservice;
         }
 
         public JsonResult Analysis(Guid uid, DateTime time)
@@ -125,11 +131,19 @@ namespace WaterPreview.Controllers
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <returns></returns>
         public JsonResult Detail(Guid uid)
         {
             JsonResult result = new JsonResult();
-            Func<List<FlowMeter_t>> t = ()=>flowmeter_Service.GetAllFlowMeter().Where(p=>p.FM_UId==uid).ToList();
-            result.Data = DBHelper.get<FlowMeter_t>(t,UserContext.allFlowMeter);
+            //Func<List<FlowMeter_t>> t = ()=>flowmeter_Service.GetAllFlowMeter().Where(p=>p.FM_UId==uid).ToList();
+
+            Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => (flowmeter_Service.GetFlowMeterStatusAndArea());
+            result.Data = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, UserContext.allFlowMeterStatusAndArea).Where(p => p.flowmeter.FM_UId == uid).ToList();
+            //result.Data = DBHelper.get<FlowMeter_t>(t,UserContext.allFlowMeter);
             return result;
         }
 
@@ -187,6 +201,13 @@ namespace WaterPreview.Controllers
                 });
             }
             return rs;
+        }
+
+        public JsonResult GetMostVisitsFlowMeter(string[] fmUids)
+        {
+            JsonResult result = new JsonResult();
+            //flowmeter_Service
+            return result;
         }
     }
 }

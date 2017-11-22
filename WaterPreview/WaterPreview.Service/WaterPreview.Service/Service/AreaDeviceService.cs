@@ -15,5 +15,6 @@ namespace WaterPreview.Service.Service
             var ad = FindAll().Where(p=>p.AD_DeviceUid==deviceUid);
             return ad.Count() == 0 ? new AreaDevice_t() : ad.FirstOrDefault();
         }
+
     }
 }

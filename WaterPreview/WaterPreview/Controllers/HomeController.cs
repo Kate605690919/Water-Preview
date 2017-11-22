@@ -42,17 +42,14 @@ namespace WaterPreview.Controllers
             return RedirectToAction("index");
         }
 
-        public JsonResult GetMostVisitsDevice(string[] uidlist)
-        {
-            JsonResult result = new JsonResult();
-            return result;
-        }
+        
 
         public ActionResult Index()
         {
             return View();
         }
 
+       
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

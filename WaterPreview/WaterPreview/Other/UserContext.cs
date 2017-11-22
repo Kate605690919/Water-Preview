@@ -13,6 +13,7 @@ namespace WaterPreview.Other
 
         static IAccountService account_service = new AccountService();
         static IAreaUserService areauser_service = new AreaUserService();
+        static IAreaDeviceService areadevice_service = new AreaDeviceService();
 
 
         public static User_t account = new User_t();
@@ -48,5 +49,7 @@ namespace WaterPreview.Other
             }
             return areauser.AU_AreaUId;
         }
+
+
     }
 }

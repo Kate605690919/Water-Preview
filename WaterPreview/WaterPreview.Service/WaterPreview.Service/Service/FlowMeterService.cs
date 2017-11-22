@@ -16,6 +16,11 @@ namespace WaterPreview.Service.Service
             return FindAll();
         }
 
+        public List<FlowMeter_t> GetFlowMetersByUserUid(Guid userUid)
+        {
+            return FindAll().Where(p=>p.FM_WaterConsumerUId==userUid).ToList();
+        }
+
         public List<FlowMeterStatusAndArea> GetFlowMeterStatusAndArea()
         {
             IFlowMeterStatusService fms_service = new FlowMeterStatusService();
@@ -33,5 +38,27 @@ namespace WaterPreview.Service.Service
             }
             return fmsalist;
         }
+
+        public DevicesDataAndUser GetFlowMetersDataByUserUid(User_t account)
+        {
+            List<FlowMeter_t> fmlist =  FindAll().Where(p=>p.FM_WaterConsumerUId==account.Usr_UId).ToList();
+            IFlowHourService fh_service = new FlowHourService();
+            foreach (var item in fmlist)
+            {
+                List<FlowHour_t> fhlist = fh_service.GetDayFlowByUidAndDate(item.FM_UId,(DateTime)item.FM_FlowCountLast);
+
+            }
+            List<FlowMeterData> fmdata = new List<FlowMeterData>();
+
+
+            DevicesDataAndUser devicedata = new DevicesDataAndUser(){
+                account = account,
+                flowmeterdata = fmdata
+            };
+            return devicedata;
+        }
+
+
+        
     }
 }

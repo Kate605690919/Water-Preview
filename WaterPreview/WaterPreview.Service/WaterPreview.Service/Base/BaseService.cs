@@ -33,7 +33,6 @@ namespace WaterPreview.Service.Base
         {
             try
             {
-
                 Type type = typeof(dpnetwork_data_20160419_NewEntities);
                 PropertyInfo property = type.GetProperty(typeof(T).Name);
                 DbSet<T> data = (DbSet<T>)property.GetValue(WaterEntities, null);
@@ -155,6 +154,7 @@ namespace WaterPreview.Service.Base
                 }
             }
         }
+        
 
         public bool Modify(string keyName, T input)
         {
