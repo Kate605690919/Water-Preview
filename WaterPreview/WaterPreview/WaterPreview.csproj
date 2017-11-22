@@ -243,6 +243,7 @@
     <Content Include="Scripts\React\Devices\pages\detail\dataAnalysis.js" />
     <Content Include="Scripts\React\Devices\pages\detail\dataCount.js" />
     <Content Include="Scripts\React\Devices\pages\detail\DataStatus.js" />
+    <Content Include="Scripts\React\Devices\pages\detail\FMDetail.js" />
     <Content Include="Scripts\React\Devices\pages\detail\index.js" />
     <Content Include="Scripts\React\Devices\ToolBar.js" />
     <Content Include="Scripts\React\FeedBack\index.js" />
@@ -254,6 +255,8 @@
     <Content Include="Scripts\React\Staff\StaffBase.js" />
     <Content Include="Scripts\React\Staff\StaffDetail.js" />
     <Content Include="Scripts\React\Staff\StaffPW.js" />
+    <Content Include="Scripts\React\util\Fetch.js" />
+    <Content Include="Scripts\React\util\WebStorage.js" />
     <Content Include="Scripts\sources\bootstrap-datepicker.js" />
     <Content Include="Scripts\sources\bootstrap.min.js" />
     <Content Include="Scripts\sources\datatables.min.js" />

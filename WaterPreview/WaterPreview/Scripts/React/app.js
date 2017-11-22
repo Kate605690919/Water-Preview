@@ -46,11 +46,11 @@ const DeviceInfo = {
         }
     },
     toolBar: [{
-            value: 'FM', label: '流量计', name: 'Meter'
-        }, {
-            value: 'PM', label: '压力计', name: 'Meter'
-        }, {
-            value: 'QM', label: '水质计', name: 'Meter'
+        value: 'FM', label: '流量计', name: 'Meter'
+    }, {
+        value: 'PM', label: '压力计', name: 'Meter'
+    }, {
+        value: 'QM', label: '水质计', name: 'Meter'
     }],
     FM: {
         status: Status.LOADING,
@@ -89,23 +89,23 @@ const DeviceInfo = {
         status: Status.LOADING,
         tableInfo: {
             el: '#wrapper-pressureTable',
-                columns: [
-                    {
-                        "data": "pressuremeter.PM_Code", "title": "压力计编码",
-                        render: function (data, type, full, meta) {
-                            return '<a href="javascript:void(0)">' + data + '</a>';
-                        }
-                    },
-                    { "data": "pressuremeter.PM_Description", "defaultContent": "未知", "title": "描述" },
-                    {
-                        "data": "status.PMS_UpdateDt", "title": "更新",
-                        render: function (data, type, full, meta) {
-                            return dateFormat(data, 7);
-                        }
-                    },
-                    { "data": "status.PMS_PressureValue", "title": "实时值" },
-                    { "data": "FMS_AntennaSignal", "defaultContent": "未知", "title": "操作" }
-                ]
+            columns: [
+                {
+                    "data": "pressuremeter.PM_Code", "title": "压力计编码",
+                    render: function (data, type, full, meta) {
+                        return '<a href="#/pressuremeter/detail/uid=' + full.pressuremeter.PM_UId + '">' + data + '</a>';
+                    }
+                },
+                { "data": "pressuremeter.PM_Description", "defaultContent": "未知", "title": "描述" },
+                {
+                    "data": "status.PMS_UpdateDt", "title": "更新",
+                    render: function (data, type, full, meta) {
+                        return dateFormat(data, 7);
+                    }
+                },
+                { "data": "status.PMS_PressureValue", "title": "实时值" },
+                { "data": "FMS_AntennaSignal", "defaultContent": "未知", "title": "操作" }
+            ]
         },
         header: {
             title: [{
@@ -117,24 +117,24 @@ const DeviceInfo = {
         status: Status.LOADING,
         tableInfo: {
             el: '#wrapper-qualityTable',
-                columns: [
-                    {
-                        "data": "qualitymeter.QM_Code", "title": "压力计编码",
-                        render: function (data, type, full, meta) {
-                            return '<a href="javascript:void(0)">' + data + '</a>';
-                        }
-                    },
-                    { "data": "qualitymeter.QM_Description", "title": "描述" },
-                    {
-                        "data": "status.QMS_UpdateDt", "title": "更新",
-                        render: function (data, type, full, meta) {
-                            if (data) return dateFormat(data, 7);
-                            else return '暂无';
-                        }
-                    },
-                    { "data": "status.QMS_PressureValue", "title": "实时值", "defaultContent": "暂无" },
-                    { "data": "status.QMS_AntennaSignal", "defaultContent": "未知", "title": "操作" }
-                ]
+            columns: [
+                {
+                    "data": "qualitymeter.QM_Code", "title": "压力计编码",
+                    render: function (data, type, full, meta) {
+                        return '<a href="javascript:void(0)">' + data + '</a>';
+                    }
+                },
+                { "data": "qualitymeter.QM_Description", "title": "描述" },
+                {
+                    "data": "status.QMS_UpdateDt", "title": "更新",
+                    render: function (data, type, full, meta) {
+                        if (data) return dateFormat(data, 7);
+                        else return '暂无';
+                    }
+                },
+                { "data": "status.QMS_PressureValue", "title": "实时值", "defaultContent": "暂无" },
+                { "data": "status.QMS_AntennaSignal", "defaultContent": "未知", "title": "操作" }
+            ]
         },
         header: {
             title: [{
@@ -152,9 +152,9 @@ const DeviceInfo = {
     deviceDetail: {
         header: {
             title: [{
-                    href: '/flowmeter', content: '设备列表'
-                }, {
-                    content: '设备详情'
+                href: '/Devices', content: '设备列表'
+            }, {
+                content: '设备详情'
             }]
         },
         dataAnalysis: {
@@ -209,13 +209,13 @@ const DeviceInfo = {
             itemInfo: [{
                 id: 0, label: '所属区域', input: { help: '温馨提示：点击左侧"区域参考"选择区域', value: 'area.Ara_Name', readOnly: true }
             }, {
-                    id: 1, label: '客户名', input: { name: 'Member_Name', value: 'Name' }
+                id: 1, label: '客户名', input: { name: 'Member_Name', value: 'Name' }
             }, {
-                    id: 2, label: '真实姓名或公司名', input: { name: 'Member_RealName', value: 'RealName' }
+                id: 2, label: '真实姓名或公司名', input: { name: 'Member_RealName', value: 'RealName' }
             }, {
-                    id: 3, label: '电话号码', input: { type: 'number', name: 'Member_Phone', value: 'Phone' }
+                id: 3, label: '电话号码', input: { type: 'number', name: 'Member_Phone', value: 'Phone' }
             }, {
-                    id: 4, label: '备注', input: { name: 'Member_Memo', value: 'Memo' }
+                id: 4, label: '备注', input: { name: 'Member_Memo', value: 'Memo' }
             }],
             func: {
                 url: '/Client/ModifyClient',
@@ -377,11 +377,11 @@ const DeviceInfo = {
         editPW: {
             formId: 'formClient2',
             itemInfo: [{
-                id: 0, label: '原密码', input: { name:''}
+                id: 0, label: '原密码', input: { name: '' }
             }, {
                 id: 1, label: '新密码', input: { name: 'Member_Name' }
             }, {
-                id: 2, label: '再次输入新密码', input: { name: 'Member_RealName'}
+                id: 2, label: '再次输入新密码', input: { name: 'Member_RealName' }
             }],
             func: {
                 url: '/Staff/ModifyClient',
@@ -478,7 +478,7 @@ class DeviceApp extends React.Component {
         return (
             <div id="App">
                 <aside>
-                    <JsTree jsTreeInfo={this.props.jsTreeInfo}/>
+                    <JsTree jsTreeInfo={this.props.jsTreeInfo} />
                 </aside>
                 <article>
                     {this.props.children}
@@ -523,7 +523,12 @@ ReactDOM.render(
                     <Route path="detail/:uid" component={StaffDetail} />
                     <Route path="editbase/:uid" component={StaffBase} />
                 </Route>
-                <Route path="flowmeter" component={DeviceApp}>
+                <Route path="devices" component={DeviceApp}>
+                    <IndexRoute component={Devices}></IndexRoute>
+                    <Route path="/flowmeter/detail/:uid" component={Detail}></Route>
+                    <Route path="/pressuremeter/detail/:uid" component={Detail}></Route>
+                </Route>
+                <Route path="pressuremeter" component={DeviceApp}>
                     <IndexRoute component={Devices}></IndexRoute>
                     <Route path="detail/:uid" component={Detail}></Route>
                 </Route>

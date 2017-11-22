@@ -17,3 +17,14 @@
         );
     }
 }
+<div class="ibox MiniCard">
+    <div className="ibox-title" style="padding: '0 10px'; min-height: '30px'">
+        <h5 className="no-margin" style={{ line-height: '30px' }}
+    >大标题</h5>
+        <h5 className="pull-right no-margin" style={{ lineHeight: '30px' }}>数据1</h5>
+    </div>
+    <div className="ibox-content" style={{ padding: '10px 15px' }}>
+        <div className="stat-percent font-bold text-success">{this.props.smallH.content}<i className={`fa fa-level-${parseInt(this.props.smallH.content) >= 0 ? 'up' : 'down'}`}></i></div>
+        <small>{this.props.smallH.header}</small>
+    </div>
+</div>
