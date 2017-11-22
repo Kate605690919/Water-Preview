@@ -37,7 +37,7 @@
                 throw new Error('Fail to get response with status ' + response.status);
             }
             response.json().then((res) => {
-                _this.setState({ detail: res });
+                _this.setState({ detail: res[0] });
                 $.get(`/flowmeter/Analysis?${_this._uid}&time=${dateFormat(res[0].flowmeter.FM_FlowCountLast, 2)}`, function (data) {
                     _this.setState({ analysis: data });
                 });
@@ -50,7 +50,7 @@
     }
     render() {
         if (this.state.detail) {
-            let { ara, flowmeter, status } = this.state.detail[0];
+            let { ara, flowmeter, status } = this.state.detail;
             debugger;
             let analysis = this.state.analysis;
             this.props.header.title[1].content = `设备详情(${flowmeter.FM_Code} ${flowmeter.FM_Description} ${dateFormat(flowmeter.FM_FlowCountLast, 2)})`
