@@ -19,7 +19,7 @@
                 </div>
                 <div className="collapse navbar-collapse navbar-responsive-collapse">
                     <ul className="nav navbar-nav">
-                        <li><Link to="/FlowMeter" id="flowMeterTitle"><span className="glyphicon glyphicon-tint"></span>设备</Link></li>
+                        <li><Link to="/Devices" id="flowMeterTitle"><span className="glyphicon glyphicon-tint"></span>设备</Link></li>
                         {role.value !== '3' ? (<li className="dropdown">
                             <a href="#" data-toggle="dropdown" className="drpown-toggle" id="cogTitle">
                                 <span className="glyphicon glyphicon-cog"></span>管理<span className="caret"></span>
