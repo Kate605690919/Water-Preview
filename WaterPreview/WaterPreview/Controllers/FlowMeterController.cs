@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -104,7 +105,7 @@ namespace WaterPreview.Controllers
             //Func<List<FlowMeter_t>> t = ()=>flowmeter_Service.GetAllFlowMeter().Where(p=>p.FM_UId==uid).ToList();
 
             Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => (flowmeter_Service.GetFlowMeterStatusAndArea());
-            result.Data = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, UserContext.allFlowMeterStatusAndArea).Where(p => p.flowmeter.FM_UId == uid).ToList();
+            result.Data = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]).Where(p => p.flowmeter.FM_UId == uid).ToList();
             //result.Data = DBHelper.get<FlowMeter_t>(t,UserContext.allFlowMeter);
             return result;
         }

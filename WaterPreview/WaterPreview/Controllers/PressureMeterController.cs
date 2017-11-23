@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -41,7 +42,7 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => (pressuremeter_service.GetPressureMeterStatusAndArea());
-            result.Data = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea, UserContext.allPressureMeterStatusAndArea).Where(p => p.pressuremeter.PM_UId == pmuid).ToList();
+            result.Data = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea, ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]).Where(p => p.pressuremeter.PM_UId == pmuid).ToList();
             return result;
         }
 

@@ -2,6 +2,7 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -45,7 +46,7 @@ namespace WaterPreview.Controllers
 
             IAreaService area_service = new AreaService();
             Func<List<Area_t>> func = () => area_service.GetAllArea().ToList();
-            List<Area_t> all = DBHelper.get<Area_t>(func, UserContext.allArea);
+            List<Area_t> all = DBHelper.get<Area_t>(func, ConfigurationManager.AppSettings["AllArea"]);
             var areaChild = new object();
             Area_t area = new Area_t();
             Guid areauid = new Guid();
@@ -94,7 +95,7 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusAndArea();
-            List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, UserContext.allFlowMeterStatusAndArea);
+            List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]);
 
 
             string dataresult = ToJson<List<FlowMeterStatusAndArea>>.Obj2Json<List<FlowMeterStatusAndArea>>(fmstatusAndAreaList);
@@ -109,7 +110,7 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => pressuremeterService.GetPressureMeterStatusAndArea();
-            List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea, UserContext.allPressureMeterStatusAndArea);
+            List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea,ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]);
             //result.Data = pmstatusAndAreaList;
             string dataresult = ToJson<List<PressureMeterStatusAndArea>>.Obj2Json<List<PressureMeterStatusAndArea>>(pmstatusAndAreaList).Replace("\\\\", "");
             dataresult = dataresult.Replace("\\\\", "");
@@ -123,7 +124,7 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             Func<List<QualityMeterStatusAndArea>> qmAndStatusArea = () => qualitymeterService.GetQualityMeterStatusAndArea();
-            List<QualityMeterStatusAndArea> qmstatusAndAreaList = DBHelper.get<QualityMeterStatusAndArea>(qmAndStatusArea, UserContext.allQualityMeterStatusAndArea);
+            List<QualityMeterStatusAndArea> qmstatusAndAreaList = DBHelper.get<QualityMeterStatusAndArea>(qmAndStatusArea,ConfigurationManager.AppSettings["allQualityMeterStatusAndArea"]);
             //result.Data = qmstatusAndAreaList;
             string dataresult = ToJson<List<QualityMeterStatusAndArea>>.Obj2Json<List<QualityMeterStatusAndArea>>(qmstatusAndAreaList).Replace("\\\\", "");
             dataresult = dataresult.Replace("\\\\", "");
