@@ -232,6 +232,7 @@
     <Content Include="Scripts\React\Components\FormItem.js" />
     <Content Include="Scripts\React\Components\Header.js" />
     <Content Include="Scripts\React\Components\HeaderTop.js" />
+    <Content Include="Scripts\React\Components\HeatMapFm.js" />
     <Content Include="Scripts\React\Components\JsTree.js" />
     <Content Include="Scripts\React\Components\MiniCard.js" />
     <Content Include="Scripts\React\Components\Select.js" />
