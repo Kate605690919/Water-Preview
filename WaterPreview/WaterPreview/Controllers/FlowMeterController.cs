@@ -166,10 +166,27 @@ namespace WaterPreview.Controllers
             return rs;
         }
 
+        /// <summary>
+        /// 获取经常访问的流量计分析数据
+        /// </summary>
+        /// <param name="fmUids"></param>
+        /// <returns></returns>
         public JsonResult GetMostVisitsFlowMeter(string[] fmUids)
         {
             JsonResult result = new JsonResult();
-            //flowmeter_Service
+
+            List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
+            for (var i = 0; i < fmUids.Length; i++)
+            {
+                FlowMeter_t fm = flowmeter_Service.GetAllFlowMeter().Where(p=>p.FM_UId==Guid.Parse(fmUids[i])).FirstOrDefault();
+                var fmdata = flowmeter_Service.GetAnalysisByFlowMeter(fm);
+                fmdatalist.Add(fmdata);
+            }
+            string dataresult = ToJson<List<FlowMeterData>>.Obj2Json<List<FlowMeterData>>(fmdatalist).Replace("\\\\", "");
+            dataresult = dataresult.Replace("\\\\", "");
+
+            result.Data = dataresult;
+                //flowmeter_Service
             return result;
         }
     }

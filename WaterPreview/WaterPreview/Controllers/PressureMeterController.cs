@@ -89,15 +89,19 @@ namespace WaterPreview.Controllers
             var beforelastMonth = int.Parse(time.AddMonths(-2).ToString("yyyyMM"));
 
             var lastdayPressure = GetDayPressureByUid(pmuid, time);
-            var lastday_AvgData = lastdayPressure.Select(p=>p.PH_AverageValue).Average();
+            var lastday_AvgData = lastdayPressure.Count==0?0:lastdayPressure.Select(p => p.PH_AverageValue).Average();
 
             var beforelastday = GetDayPressureByUid(pmuid, time.AddDays(-1));
-            var beforelastday_AvgData = beforelastday.Select(p => p.PH_AverageValue).Average();
+            var beforelastday_AvgData = beforelastday.Count==0?0:beforelastday.Select(p => p.PH_AverageValue).Average();
             
-            var lastmonth_AvgData = pressuremonth_service.GetAllPressureMonth().Where(p=>p.PM_PressureMeterUid==pmuid&&p.PM_Time==lastMonth).Select(p=>p.PM_AverageValue).First();
-            var beforelastmonth_AvgData = pressuremonth_service.GetAllPressureMonth().Where(p=>p.PM_PressureMeterUid==pmuid&&p.PM_Time==beforelastMonth).Select(p=>p.PM_AverageValue).First();
+            var lastmonth_Avg= pressuremonth_service.GetAllPressureMonth().Where(p=>p.PM_PressureMeterUid==pmuid&&p.PM_Time==lastMonth).ToList();
+            var lastmonth_AvgData = lastmonth_Avg.Count == 0 ? 0 : lastmonth_Avg.Select(p => p.PM_AverageValue).First();
+            
+            var beforelastmonth_Avg =pressuremonth_service.GetAllPressureMonth().Where(p=>p.PM_PressureMeterUid==pmuid&&p.PM_Time==beforelastMonth).ToList();
+            var beforelastmonth_AvgData = beforelastmonth_Avg.Count == 0 ? 0 : beforelastmonth_Avg.Select(p => p.PM_AverageValue).First();
 
-            var lastnight_AvgData = lastdayPressure.Where(p => p.PH_Time % 100 >= 2 && p.PH_Time % 100 <= 4).Select(p => p.PH_AverageValue).Average();
+            var lastnight_Avg = lastdayPressure.Where(p => p.PH_Time % 100 >= 2 && p.PH_Time % 100 <= 4).ToList();
+            var lastnight_AvgData = lastnight_Avg.Count == 0 ? 0 : lastnight_Avg.Select(p => p.PH_AverageValue).Average();
 
             result.Data = new 
             {
