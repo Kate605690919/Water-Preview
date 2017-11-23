@@ -255,8 +255,6 @@
     <Content Include="Scripts\React\Staff\StaffBase.js" />
     <Content Include="Scripts\React\Staff\StaffDetail.js" />
     <Content Include="Scripts\React\Staff\StaffPW.js" />
-    <Content Include="Scripts\React\util\Fetch.js" />
-    <Content Include="Scripts\React\util\WebStorage.js" />
     <Content Include="Scripts\sources\bootstrap-datepicker.js" />
     <Content Include="Scripts\sources\bootstrap.min.js" />
     <Content Include="Scripts\sources\datatables.min.js" />
@@ -319,6 +317,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Scripts\React\util\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

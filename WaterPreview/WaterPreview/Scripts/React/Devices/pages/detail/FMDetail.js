@@ -23,7 +23,7 @@
                         obj = viewLog[i];
                         viewLog.splice(i, 1);
                     } else {
-                        obj = { uid: _this._uid.substr(4), count: 1 }
+                        obj = { uid: _this._uid.substr(6), count: 1 }
                     }
                 }
                 viewLog[viewLog.length] = { count: -1 };
