@@ -33,103 +33,65 @@ namespace WaterPreview.Controllers
             flowhour_Service = fhourservice;
         }
 
+        /// <summary>
+        /// 输出流量计Uid和对应time的各个流量分析数值
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="time"></param>
+        /// <returns></returns>
         public JsonResult Analysis(Guid uid, DateTime time)
         {
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            var timeint = int.Parse(time.ToString("yyyyMM"));
-            dpnetwork_data_20160419_NewEntities db = new dpnetwork_data_20160419_NewEntities();
-            //获取当前设备前一月9点至当天9点的flowhour
-            var origindata = GetdayFlowByUidAndDate(uid, time);
-            //当前日期的前一天
-            var lastdaytime = int.Parse(time.AddDays(-1).ToString("yyyyMMdd"));
-            var beforelastdaytime = int.Parse(time.AddDays(-2).ToString("yyyyMMdd"));
-
-            //前一天凌晨2-4点流量均值
-            var yerstodaydata = origindata.Where(p => p.Flh_Time >= (lastdaytime * 100 + 9) &&
-                p.Flh_Time <= ((lastdaytime + 1) * 100 + 9)).Where(p => p.Flh_Time % 100 >= 2 && p.Flh_Time % 100 <= 4)
-                .GroupBy(p => p.Flh_FlowMeterUid).Select(p => p.Average(p1 => p1.Flh_TotalValue)).FirstOrDefault();
-   
-            var lastdaytotal = db.FlowDay_t
-                .FirstOrDefault(p => p.Fld_FlowMeterUid == uid && p.Fld_Time == lastdaytime).Fld_TotalValue;
-            var beforelastdaytotal = db.FlowDay_t
-                .FirstOrDefault(p => p.Fld_FlowMeterUid == uid && p.Fld_Time == beforelastdaytime).Fld_TotalValue;
-            var orderflow = origindata.OrderBy(p => p.Flh_TotalValue).ToList();
-
-            var data = origindata.Select(p => (double)p.Flh_TotalValue).ToArray();//上月的每小时流量总值数组
-
-            var totalMonth = data.Sum();//月总流量值
-
-            var mean = data.Average();//月总流量平均数
-
-            //平均数
-            //var mean = ArrayStatistics.Mean(data);
-            ////无偏总体方差
-            //var variance = ArrayStatistics.Variance(data);
-            ////总体方差
-            //var populationVariance = ArrayStatistics.PopulationVariance(data);
-            ////无偏总体标准差
-
-            //var standardDeviation = ArrayStatistics.StandardDeviation(data);
-            ////中位数
-            //var medianInplace = ArrayStatistics.MedianInplace(data);
-            ////百分位数 p=1,p=7
-            //var percentileInplace1 = ArrayStatistics.PercentileInplace(data, 1);
-            //var percentileInplace5 = ArrayStatistics.PercentileInplace(data, 5);
-
-
-            //上月用水量
-            var monthflow = flowmonth_Service.GetAllFlowMonth().FirstOrDefault(p => p.Flm_Time == timeint && p.Flm_FlowMeterUid == uid).Flm_TotalValue;
-            //var lastmonthflow = flowmeterService.GetAllFlowMonth().FirstOrDefault(p => p.Flm_Time == (timeint+1)).Flm_TotalValue;
-
-            var final = Math.Round(mean * 24 * 30 / (Double)monthflow, 4);
-            //percentileInplace1 = percentileInplace1, percentileInplace5 = percentileInplace5 ;
-
-            result.Data = new
+            User_t account = UserContext.GetCurrentAccount();
+            if (account.Usr_Type == 3)
             {
-                //mean = Math.Round((Double)mean, 4).ToString(),//昨日流量平均值
-                monthflow = Math.Round((Double)monthflow, 4),//上月总流量
-                result = monthflow.HasValue ? final + "" : "无法计算",//上月总流量趋势
-                lastday = yerstodaydata.HasValue ? Math.Round((decimal)yerstodaydata, 4) + "" : "无法计算",//昨夜凌晨2-4点流量均值
-                nightproportion = monthflow.HasValue ? Math.Round((decimal)((yerstodaydata * 24 * 30) / monthflow), 4) + "" : "无法计算",//夜间用水量*24*30/总用水量
-                lastdaytotal = Math.Round((decimal)lastdaytotal, 4),//昨日总流量
-                lastdayproportion = beforelastdaytotal == 0 ? "无法计算" : Math.Round((decimal)((lastdaytotal - beforelastdaytotal) / beforelastdaytotal), 4) + "" //昨日总流量变化趋势
-            };
-
-            //result.Data = null;
-            return result;
-        }
-
-
-        public IEnumerable<FlowHour_t> GetdayFlowByUidAndDate(Guid uid, DateTime date)
-        {
-            List<FlowHour_t> OneDay = new List<FlowHour_t>();
-            int year = date.Year;
-            int month = date.Month;
-            //int day = new DateTime(year, month, 1).AddDays(-1).Day;
-
-            List<FlowHour_t> result = new List<FlowHour_t>();
-            var time = int.Parse(date.ToString("yyyyMMdd"));
-            var lastmonth = date.AddMonths(-1).AddDays(1);
-            var days = date.Subtract(lastmonth).Days;
-
-            //var starttime = int.Parse(lastmonth.ToString("yyyyMMdd"));
-
-            dpnetwork_data_20160419_NewEntities db = new dpnetwork_data_20160419_NewEntities();
-
-            List<FlowHour_t> fhlist = db.FlowHour_t.Where(p => p.Flh_FlowMeterUid == uid).ToList();
-            for (var i = 0; i <= days - 1; i++)
-            {
-                //resultt.AddRange(db.FlowHour_t.Where(p => p.Flh_FlowMeterUid == uid && p.Flh_Time >= (time * 100 + 9) && p.Flh_Time <= ((time + 1) * 100 + 9)).OrderBy(p => p.Flh_Time).ToList().Where(p => p.Flh_Time % 100 >= 2 && p.Flh_Time % 100 <= 4));
-                var day = int.Parse(lastmonth.AddDays(i).ToString("yyyyMMdd"));
-                var secday = int.Parse(lastmonth.AddDays(i + 1).ToString("yyyyMMdd"));
-                List<FlowHour_t> fhPerHour = fhlist.Where(p => p.Flh_Time >= (day * 100 + 9) && p.Flh_Time <= (secday * 100 + 9)).ToList();
-                result.AddRange(fhPerHour);
+                Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
+                var fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, UserContext.allFlowAnalysisByUserUid + account.Usr_UId);
+                result.Data = fmdataanalysis.Where(p => p.flowmeter.FM_UId == uid).FirstOrDefault();
 
             }
-            return result;
+            else
+            {
+                FlowMeter_t fm = flowmeter_Service.GetAllFlowMeter().Where(p => p.FM_UId == uid).FirstOrDefault();
+                var fmanalysis = flowmeter_Service.GetAnalysisByFlowMeter(fm);
+                result.Data = fmanalysis;
+            }
+            
 
+            return result;
         }
+
+
+        //public IEnumerable<FlowHour_t> GetdayFlowByUidAndDate(Guid uid, DateTime date)
+        //{
+        //    List<FlowHour_t> OneDay = new List<FlowHour_t>();
+        //    int year = date.Year;
+        //    int month = date.Month;
+        //    //int day = new DateTime(year, month, 1).AddDays(-1).Day;
+
+        //    List<FlowHour_t> result = new List<FlowHour_t>();
+        //    var time = int.Parse(date.ToString("yyyyMMdd"));
+        //    var lastmonth = date.AddMonths(-1).AddDays(1);
+        //    var days = date.Subtract(lastmonth).Days;
+
+        //    //var starttime = int.Parse(lastmonth.ToString("yyyyMMdd"));
+
+        //    dpnetwork_data_20160419_NewEntities db = new dpnetwork_data_20160419_NewEntities();
+
+        //    List<FlowHour_t> fhlist = db.FlowHour_t.Where(p => p.Flh_FlowMeterUid == uid).ToList();
+        //    for (var i = 0; i <= days - 1; i++)
+        //    {
+        //        //resultt.AddRange(db.FlowHour_t.Where(p => p.Flh_FlowMeterUid == uid && p.Flh_Time >= (time * 100 + 9) && p.Flh_Time <= ((time + 1) * 100 + 9)).OrderBy(p => p.Flh_Time).ToList().Where(p => p.Flh_Time % 100 >= 2 && p.Flh_Time % 100 <= 4));
+        //        var day = int.Parse(lastmonth.AddDays(i).ToString("yyyyMMdd"));
+        //        var secday = int.Parse(lastmonth.AddDays(i + 1).ToString("yyyyMMdd"));
+        //        List<FlowHour_t> fhPerHour = fhlist.Where(p => p.Flh_Time >= (day * 100 + 9) && p.Flh_Time <= (secday * 100 + 9)).ToList();
+        //        result.AddRange(fhPerHour);
+
+        //    }
+        //    return result;
+
+        //}
 
         /// <summary>
         /// 

@@ -15,6 +15,8 @@ namespace WaterPreview.Service.Interface
 
         List<FlowMeter_t> GetFlowMetersByUserUid(Guid userUid);
 
-        DevicesDataAndUser GetFlowMetersDataByUserUid(User_t account);
+        List<FlowMeterData> GetFlowMetersDataByUserUid(User_t account);
+
+        FlowMeterData GetAnalysisByFlowMeter(FlowMeter_t fm);
     }
 }

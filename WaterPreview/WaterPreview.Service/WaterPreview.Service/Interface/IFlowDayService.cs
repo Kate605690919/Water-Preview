@@ -8,6 +8,6 @@ namespace WaterPreview.Service.Interface
 {
     public interface IFlowDayService
     {
-        List<FlowDay_t> GetAllFlowDay(Guid fmuid);
+        List<FlowDay_t> GetAllFlowDayByFMUid(Guid fmuid);
     }
 }

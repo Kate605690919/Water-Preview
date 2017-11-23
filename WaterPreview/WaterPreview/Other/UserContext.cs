@@ -24,6 +24,7 @@ namespace WaterPreview.Other
         public static string allFlowMeterStatusAndArea = "allFlowMeterStatusAndArea";
         public static string allPressureMeterStatusAndArea = "allPressureMeterStatusAndArea";
         public static string allQualityMeterStatusAndArea = "allQualityMeterStatusAndArea";
+        public static string allFlowAnalysisByUserUid = "allFlowAnalysisByUserUid"+account.Usr_UId;
 
 
         public static User_t GetCurrentAccount()

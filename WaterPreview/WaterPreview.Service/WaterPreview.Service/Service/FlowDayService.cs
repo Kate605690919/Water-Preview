@@ -11,9 +11,10 @@ namespace WaterPreview.Service.Service
     public class FlowDayService:BaseService<FlowDay_t>,IFlowDayService
     {
 
-        public List<FlowDay_t> GetAllFlowDay(Guid fmuid)
+        public List<FlowDay_t> GetAllFlowDayByFMUid(Guid fmuid)
         {
-            var fdlist = FindAll().Where(p=>p.Fld_FlowMeterUid==fmuid);
+            dpnetwork_data_20160419_NewEntities db = new dpnetwork_data_20160419_NewEntities();
+            var fdlist = db.FlowDay_t.Where(p=>p.Fld_FlowMeterUid==fmuid);
             return fdlist.Count() == 0 ? new List<FlowDay_t>() : fdlist.ToList();
         }
     }

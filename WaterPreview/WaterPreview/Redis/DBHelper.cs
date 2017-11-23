@@ -45,6 +45,14 @@ namespace WaterPreview.Redis
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="init"></param>
+        /// <param name="key"></param>
+        /// <param name="dbindex"></param>
+        /// <returns></returns>
         public static List<T> getAndFresh<T>(Func<List<T>> init, string key, int dbindex = 1)
         {
             using (RedisClient rc = new RedisClient(host))
@@ -57,6 +65,25 @@ namespace WaterPreview.Redis
                 //设置值的过期时间为24小时
                 rc.Expire(name, new TimeSpan(24, 0, 0));
                 return list;
+            }
+        }
+
+        public static T get<T>(Func<T> init, string key, int dbindex = 1) 
+        {
+            using (RedisClient rc = new RedisClient(host))
+            {
+                rc.Select(dbindex);
+                var name = key;
+                if (!rc.Exists(name))
+                {
+                    var list = init();
+                    rc.Set(name, JsonConvert.SerializeObject(list));
+                    //设置值的过期时间为24小时
+                    rc.Expire(name, new TimeSpan(24, 0, 0));
+                    return list;
+                }
+                return JsonConvert.DeserializeObject<T>(rc.Get(name));
+
             }
         }
 

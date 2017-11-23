@@ -9,7 +9,7 @@ using WaterPreview.Service.RedisContract;
 
 namespace WaterPreview.Service.Service
 {
-    public class FlowMeterService:BaseService<FlowMeter_t>,IFlowMeterService
+    public class FlowMeterService : BaseService<FlowMeter_t>, IFlowMeterService
     {
         public List<FlowMeter_t> GetAllFlowMeter()
         {
@@ -18,7 +18,7 @@ namespace WaterPreview.Service.Service
 
         public List<FlowMeter_t> GetFlowMetersByUserUid(Guid userUid)
         {
-            return FindAll().Where(p=>p.FM_WaterConsumerUId==userUid).ToList();
+            return FindAll().Where(p => p.FM_WaterConsumerUId == userUid).ToList();
         }
 
         public List<FlowMeterStatusAndArea> GetFlowMeterStatusAndArea()
@@ -27,10 +27,11 @@ namespace WaterPreview.Service.Service
             IAreaService area_service = new AreaService();
             List<FlowMeterStatusAndArea> fmsalist = new List<FlowMeterStatusAndArea>();
             List<FlowMeter_t> fmlist = FindAll();
-            foreach(var fmsa_item in fmlist){
+            foreach (var fmsa_item in fmlist)
+            {
                 FlowMeterStatusAndArea item = new FlowMeterStatusAndArea()
                 {
-                    flowmeter = FindAll().Where(p=>p.FM_UId==fmsa_item.FM_UId).FirstOrDefault(),
+                    flowmeter = FindAll().Where(p => p.FM_UId == fmsa_item.FM_UId).FirstOrDefault(),
                     status = fms_service.GetFlowMeterStatusByUid(fmsa_item.FM_UId).FirstOrDefault(),
                     area = area_service.GetAreaByDeviceUid(fmsa_item.FM_UId)
                 };
@@ -39,26 +40,82 @@ namespace WaterPreview.Service.Service
             return fmsalist;
         }
 
-        public DevicesDataAndUser GetFlowMetersDataByUserUid(User_t account)
+        /// <summary>
+        /// 客户获取流量分析数据
+        /// </summary>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public List<FlowMeterData> GetFlowMetersDataByUserUid(User_t account)
         {
-            List<FlowMeter_t> fmlist =  FindAll().Where(p=>p.FM_WaterConsumerUId==account.Usr_UId).ToList();
-            IFlowHourService fh_service = new FlowHourService();
+            List<FlowMeter_t> fmlist = new List<FlowMeter_t>();
+            fmlist = FindAll().Where(p => p.FM_WaterConsumerUId == account.Usr_UId).ToList();
+            //如果fmuid为默认值，也就是未传值，则角色为客户；若fmuid有传值，则以获取fmuid数据
+            List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
+
             foreach (var item in fmlist)
             {
-                List<FlowHour_t> fhlist = fh_service.GetDayFlowByUidAndDate(item.FM_UId,(DateTime)item.FM_FlowCountLast);
+                var fmdata = GetAnalysisByFlowMeter(item);
+                fmdatalist.Add(fmdata);
 
             }
-            List<FlowMeterData> fmdata = new List<FlowMeterData>();
 
 
-            DevicesDataAndUser devicedata = new DevicesDataAndUser(){
-                account = account,
-                flowmeterdata = fmdata
-            };
-            return devicedata;
+            return fmdatalist;
+        }
+
+        /// <summary>
+        /// 管理员获取流量计分析数据、获取某一流量计分析数据
+        /// </summary>
+        /// <param name="fm"></param>
+        /// <returns></returns>
+        public FlowMeterData GetAnalysisByFlowMeter(FlowMeter_t fm)
+        {
+            IFlowHourService fh_service = new FlowHourService();
+            IFlowDayService fd_service = new FlowDayService();
+            IFlowMonthService flowmonth_Service = new FlowMonthService();
+
+                List<FlowHour_t> fhlist = fh_service.GetDayFlowByUidAndDate(fm.FM_UId, (DateTime)fm.FM_FlowCountLast);
+                DateTime time = (DateTime)fm.FM_FlowCountLast;
+                int timeint = int.Parse(time.ToString("yyyyMM"));
+                //当前日期的前一天
+                var lastdaytime = int.Parse(time.AddDays(-1).ToString("yyyyMMdd"));
+                var beforelastdaytime = int.Parse(time.AddDays(-2).ToString("yyyyMMdd"));
+
+                //前一天凌晨2-4点流量均值
+                var yerstoday = fhlist.Where(p => p.Flh_Time >= (lastdaytime * 100 + 9) &&
+                p.Flh_Time <= ((lastdaytime + 1) * 100 + 9)).Where(p => p.Flh_Time % 100 >= 2 && p.Flh_Time % 100 <= 4)
+                .ToList();
+                var yerstodaydata = yerstoday.Count == 0 ? 0 : yerstoday.Average(p => p.Flh_TotalValue);
+
+                var lastday = fd_service.GetAllFlowDayByFMUid(fm.FM_UId).Where(p => p.Fld_Time == lastdaytime).ToList();
+                var lastdaytotal = lastday.Count == 0 ? 0 : lastday.FirstOrDefault().Fld_TotalValue;
+
+                var beforelast = fd_service.GetAllFlowDayByFMUid(fm.FM_UId).Where(p => p.Fld_Time == beforelastdaytime).ToList();
+                var beforelastdaytotal = beforelast.Count == 0 ? 0 : beforelast.FirstOrDefault().Fld_TotalValue;
+                var orderflow = fhlist.OrderBy(p => p.Flh_TotalValue).ToList();
+                var data = fhlist.Select(p => (double)p.Flh_TotalValue).ToArray();//上月的每小时流量总值数组
+                var totalMonth = data.Sum();//月总流量值
+                var mean = data.Count() == 0 ? 0 : data.Average();//月总流量平均数
+
+                //上月用水量
+                var monthflow = flowmonth_Service.GetAllFlowMonth().Where(p => p.Flm_Time == timeint && p.Flm_FlowMeterUid == fm.FM_UId).ToList();
+                var monthflowdata = monthflow.Count == 0 ? 0 : monthflow.FirstOrDefault().Flm_TotalValue;
+                //var lastmonthflow = flowmeterService.GetAllFlowMonth().FirstOrDefault(p => p.Flm_Time == (timeint+1)).Flm_TotalValue;
+                var final = Math.Round(mean * 24 * 30 / (Double)monthflowdata, 4);
+
+                FlowMeterData fmdata = new FlowMeterData()
+                {
+                    flowmeter = fm,
+                    lastday_flow = Math.Round((decimal)lastdaytotal, 4) + "",//昨日总流量
+                    lastday_flow_proportion = beforelastdaytotal == 0 ? "无法计算" : Math.Round((decimal)((lastdaytotal - beforelastdaytotal) / beforelastdaytotal), 4).ToString("0.00%"), //昨日总流量变化趋势
+                    night_flow = yerstodaydata == 0 ? "无法计算" : Math.Round((decimal)yerstodaydata, 4) + "",//昨夜凌晨2-4点流量均值
+                    month_flow = Math.Round((Double)monthflowdata, 4) + "",//上月总流量
+                    night_flow_proportion = monthflowdata == 0 ? "无法计算" : Math.Round((decimal)((yerstodaydata * 24 * 30) / monthflowdata), 4).ToString("0.00%"),//夜间用水量*24*30/总用水量
+                    month_flow_proportion = monthflowdata == 0 ? "无法计算" : final.ToString("0.00%"),//上月总流量趋势
+                };
+                return fmdata;
         }
 
 
-        
     }
 }
