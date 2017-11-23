@@ -2,7 +2,8 @@
     constructor(props) {
         super(props);
         if (window.localStorage) {
-            this._viewLog = JSON.parse(localStorage.getItem('viewLog'));
+            this._viewLog = localStorage.getItem('viewLog')?JSON.parse(localStorage.getItem('viewLog')):null;
+            this._PMViewLog = localStorage.getItem('PMViewLog')?JSON.parse(localStorage.getItem('PMViewLog')):null;
         }
     }
     componentDidMount() {
@@ -120,7 +121,10 @@
                         <MiniCard bigH={{ header: this._viewLog ? (this._viewLog[2] ? this._viewLog[2].uid : '暂无') : '暂无', content: '123.7969' }} smallH={{ header: '昨日总流量', content: '5%' }} />
                     </div>
                     <div className="col-md-2 homeCard">
-                        <MiniCard bigH={{ header: this._viewLog ? (this._viewLog[3] ? this._viewLog[3].uid : '暂无') : '暂无', content: '21184.59' }} smallH={{ header: '昨日总流量', content: '40%' }} />
+                        <MiniCard bigH={{ header: this._PMViewLog ? (this._PMViewLog[0] ? this._PMViewLog[0].uid : '暂无') : '暂无', content: '21184.59' }} smallH={{ header: '昨日总流量', content: '40%' }} />
+                    </div>
+                    <div className="col-md-2 homeCard">
+                        <MiniCard bigH={{ header: this._PMViewLog ? (this._PMViewLog[1] ? this._PMViewLog[1].uid : '暂无') : '暂无', content: '21184.59' }} smallH={{ header: '昨日总流量', content: '40%' }} />
                     </div>
                     <div className="col-md-4 homeCard">
                         <div className="ibox float-e-margins">

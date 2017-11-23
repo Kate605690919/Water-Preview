@@ -7,7 +7,14 @@
         //pv统计
         //localStorage.setItem('viewLog', null);
         if (window.localStorage) {
-            let viewLog = JSON.parse(localStorage.getItem('viewLog'));
+            let viewLog = null;
+            try {
+                viewLog = JSON.parse(localStorage.getItem('viewLog'));
+            } catch (error) {
+                if (error instanceof SyntaxError) {
+                    viewLog = null;
+                }
+            }
             let obj = {};
             if (Array.isArray(viewLog)) {
                 for (let i = 0; i < viewLog.length; i++) {
@@ -51,7 +58,6 @@
     render() {
         if (this.state.detail) {
             let { ara, flowmeter, status } = this.state.detail;
-            debugger;
             let analysis = this.state.analysis;
             this.props.header.title[1].content = `设备详情(${flowmeter.FM_Code} ${flowmeter.FM_Description} ${dateFormat(flowmeter.FM_FlowCountLast, 2)})`
             return (

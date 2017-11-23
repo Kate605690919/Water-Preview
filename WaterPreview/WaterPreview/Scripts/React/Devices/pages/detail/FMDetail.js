@@ -7,7 +7,14 @@
         //pv统计
         //localStorage.setItem('viewLog', null);
         if (window.localStorage) {
-            let viewLog = JSON.parse(localStorage.getItem('viewLog'));
+            let viewLog = null;
+            try {
+                viewLog = JSON.parse(localStorage.getItem('PMViewLog'));
+            } catch (error) {
+                if (error instanceof SyntaxError) {
+                    viewLog = null;
+                }
+            }
             let obj = {};
             if (Array.isArray(viewLog)) {
                 for (let i = 0; i < viewLog.length; i++) {
@@ -30,7 +37,7 @@
             } else {
                 viewLog = [{ uid: _this._uid.substr(4), count: 1 }];
             }
-            localStorage.setItem('viewLog', JSON.stringify(viewLog));
+            localStorage.setItem('PMViewLog', JSON.stringify(viewLog));
         }
         //利用sessionstorage减少和后台的请求
         fetch(`/PressureMeter/GetPressureDetail`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body: _this._uid }).then((response) => {
@@ -51,20 +58,20 @@
     }
     render() {
         if (this.state.detail) {
-            let { ara, flowmeter, status } = this.state.detail;
+            let { ara, pressuremeter, status } = this.state.detail;
             debugger;
             let analysis = this.state.analysis;
-            this.props.header.title[1].content = `设备详情(${flowmeter.FM_Code} ${flowmeter.FM_Description} ${dateFormat(flowmeter.FM_FlowCountLast, 2)})`
+            this.props.header.title[1].content = `设备详情(${pressuremeter.PM_Code} ${pressuremeter.PM_Description} ${dateFormat(pressuremeter.PM_CountLast, 2)})`
             return (
                 <div className="wrapper wrapper-content animated fadeInRight">
                     <div className="ibox float-e-margins">
                         <div className="ibox-title" style={{ position: 'relative', zIndex: '999' }}>
                             <Header header={this.props.header} />
                             <div className="battery-group" style={{ position: 'absolute', right: 0, display: 'flex' }}>
-                                <Battery electricity={this.state.detail.status.FMS_MainBatteryStatus} content={'主电源'} />
-                                <Battery electricity={this.state.detail.status.FMS_SecondaryBatteryStatus} content={'备用电源'} />
-                                <Battery electricity={this.state.detail.status.FMS_ModemBatteryStatus} content={'通信电池'} />
-                                <Battery electricity={this.state.detail.status.FMS_AntennaSignal} content={'信号强度'} />
+                                <Battery electricity={status.PMS_MainBatteryStatus} content={'主电源'} />
+                                <Battery electricity={status.PMS_SecondaryBatteryStatus} content={'备用电源'} />
+                                <Battery electricity={status.PMS_ModemBatteryStatus} content={'通信电池'} />
+                                <Battery electricity={status.PMS_AntennaSignal} content={'信号强度'} />
                             </div>
                         </div>
                         <div className="ibox-content">
@@ -108,4 +115,4 @@ const mapStateToProps = (state) => {
         header: state.deviceDetail.header
     };
 };
-Detail = ReactRedux.connect(mapStateToProps)(Detail);
+PMDetail = ReactRedux.connect(mapStateToProps)(PMDetail);

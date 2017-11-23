@@ -93,7 +93,7 @@ const DeviceInfo = {
                 {
                     "data": "pressuremeter.PM_Code", "title": "压力计编码",
                     render: function (data, type, full, meta) {
-                        return '<a href="#/pressuremeter/detail/uid=' + full.pressuremeter.PM_UId + '">' + data + '</a>';
+                        return '<a href="#/pressuremeter/detail/pmUid=' + full.pressuremeter.PM_UId + '">' + data + '</a>';
                     }
                 },
                 { "data": "pressuremeter.PM_Description", "defaultContent": "未知", "title": "描述" },
@@ -526,11 +526,7 @@ ReactDOM.render(
                 <Route path="devices" component={DeviceApp}>
                     <IndexRoute component={Devices}></IndexRoute>
                     <Route path="/flowmeter/detail/:uid" component={Detail}></Route>
-                    <Route path="/pressuremeter/detail/:uid" component={Detail}></Route>
-                </Route>
-                <Route path="pressuremeter" component={DeviceApp}>
-                    <IndexRoute component={Devices}></IndexRoute>
-                    <Route path="detail/:uid" component={Detail}></Route>
+                    <Route path="/pressuremeter/detail/:uid" component={PMDetail}></Route>
                 </Route>
                 <Route path="feedback" component={FeedBackApp}></Route>
             </Route>
