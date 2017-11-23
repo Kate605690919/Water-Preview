@@ -1,6 +1,6 @@
 ﻿class LocalStorage {
     constructor() {
-        if (window.localStorage) {
+        if (!window.localStorage) {
             alert('您的浏览器不支持localStorage，为了更流畅的体验，请您使用更高版本的浏览器');
             return this.enable = false;
         }
@@ -17,10 +17,10 @@
         }
     }
 }
-let $sessionStorage = new LocalStorage;
+let $localStorage = new LocalStorage;
 class SessionStorage {
     constructor() {
-        if (window.sessionStorage) {
+        if (!window.sessionStorage) {
             alert('您的浏览器不支持sessionStorage，为了更流畅的体验，请您使用更高版本的浏览器');
             return this.enable = false;
         }

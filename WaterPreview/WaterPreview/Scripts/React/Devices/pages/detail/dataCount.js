@@ -25,7 +25,8 @@
         var startDate = $("input[name='start']")[0].value;
         var endDate = $("input[name='end']")[0].value;
         let _this = this;
-        fetch(`/flowmeter/currentData`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body: `${_this._uid}&startDt=${startDate}&endDt=${endDate}` }).then((response) => {
+        //fetch(`/flowmeter/currentData`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body: `${_this._uid}&startDt=${startDate}&endDt=${endDate}` }).then((response) => {
+        fetch(_this.props.url, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body: `${_this._uid}&startDt=${startDate}&endDt=${endDate}` }).then((response) => {
             if (response.status !== 200) {
                 throw new Error('Fail to get response with status ' + response.status);
             }
@@ -45,6 +46,7 @@
     //去空值？
     render() {
         this.props.tableInfo.data = this.state.data;
+        console.log(this.state.data);
         return (
             <div className="ibox-content" style={{ borderColor: 'transparent' }}>
                 <div className="row" id="dataStat" >
@@ -60,11 +62,11 @@
                 </div>
                 {this.state.check ? (<div className="row">
                     <div className="col-md-12">
-                        {this.state.echartData ? (<Table tableInfo={this.props.tableInfo} />) : <h3 style={{ textAlign: 'center' }}>暂无数据</h3>}
+                        {this.state.echartData ? (<Table tableInfo={this.props.tableInfo} />) : <h3 style={{ textAlign: 'center' }}>正在加载中...</h3>}
                     </div>
                 </div>) : (<div className="row">
                     <div className="col-md-12">
-                        {this.state.echartData ? (<EchartsLine data={this.state.data} />) : <h3 style={{ textAlign: 'center' }}>暂无数据</h3>}
+                            {this.state.echartData ? (<EchartsLine data={this.state.data} />) : <h3 style={{ textAlign: 'center' }}>正在加载中...</h3>}
                     </div>
                 </div>)
                 }
@@ -72,11 +74,5 @@
         );
     }
 }
-const mapStateToProps = (state) => {
-    return {
-        tableInfo: state.deviceDetail.dataCount.tableInfo
-    };
-};
-DataCount = ReactRedux.connect(mapStateToProps)(DataCount);
 
 //<Table tableInfo={this.props.tableInfo} />

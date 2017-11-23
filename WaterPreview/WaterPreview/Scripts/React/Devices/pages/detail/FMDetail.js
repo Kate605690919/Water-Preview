@@ -40,13 +40,13 @@
             localStorage.setItem('PMViewLog', JSON.stringify(viewLog));
         }
         //利用sessionstorage减少和后台的请求
-        fetch(`/PressureMeter/GetPressureDetail`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body: _this._uid }).then((response) => {
+        fetch(`/PressureMeter/Detail`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body: _this._uid }).then((response) => {
             if (response.status !== 200) {
                 throw new Error('Fail to get response with status ' + response.status);
             }
             response.json().then((res) => {
-                _this.setState({ detail: res });
-                $.get(`/PressureMeter/PressureAnalysis?${_this._uid}&time=${dateFormat(res.flowmeter.FM_FlowCountLast, 2)}`, function (data) {
+                _this.setState({ detail: res[0] });
+                $.get(`/PressureMeter/PressureAnalysis?${_this._uid}&time=${dateFormat(res[0].pressuremeter.PM_CountLast, 2)}`, function (data) {
                     _this.setState({ analysis: data });
                 });
             }).catch((error) => {
@@ -59,7 +59,6 @@
     render() {
         if (this.state.detail) {
             let { ara, pressuremeter, status } = this.state.detail;
-            debugger;
             let analysis = this.state.analysis;
             this.props.header.title[1].content = `设备详情(${pressuremeter.PM_Code} ${pressuremeter.PM_Description} ${dateFormat(pressuremeter.PM_CountLast, 2)})`
             return (
@@ -94,10 +93,10 @@
                                 </ul>
                                 <div className="tab-content">
                                     <div id="tab-1" className="tab-pane active">
-                                        <DataCount uid={this.props.params.uid} />
+                                        <DataCount uid={this.props.params.uid} url="/PressureMeter/GetPressureDetail" tableInfo={this.props.tableInfo} />
                                     </div>
                                     <div id="tab-2" className="tab-pane">
-                                        <DataAnalysis uid={this.props.params.uid} />
+                                        <DataAnalysis uid={this.props.params.uid} url="/PressureMeter/RecentPressureData" />
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +111,8 @@
 }
 const mapStateToProps = (state) => {
     return {
-        header: state.deviceDetail.header
+        header: state.deviceDetail.header,
+        tableInfo: state.deviceDetail.FMDetail.dataCount.tableInfo
     };
 };
 PMDetail = ReactRedux.connect(mapStateToProps)(PMDetail);

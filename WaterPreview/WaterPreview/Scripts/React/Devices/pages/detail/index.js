@@ -75,13 +75,13 @@
                         <div className="ibox-content">
                             <div className="row" id="dataAnalysis">
                                 <div className="col-md-3">
-                                    <MiniCard bigH={{ header: '昨日总流量', content: analysis ? analysis.lastdaytotal : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.lastdayproportion}%` : '加载中...' }} />
+                                    <MiniCard bigH={{ header: '昨日总流量', content: analysis ? analysis.lastday_flow : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.lastday_flow_proportion}` : '加载中...' }} />
                                 </div>
                                 <div className="col-md-3">
-                                    <MiniCard bigH={{ header: '上月总流量', content: analysis ? analysis.monthflow : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.result}%` : '加载中...' }} />
+                                    <MiniCard bigH={{ header: '上月总流量', content: analysis ? analysis.month_flow : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.month_flow_proportion}` : '加载中...' }} />
                                 </div>
                                 <div className="col-md-6">
-                                    <MiniCard bigH={{ header: '昨日凌晨2点-4点流量均值', content: analysis ? analysis.lastday : '加载中...' }} smallH={{ header: '夜间用水量*24*30/总用水量', content: analysis ? `${analysis.nightproportion}%` : '加载中...' }} />
+                                    <MiniCard bigH={{ header: '昨日凌晨2点-4点流量均值', content: analysis ? analysis.night_flow : '加载中...' }} smallH={{ header: '夜间用水量*24*30/总用水量', content: analysis ? `${analysis.night_flow_proportion}` : '加载中...' }} />
                                 </div>
                             </div>
 
@@ -92,10 +92,10 @@
                                 </ul>
                                 <div className="tab-content">
                                     <div id="tab-1" className="tab-pane active">
-                                        <DataCount uid={this.props.params.uid} />
+                                        <DataCount uid={this.props.params.uid} url="/flowmeter/currentData" />
                                     </div>
                                     <div id="tab-2" className="tab-pane">
-                                        <DataAnalysis uid={this.props.params.uid} />
+                                        <DataAnalysis uid={this.props.params.uid} url="/flowmeter/RecentFlowData" />
                                     </div>
                                 </div>
                             </div>

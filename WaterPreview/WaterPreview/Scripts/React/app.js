@@ -150,6 +150,20 @@ const DeviceInfo = {
         }
     },
     deviceDetail: {
+        FMDetail: {
+            dataCount: {
+                tableInfo: {
+                    el: '#wrapper-detailTable',
+                    columns: [
+                        { "title": "抄表时间", data: "PH_Time" },
+                        { "title": "时点值(Mpa)	", data: "PH_RealTimeValue" },
+                        { "title": "最小(Mpa)", data: "PH_MinValue" },
+                        { "title": "最大(Mpa)", data: "PH_MaxValue" },
+                        { "title": "平均(Mpa)", data: "PH_AverageValue" }
+                    ]
+                },
+            }
+        },
         header: {
             title: [{
                 href: '/Devices', content: '设备列表'

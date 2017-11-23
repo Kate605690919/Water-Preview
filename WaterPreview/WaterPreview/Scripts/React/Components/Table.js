@@ -8,9 +8,7 @@
             this.props.tableInfo
         );
     }
-    shouldComponentUpdate() {
-        debugger;
-    }
+
     componentWillUpdate() {
         initTable(
             this.props.tableInfo
