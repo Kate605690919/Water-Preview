@@ -4,8 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WaterPreview.Base;
+using WaterPreview.Other;
+using WaterPreview.Redis;
 using WaterPreview.Service;
 using WaterPreview.Service.Interface;
+using WaterPreview.Service.RedisContract;
 
 namespace WaterPreview.Controllers
 {
@@ -27,6 +30,19 @@ namespace WaterPreview.Controllers
 
             this.AddDisposableObject(pmonthservice);
             pressuremonth_service = pmonthservice;
+        }
+
+        /// <summary>
+        /// 压力计列表数据
+        /// </summary>
+        /// <param name="pmuid"></param>
+        /// <returns></returns>
+        public JsonResult Detail(Guid pmuid)
+        {
+            JsonResult result = new JsonResult();
+            Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => (pressuremeter_service.GetPressureMeterStatusAndArea());
+            result.Data = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea, UserContext.allPressureMeterStatusAndArea).Where(p => p.pressuremeter.PM_UId == pmuid).ToList();
+            return result;
         }
 
         /// <summary>
