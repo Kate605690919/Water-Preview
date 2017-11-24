@@ -1,9 +1,4 @@
 ﻿class Fetch {
-    //method str 默认'GET'
-    //data str(序列化的)
-    //url str 纯url，不带参数
-    //storage obj {type: 'session'||'local', name: '...'}
-    //callBack func 回调函数(成功回调，失败回调)
     /**
      * 
      * @param {string} method 默认'GET'
@@ -14,6 +9,7 @@
      * @param {function} callBackError 失败回调
      */
     fetch({ method = 'GET', data, url, storage, callBackSuccess, callBackError }) {
+        debugger;
         let headers = null;
         if (method === 'GET') {
             url = `${url}?${data}`;
@@ -58,3 +54,4 @@
         }
     }
 }
+let $Fetch = new Fetch();

@@ -108,7 +108,7 @@
         return (
             <div className="ibox MiniCard">
                 <div className="ibox-title" style={{padding: '0 10px', minHeight: '30px'}}>
-                    <h5 className="no-margin" style={{ lineHeight: '30px' }}>{this.props.chart ? '暂无' : this.props.bigH.header}</h5>
+                    <h5 className="no-margin" style={{ lineHeight: '30px' }}>{this.props.bigH.header}</h5>
                     <h5 className="pull-right no-margin" style={{ lineHeight: '30px'}}>{this.props.bigH.content}</h5>
                 </div>
                 <div className="ibox-content" style={{ padding: '10px 15px' }}>
