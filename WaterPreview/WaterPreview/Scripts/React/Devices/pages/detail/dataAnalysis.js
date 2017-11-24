@@ -17,7 +17,6 @@
     init(e) {
         const _this = e.data;
         //$.get(`/flowmeter/RecentFlowData?${_this._uid}`, function (data) {
-        debugger;
         $.post(_this.props.url, _this._uid, function (data) {
             _this.setState({ detail: data });
         });

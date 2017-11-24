@@ -47,6 +47,8 @@
             response.json().then((res) => {
                 _this.setState({ detail: res[0] });
                 $.get(`/PressureMeter/PressureAnalysis?${_this._uid}&time=${dateFormat(res[0].pressuremeter.PM_CountLast, 2)}`, function (data) {
+                   
+                    console.log(data);
                     _this.setState({ analysis: data });
                 });
             }).catch((error) => {
@@ -76,13 +78,13 @@
                         <div className="ibox-content">
                             <div className="row" id="dataAnalysis">
                                 <div className="col-md-3">
-                                    <MiniCard bigH={{ header: '昨日总流量', content: analysis ? analysis.lastdaytotal : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.lastdayproportion}%` : '加载中...' }} />
+                                    <MiniCard bigH={{ header: '昨日总流量', content: analysis ? analysis.lastdayAvg : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.lastdayAvg_proportion }%` : '加载中...' }} />
                                 </div>
                                 <div className="col-md-3">
-                                    <MiniCard bigH={{ header: '上月总流量', content: analysis ? analysis.monthflow : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.result}%` : '加载中...' }} />
+                                    <MiniCard bigH={{ header: '上月总流量', content: analysis ? analysis.lastmonthAvg : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.lastmonthAvg_proportion}%` : '加载中...' }} />
                                 </div>
                                 <div className="col-md-6">
-                                    <MiniCard bigH={{ header: '昨日凌晨2点-4点流量均值', content: analysis ? analysis.lastday : '加载中...' }} smallH={{ header: '夜间用水量*24*30/总用水量', content: analysis ? `${analysis.nightproportion}%` : '加载中...' }} />
+                                    <MiniCard bigH={{ header: '昨日凌晨2点-4点流量均值', content: analysis ? analysis.lastmonthAvg_proportion : '加载中...' }} smallH={{ header: '夜间用水量*24*30/总用水量', content: analysis ? `${analysis.lastnightAvg_proportion}%` : '加载中...' }} />
                                 </div>
                             </div>
 
