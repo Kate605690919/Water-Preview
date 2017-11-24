@@ -10,7 +10,7 @@ namespace WaterPreview.Service.Service
 {
     public class FlowHourService:BaseService<FlowHour_t>,IFlowHourService
     {
-        public List<FlowHour_t> GetFlowHourByFMUif(Guid fmUid)
+        public List<FlowHour_t> GetFlowHourByFMUid(Guid fmUid)
         {
             dpnetwork_data_20160419_NewEntities db = new dpnetwork_data_20160419_NewEntities();
             var fhlist = db.FlowHour_t.Where(p => p.Flh_FlowMeterUid == fmUid);

@@ -19,10 +19,11 @@ namespace WaterPreview.Controllers
         private static IFlowMeterService flowmeter_Service;
         private static IFlowMonthService flowmonth_Service;
         private static IFlowHourService flowhour_Service;
+        private static IFlowDayService flowday_Service;
 
 
 
-        public FlowMeterController(IFlowMeterService fmservice,IFlowMonthService fmonthservice,IFlowHourService fhourservice)
+        public FlowMeterController(IFlowMeterService fmservice,IFlowMonthService fmonthservice,IFlowHourService fhourservice,IFlowDayService fdayservice)
         {
             this.AddDisposableObject(fmservice);
             flowmeter_Service = fmservice;
@@ -32,6 +33,9 @@ namespace WaterPreview.Controllers
 
             this.AddDisposableObject(fhourservice);
             flowhour_Service = fhourservice;
+
+            this.AddDisposableObject(fdayservice);
+            flowday_Service = fdayservice;
         }
 
         /// <summary>
@@ -144,6 +148,7 @@ namespace WaterPreview.Controllers
         public JsonResult GetMostVisitsFlowMeter(string[] fmUids)
         {
             JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 
             List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
             User_t account = UserContext.GetCurrentAccount();
@@ -199,6 +204,77 @@ namespace WaterPreview.Controllers
             return result;
         }
 
-        
+        /// <summary>
+        /// 输出昨日流量变化幅度从大到小排行的流量计列表
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetLastDayFlowList()
+        {
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
+            User_t account = new User_t();
+            if (account.Usr_Type == 3)
+            {
+                List<FlowMeter_t> fmlist_customer = flowmeter_Service.GetFlowMetersByUserUid(account.Usr_UId);
+                if (fmlist_customer.Count > 0)
+                {
+                    fmdatalist = GetAnalysisData(fmlist_customer).OrderByDescending(p=>p.lastday_flow_proportion).Take(3).ToList();
+                    //昨日流量趋势占比降序排列，前三
+                }
+            }
+            else
+            {
+                List<FlowMeter_t> fmlist = flowmeter_Service.GetAllFlowMeter();
+                fmdatalist = GetAnalysisData(fmlist).OrderByDescending(p => p.lastday_flow_proportion).Take(3).ToList();
+            }
+            
+            string dataresult = ToJson<List<FlowMeterData>>.Obj2Json<List<FlowMeterData>>(fmdatalist).Replace("\\\\", "");
+            dataresult = dataresult.Replace("\\\\", "");
+
+            result.Data = dataresult;  
+            return result;
+        }
+
+        public JsonResult GetAreaAvgFlow()
+        {
+            //List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
+            List<AreaAnalysisData> areadatalist = new List<AreaAnalysisData>();
+            User_t user = new User_t();
+            if (user.Usr_Type == 3)
+            {
+                Guid arealist = UserContext.GetAreaByUserUid(user.Usr_UId);
+                List<FlowMeter_t> fmlist = new List<FlowMeter_t>();
+                foreach (var item in fmlist)
+                {
+                    int daytime = int.Parse(((DateTime)item.FM_FlowCountLast).ToString("yyyyMMdd"));
+                    List<FlowDay_t> flowday = flowday_Service.GetAllFlowDayByFMUid(item.FM_UId).Where(p => p.Fld_Time == daytime).ToList();
+                    if(flowday.Count!=0){
+                        decimal areaAvg = (decimal)flowday.FirstOrDefault().Fld_TotalValue;
+                    }
+                    
+                }
+            }
+            result.Data = areadatalist;
+
+            return result;
+        }
+
+        public List<FlowMeterData> GetAnalysisData(List<FlowMeter_t> fmlist)
+        {
+            List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
+
+            foreach (var item in fmlist)
+            {
+                FlowMeterData fmdata = flowmeter_Service.GetAnalysisByFlowMeter(item, (DateTime)item.FM_FlowCountLast);
+                //暂时先用数据库中设备最新的时间来获取对应的分析数据,后续将时间调整为实时的日期
+                fmdatalist.Add(fmdata);
+            }
+            return fmdatalist;
+        }
+
     }
 }

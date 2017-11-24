@@ -125,5 +125,52 @@ namespace WaterPreview.Controllers
             result.Data = dataresult;
             return result;
         }
+
+        /// <summary>
+        /// 输出昨日水压变化幅度从大到小排行的水压计列表
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetLastDayPressureList()
+        {
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            List<PressureMeterData> fmdatalist = new List<PressureMeterData>();
+            User_t account = new User_t();
+            if (account.Usr_Type == 3)
+            {
+                //List<FlowMeter_t> fmlist_customer = pressuremeter_service.GetAllPressureMeter();
+                //if (fmlist_customer.Count > 0)
+                //{
+                //    fmdatalist = GetAnalysisData(fmlist_customer).OrderByDescending(p => p.lastday_flow_proportion).Take(3).ToList();
+                //    //昨日流量趋势占比降序排列，前三
+                //}
+
+            }
+            else
+            {
+                List<PressureMeter_t> pmlist = pressuremeter_service.GetAllPressureMeter();
+                List<PressureMeterData> pmdata = GetAnalysisData(pmlist);
+                fmdatalist = pmdata.OrderByDescending(p => p.lastday_pressure_proportion).Take(3).ToList();
+            }
+
+            string dataresult = ToJson<List<PressureMeterData>>.Obj2Json<List<PressureMeterData>>(fmdatalist).Replace("\\\\", "");
+            dataresult = dataresult.Replace("\\\\", "");
+
+            result.Data = dataresult;
+            return result;
+        }
+
+        public List<PressureMeterData> GetAnalysisData(List<PressureMeter_t> pmlist)
+        {
+            List<PressureMeterData> pmdatalist = new List<PressureMeterData>();
+
+            foreach (var item in pmlist)
+            {
+                PressureMeterData pmdata = pressuremeter_service.GetAnalysisByPressureMeter(item, (DateTime)item.PM_CountLast);
+                //暂时先用数据库中设备最新的时间来获取对应的分析数据,后续将时间调整为实时的日期
+                pmdatalist.Add(pmdata);
+            }
+            return pmdatalist;
+        }
     }
 }
