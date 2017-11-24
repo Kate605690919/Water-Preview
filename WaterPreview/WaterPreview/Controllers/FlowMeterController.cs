@@ -55,7 +55,7 @@ namespace WaterPreview.Controllers
             else
             {
                 FlowMeter_t fm = flowmeter_Service.GetAllFlowMeter().Where(p => p.FM_UId == uid).FirstOrDefault();
-                var fmanalysis = flowmeter_Service.GetAnalysisByFlowMeter(fm);
+                var fmanalysis = flowmeter_Service.GetAnalysisByFlowMeter(fm,time);
                 result.Data = fmanalysis;
             }
             
@@ -63,36 +63,6 @@ namespace WaterPreview.Controllers
             return result;
         }
 
-
-        //public IEnumerable<FlowHour_t> GetdayFlowByUidAndDate(Guid uid, DateTime date)
-        //{
-        //    List<FlowHour_t> OneDay = new List<FlowHour_t>();
-        //    int year = date.Year;
-        //    int month = date.Month;
-        //    //int day = new DateTime(year, month, 1).AddDays(-1).Day;
-
-        //    List<FlowHour_t> result = new List<FlowHour_t>();
-        //    var time = int.Parse(date.ToString("yyyyMMdd"));
-        //    var lastmonth = date.AddMonths(-1).AddDays(1);
-        //    var days = date.Subtract(lastmonth).Days;
-
-        //    //var starttime = int.Parse(lastmonth.ToString("yyyyMMdd"));
-
-        //    dpnetwork_data_20160419_NewEntities db = new dpnetwork_data_20160419_NewEntities();
-
-        //    List<FlowHour_t> fhlist = db.FlowHour_t.Where(p => p.Flh_FlowMeterUid == uid).ToList();
-        //    for (var i = 0; i <= days - 1; i++)
-        //    {
-        //        //resultt.AddRange(db.FlowHour_t.Where(p => p.Flh_FlowMeterUid == uid && p.Flh_Time >= (time * 100 + 9) && p.Flh_Time <= ((time + 1) * 100 + 9)).OrderBy(p => p.Flh_Time).ToList().Where(p => p.Flh_Time % 100 >= 2 && p.Flh_Time % 100 <= 4));
-        //        var day = int.Parse(lastmonth.AddDays(i).ToString("yyyyMMdd"));
-        //        var secday = int.Parse(lastmonth.AddDays(i + 1).ToString("yyyyMMdd"));
-        //        List<FlowHour_t> fhPerHour = fhlist.Where(p => p.Flh_Time >= (day * 100 + 9) && p.Flh_Time <= (secday * 100 + 9)).ToList();
-        //        result.AddRange(fhPerHour);
-
-        //    }
-        //    return result;
-
-        //}
 
         /// <summary>
         /// 
@@ -167,7 +137,7 @@ namespace WaterPreview.Controllers
         }
 
         /// <summary>
-        /// 获取经常访问的流量计分析数据
+        /// 输出经常访问的流量计分析数据
         /// </summary>
         /// <param name="fmUids"></param>
         /// <returns></returns>
@@ -176,18 +146,59 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
 
             List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
-            for (var i = 0; i < fmUids.Length; i++)
+            User_t account = UserContext.GetCurrentAccount();
+            if (fmUids.Length >= 3)
             {
-                FlowMeter_t fm = flowmeter_Service.GetAllFlowMeter().Where(p=>p.FM_UId==Guid.Parse(fmUids[i])).FirstOrDefault();
-                var fmdata = flowmeter_Service.GetAnalysisByFlowMeter(fm);
-                fmdatalist.Add(fmdata);
+                for (var i = 0; i < fmUids.Length; i++)
+                {
+                    FlowMeter_t fm = flowmeter_Service.GetAllFlowMeter().Where(p => p.FM_UId == Guid.Parse(fmUids[i])).FirstOrDefault();
+                    var fmdata = flowmeter_Service.GetAnalysisByFlowMeter(fm, (DateTime)fm.FM_FlowCountLast);
+                    fmdatalist.Add(fmdata);
+                }
             }
+            else
+            {
+                if(account.Usr_Type==3){
+                    List<FlowMeter_t> fmlist = flowmeter_Service.GetFlowMetersByUserUid(account.Usr_UId);
+                    if (fmlist.Count>0&&fmlist.Count<3)
+                    {
+                        for (var i = 0; i < fmlist.Count; i++)
+                        {
+                            FlowMeter_t fm = flowmeter_Service.GetAllFlowMeter().Where(p => p.FM_UId == fmlist[i].FM_UId).FirstOrDefault();
+                            var fmdata = flowmeter_Service.GetAnalysisByFlowMeter(fm, (DateTime)fm.FM_FlowCountLast);
+                            fmdatalist.Add(fmdata);
+                        }
+                    }
+                    else if (fmlist.Count > 3)
+                    {
+                        List<FlowMeter_t> new_fmlist = fmlist.Take(3).ToList();
+                        for (var i = 0; i < new_fmlist.Count; i++)
+                        {
+                            FlowMeter_t fm = flowmeter_Service.GetAllFlowMeter().Where(p => p.FM_UId == new_fmlist[i].FM_UId).FirstOrDefault();
+                            var fmdata = flowmeter_Service.GetAnalysisByFlowMeter(fm, (DateTime)fm.FM_FlowCountLast);
+                            fmdatalist.Add(fmdata);
+                        }
+                    }
+                }
+                else
+                {
+                    List<FlowMeter_t> fmlist = flowmeter_Service.GetAllFlowMeter().Take(3).ToList();
+                    for (var i = 0; i < fmlist.Count; i++)
+                    {
+                        FlowMeter_t fm = flowmeter_Service.GetAllFlowMeter().Where(p => p.FM_UId == fmlist[i].FM_UId).FirstOrDefault();
+                        var fmdata = flowmeter_Service.GetAnalysisByFlowMeter(fm, (DateTime)fm.FM_FlowCountLast);
+                        fmdatalist.Add(fmdata);
+                    }
+                }
+            }
+            
             string dataresult = ToJson<List<FlowMeterData>>.Obj2Json<List<FlowMeterData>>(fmdatalist).Replace("\\\\", "");
             dataresult = dataresult.Replace("\\\\", "");
 
-            result.Data = dataresult;
-                //flowmeter_Service
+            result.Data = dataresult;               
             return result;
         }
+
+        
     }
 }

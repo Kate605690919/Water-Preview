@@ -85,62 +85,44 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            var lastMonth = int.Parse(time.AddMonths(-1).ToString("yyyyMM"));//当前时间
-            var beforelastMonth = int.Parse(time.AddMonths(-2).ToString("yyyyMM"));
-
-            var lastdayPressure = GetDayPressureByUid(pmuid, time);
-            var lastday_AvgData = lastdayPressure.Count==0?0:lastdayPressure.Select(p => p.PH_AverageValue).Average();
-
-            var beforelastday = GetDayPressureByUid(pmuid, time.AddDays(-1));
-            var beforelastday_AvgData = beforelastday.Count==0?0:beforelastday.Select(p => p.PH_AverageValue).Average();
-            
-            var lastmonth_Avg= pressuremonth_service.GetAllPressureMonth().Where(p=>p.PM_PressureMeterUid==pmuid&&p.PM_Time==lastMonth).ToList();
-            var lastmonth_AvgData = lastmonth_Avg.Count == 0 ? 0 : lastmonth_Avg.Select(p => p.PM_AverageValue).First();
-            
-            var beforelastmonth_Avg =pressuremonth_service.GetAllPressureMonth().Where(p=>p.PM_PressureMeterUid==pmuid&&p.PM_Time==beforelastMonth).ToList();
-            var beforelastmonth_AvgData = beforelastmonth_Avg.Count == 0 ? 0 : beforelastmonth_Avg.Select(p => p.PM_AverageValue).First();
-
-            var lastnight_Avg = lastdayPressure.Where(p => p.PH_Time % 100 >= 2 && p.PH_Time % 100 <= 4).ToList();
-            var lastnight_AvgData = lastnight_Avg.Count == 0 ? 0 : lastnight_Avg.Select(p => p.PH_AverageValue).Average();
-
-            result.Data = new 
-            {
-                //昨日水压平均值
-                lastdayAvg = Math.Round(lastday_AvgData,4),
-                //昨日水压平均值变化趋势
-                lastdayAvg_proportion = beforelastday_AvgData==0?"无法计算":Math.Round((lastday_AvgData-beforelastday_AvgData)/beforelastday_AvgData,4).ToString(),
-                //上月水压平均值
-                lastmonthAvg = lastmonth_AvgData,
-                //上月水压平均值变化趋势
-                lastmonthAvg_proportion = beforelastmonth_AvgData==0?"无法计算":Math.Round((lastmonth_AvgData-beforelastmonth_AvgData)/beforelastmonth_AvgData,4)+"",
-                //昨夜凌晨2-4点水压均值
-                lastnightAvg = lastnight_AvgData,
-                //昨夜凌晨2-4点水压均值/当天水压均值
-                lastnightAvg_proportion = lastday_AvgData==0?"无法计算":Math.Round((lastnight_AvgData-lastday_AvgData)/lastday_AvgData,4)+""
-
-            };
+            PressureMeter_t pm = pressuremeter_service.GetAllPressureMeter().Where(p=>p.PM_UId==pmuid).FirstOrDefault();
+            result.Data = pressuremeter_service.GetAnalysisByPressureMeter(pm,time);
             return result;
         }
 
+ 
         /// <summary>
-        /// 获取time的前天9点到昨天8点的各小时的水压数据
+        /// 输出经常访问的水压计分析数据
         /// </summary>
-        /// <param name="pmuid"></param>
-        /// <param name="time"></param>
+        /// <param name="pmUids"></param>
         /// <returns></returns>
-        public List<PressureHour_t> GetDayPressureByUid(Guid pmuid,DateTime time){
-            List<PressureHour_t> phlist = new List<PressureHour_t>();
-
-            var endday = int.Parse(time.AddDays(-1).ToString("yyyyMMdd"));
-            var startday = int.Parse(time.AddDays(-2).ToString("yyyyMMdd"));
-            phlist = pressurehour_service.GetPressureHourByUid(pmuid).Where(p => p.PH_Time >= (startday * 100 + 9)&&p.PH_Time<(endday*100+9)).ToList();
-            return phlist;
-        }
-
         public JsonResult GetMostVisitsPressureMeter(string[] pmUids)
         {
             JsonResult result = new JsonResult();
-
+            User_t account = UserContext.GetCurrentAccount();
+            List<PressureMeterData> pmdatalist = new List<PressureMeterData>();
+            if (pmUids.Length == 0&&account.Usr_Type!=3)
+            {
+                List<PressureMeter_t> pmlist = pressuremeter_service.GetAllPressureMeter().Take(2).ToList();
+                for (int i = 0; i < 2; i++)
+                {
+                    PressureMeter_t pm = pressuremeter_service.GetAllPressureMeter().Where(p => p.PM_UId == pmlist[i].PM_UId).FirstOrDefault();
+                    var pmdata = pressuremeter_service.GetAnalysisByPressureMeter(pm, (DateTime)pm.PM_CountLast);
+                    pmdatalist.Add(pmdata);
+                }
+            }
+            else if (pmUids.Length!=0)
+            {
+                for (int i = 0; i < pmUids.Length; i++)
+                {
+                    PressureMeter_t pm = pressuremeter_service.GetAllPressureMeter().Where(p => p.PM_UId == Guid.Parse(pmUids[i])).FirstOrDefault();
+                    var pmdata = pressuremeter_service.GetAnalysisByPressureMeter(pm, (DateTime)pm.PM_CountLast);
+                    pmdatalist.Add(pmdata);
+                }
+            }
+            string dataresult = ToJson<List<PressureMeterData>>.Obj2Json<List<PressureMeterData>>(pmdatalist).Replace("\\\\", "");
+            dataresult = dataresult.Replace("\\\\", "");
+            result.Data = dataresult;
             return result;
         }
     }

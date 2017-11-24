@@ -27,5 +27,17 @@ namespace WaterPreview.Service.RedisContract
 
     }
 
+    public class PressureMeterData
+    {
+        public PressureMeter_t pressuremeter { get; set; }
+        public string lastday_pressure { get; set; }
+        public string lastday_pressure_proportion { get; set; }
+        public string night_pressure { get; set; }
+        public string night_pressure_proportion { get; set; }
+        public string month_pressure { get; set; }
+        public string month_pressure_proportion { get; set; }
+
+    }
+
 
 }

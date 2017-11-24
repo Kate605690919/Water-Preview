@@ -9,6 +9,7 @@ namespace WaterPreview.Service.Interface
 {
     public interface IFlowMeterService
     {
+
         List<FlowMeter_t> GetAllFlowMeter();
 
         List<FlowMeterStatusAndArea> GetFlowMeterStatusAndArea();
@@ -17,6 +18,7 @@ namespace WaterPreview.Service.Interface
 
         List<FlowMeterData> GetFlowMetersDataByUserUid(User_t account);
 
-        FlowMeterData GetAnalysisByFlowMeter(FlowMeter_t fm);
+        FlowMeterData GetAnalysisByFlowMeter(FlowMeter_t fm,DateTime datetime);
+
     }
 }

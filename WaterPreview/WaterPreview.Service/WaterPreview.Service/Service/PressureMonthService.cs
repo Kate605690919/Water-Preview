@@ -14,5 +14,11 @@ namespace WaterPreview.Service.Service
         {
             return FindAll();
         }
+
+        public List<PressureMonth_t> GetPressureMonthByPMUid(Guid pmUid)
+        {
+            List<PressureMonth_t> pmlist = FindAll().Where(p => p.PM_PressureMeterUid == pmUid).ToList();
+            return pmlist.Count==0?new List<PressureMonth_t>():pmlist;
+        }
     }
 }

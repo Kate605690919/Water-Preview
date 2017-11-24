@@ -12,5 +12,7 @@ namespace WaterPreview.Service.Interface
         List<PressureMeter_t> GetAllPressureMeter();
 
         List<PressureMeterStatusAndArea> GetPressureMeterStatusAndArea();
+
+        PressureMeterData GetAnalysisByPressureMeter(PressureMeter_t pm, DateTime datetime);
     }
 }

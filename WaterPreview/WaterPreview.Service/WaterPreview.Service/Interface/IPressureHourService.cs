@@ -10,5 +10,6 @@ namespace WaterPreview.Service.Interface
     {
         List<PressureHour_t> GetPressureHourByUid(Guid pmUid);
 
+        List<PressureHour_t> GetDayPressureByUid(Guid pmuid, DateTime time);
     }
 }

@@ -9,5 +9,7 @@ namespace WaterPreview.Service.Interface
     public interface IPressureMonthService
     {
         List<PressureMonth_t> GetAllPressureMonth();
+
+        List<PressureMonth_t> GetPressureMonthByPMUid(Guid pmUid);
     }
 }

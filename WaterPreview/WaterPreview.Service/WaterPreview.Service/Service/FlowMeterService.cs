@@ -41,7 +41,7 @@ namespace WaterPreview.Service.Service
         }
 
         /// <summary>
-        /// 客户获取流量分析数据
+        /// 客户获取最新的流量分析数据
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
@@ -54,7 +54,7 @@ namespace WaterPreview.Service.Service
 
             foreach (var item in fmlist)
             {
-                var fmdata = GetAnalysisByFlowMeter(item);
+                var fmdata = GetAnalysisByFlowMeter(item,(DateTime)item.FM_FlowCountLast);
                 fmdatalist.Add(fmdata);
 
             }
@@ -68,18 +68,18 @@ namespace WaterPreview.Service.Service
         /// </summary>
         /// <param name="fm"></param>
         /// <returns></returns>
-        public FlowMeterData GetAnalysisByFlowMeter(FlowMeter_t fm)
+        public FlowMeterData GetAnalysisByFlowMeter(FlowMeter_t fm,DateTime datetime)
         {
             IFlowHourService fh_service = new FlowHourService();
             IFlowDayService fd_service = new FlowDayService();
             IFlowMonthService flowmonth_Service = new FlowMonthService();
 
                 List<FlowHour_t> fhlist = fh_service.GetDayFlowByUidAndDate(fm.FM_UId, (DateTime)fm.FM_FlowCountLast);
-                DateTime time = (DateTime)fm.FM_FlowCountLast;
-                int timeint = int.Parse(time.ToString("yyyyMM"));
+                //DateTime time = (DateTime)fm.FM_FlowCountLast;
+                int timeint = int.Parse(datetime.ToString("yyyyMM"));
                 //当前日期的前一天
-                var lastdaytime = int.Parse(time.AddDays(-1).ToString("yyyyMMdd"));
-                var beforelastdaytime = int.Parse(time.AddDays(-2).ToString("yyyyMMdd"));
+                var lastdaytime = int.Parse(datetime.AddDays(-1).ToString("yyyyMMdd"));
+                var beforelastdaytime = int.Parse(datetime.AddDays(-2).ToString("yyyyMMdd"));
 
                 //前一天凌晨2-4点流量均值
                 var yerstoday = fhlist.Where(p => p.Flh_Time >= (lastdaytime * 100 + 9) &&
