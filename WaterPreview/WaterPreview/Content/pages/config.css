@@ -1,0 +1,125 @@
+﻿#cogTitle {
+    color: #082b2b;
+    background-color: transparent;
+}
+/*区域详情页*/
+.list-group-item {
+    border-color: #babdba;
+}
+/*修改密码页*/
+/*.ibox-title {
+    margin-left: 14px;
+}*/
+
+.passwordForChange {
+    margin-top: 2em;
+}
+
+.form-group {
+    text-align: center;
+    margin: 2.5em 0;
+}
+
+#passwordOriginal, #passwordNew, #passwordNewAgain {
+    display: inline-block;
+    max-width: 24%;
+    min-width: 260px;
+    border-color: #babdba;
+}
+
+#passwordFormAgain {
+    transform: translateX(-7px);
+}
+
+#passwordBtn {
+    width: auto;
+    text-align: center;
+    border-radius: 5px;
+}
+
+    #passwordBtn > button {
+        margin: 0 7px;
+        border-color: #c1d4be;
+        background-color: #3b3c40;
+        color: #e7e7e7;
+    }
+
+        #passwordBtn > button:hover {
+            background-color: rgba(59,60,64,0.8);
+        }
+
+#againTip {
+    margin: 1em 0px -1em 18px;
+    margin-left: 18px;
+    font-weight: normal;
+    color: #8a1f11;
+}
+
+/*添加页*/
+.wizard > .content > .body {
+    position: relative;
+    width: 100%;
+    padding: 2%;
+    padding-top: 0;
+}
+
+/*steps*/
+.wizard > .content {
+    margin: 0px 0px 10px 0px;
+}
+
+.steps.clearfix {
+    display: none
+}
+
+.wizard > .content > .body label {
+    margin: 0 1em 0 0;
+    font-weight: normal;
+    width: 12%;
+    text-align: right;
+ }
+
+ .wizard > .content > .body input {
+    display: inline-block;
+    text-indent: 2px;
+    border-radius: 3px;
+    max-width: 600px;
+}
+
+.form-control {
+    width: 60%;
+}
+
+.step-content > form > fieldset > .form-group {
+    text-align: left;
+    padding-left: 12%;
+    margin: 1.25em 0;
+}
+
+.wizard > .content > .body input[type="radio"] {
+    line-height: normal;
+    margin: 0 5px;
+}
+/*.areaChooseMap{
+    min-height: 21em;
+    margin-top: 10px;
+}*/
+@media screen and (max-width: 760px) {
+    .wizard > .content > .body label {
+        width: 16%;
+    }
+
+    .step-content > form > fieldset > .form-group {
+        padding-left: 8%;
+    }
+}
+/***********添加页区域选择提示**************/
+.addAeraHelp {
+    color: #049376;
+    margin: 1em 0;
+    text-align: left;
+    margin-left: 20%;
+}
+.step-content > form > fieldset > .form-group:hover .addAeraHelp{
+     opacity: 1;
+}

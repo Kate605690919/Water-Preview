@@ -1,0 +1,101 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/views/shared/_layoutlogin.cshtml";
+}
+@section style{
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(to top left, #3b3c40 , #808080);
+            font-family: 'Microsoft YaHei';
+        }
+        /*#particle-js{
+            z-index: -1;
+        }*/
+        .login-all{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            height: 320px;
+            width: 280px;
+        }
+        .login-body{
+            margin-top: 2.5em; 
+        }
+        h2{
+            color: #fff;
+            font-family: 'Microsoft YaHei';
+        }
+        button{
+            height: 39px;
+            font-size: 14px;
+            color: #ccc;
+            line-height: 1.5;
+            vertical-align: middle;
+            letter-spacing: 2em;
+            text-indent: 2em;
+            text-align: center;
+            background-color: #3b3c40;
+            border-radius: 4px;
+            border: 1px solid #555;
+            max-width: 280px;
+        }
+        button[type=submit]{
+            width: 100%;
+        }
+        button:hover{
+            background-color: #808080;
+        }
+        footer{
+            background-color: transparent;
+            border: none;
+            color: #ccc;
+        }
+    </style>
+}
+<div class="login-box">
+    <div class="login-header">
+        <h2>智慧水务</h2>
+    </div>
+    <div class="login-body">
+        <form method="post" action="/Home/login">
+            <div class="form-group">
+                <input id="userName" class="form-control" type="text" name="userName" placeholder="账户"  minlength="3" required="required"/>
+            </div>
+            <div class="form-group">
+                <input id="passWord" class="form-control" type="password" name="password" placeholder="密码"  minlength="3" required="required"/>
+            </div>
+            <div class="form-group">
+                <button type="submit">登录</button>
+            </div>
+        </form>
+    </div>
+    @*<h2 id="userCheck" style="display: none;"><small>请输入用户名</small></h2>
+    <h2 id="pwCheck" style="display: none;"><small>请输入密码</small></h2>*@
+    @if (ViewBag.Exception)
+    {
+        <h2><small>输入信息有误，请重新输入</small></h2>
+    }
+</div>
+@*@section scripts{
+    <script src="~/Scripts/particles/particles.js"></script> 
+    <script src="~/Scripts/particles/appLogin.js"></script>
+    <script>
+        function Check() {
+            if (document.getElementById(userName).length < 3) {
+                var userChecked = document.getElementById(userCheck);
+                userChecked.style.display = block;
+            }
+            if (document.getElementById(passWord).length < 3) {
+                var pwChecked = document.getElementById(pwCheck);
+                pwChecked.style, display = block;
+            }
+        }
+    </script>
+}*@

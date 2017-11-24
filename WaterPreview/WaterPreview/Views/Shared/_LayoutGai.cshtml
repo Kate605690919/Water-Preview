@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 智慧水务</title>
+    @Styles.Render("~/Content/css")
+    @RenderSection("style",false)
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <!--.navbar-toggle样式用于toggle收缩的内容，即nav-collapse collapse样式所在元素-->
+            <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+                <span class="sr-only">Toggle Navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--确保无论是宽屏还是窄屏，navbar-brand都显示-->
+            <a href="/Home/index" class="navbar-brand">智慧水务</a>
+        </div>
+        <!-- 屏幕宽度小于768px时，div.navbar-responsive-collapse容器里的内容都会隐藏，显示icon-bar图标，当点击icon-bar图标时，再展开。屏幕大于768px时，默认显示。 -->
+        <div class="collapse navbar-collapse navbar-responsive-collapse">
+            <ul class="nav navbar-nav">
+                @*<li><a href="/FlowMeter/index" id="flowMeterTitle"><span class="glyphicon glyphicon-tint"></span>流量计</a></li>*@
+                <li><a href="/PressureMeter/index" id="pressureMeterTitle"><span class="glyphicon glyphicon-dashboard"></span>设备</a></li>
+                <li class="dropdown">
+                    <!--添加二级菜单-->
+                    <a href="#" data-toggle="dropdown" class="drpown-toggle" id="statsTitle"><span class="glyphicon glyphicon-stats"></span>统计表<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">水量统计表</a></li>
+                        <li><a href="#">分区统计表</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <!--添加二级菜单-->
+                    <a href="#" data-toggle="dropdown" class="drpown-toggle" id="cogTitle">
+                        <span class="glyphicon glyphicon-cog"></span>管理<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/Area/index">区域管理</a></li>
+                        <li role="presentation" class="divider"></li>
+                        <li><a href="/Client/Index">客户管理</a></li>
+                        <li><a href="/Staff/Index">职员管理</a></li>
+                        <li><a href="/Roles/Index">职位管理</a></li>
+                        <li><a href="/Permission/Index">权限管理</a></li>
+                        <li><a href="/Home/password">修改密码</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="navbar navbar-nav navbar-right">
+                <li><a href="#"><span class="userLogined">@WaterManage.Core.UserContext.GetCurrentAccount().Name 已登录</span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-refresh"></span>刷新</a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-warning-sign"></span>异常</a></li>
+                <li><a href="/Home/login"><span class="glyphicon glyphicon-log-out"></span>退出</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="container-fluid body-content">
+        @RenderBody()
+        <footer>
+            <p>&copy; @DateTime.Now.Year - 智慧水务</p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
