@@ -3440,6 +3440,7 @@ a.forum-item-title {
 .tabs-container .nav-tabs > li.active > a:focus {
     border: 1px solid #e7eaec;
     border-bottom-color: transparent;
+    border-radius: 0;
 }
 
 .tabs-container .nav-tabs {

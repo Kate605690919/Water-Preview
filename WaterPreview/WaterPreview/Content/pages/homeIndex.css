@@ -11,41 +11,38 @@
     height: 4em;
 }
 
-.ibox-title h5 {
-    font-size: 15px;
-}
-
 .ibox-content {
     padding-bottom: 13px;
 }
 
 #homeMap {
-    margin: -1em 15px;
     padding: 0;
+    margin-bottom: 10px;
     border: 1px solid #fff;
-    border-radius: 10px;
+    width: 50%;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
 }
 
-@media screen and (min-width: 1400px) {
-    #homeMap {
+/*@media screen and (min-width: 1400px) {
+    #homemap {
         min-height: 54.8em;
         width: 98.2%;
     }
 }
 
 @media screen and (max-width: 1400px) and (min-width: 992px) {
-    #homeMap {
+    #homemap {
         min-height: 34em;
         width: 98%;
     }
 }
 
 @media scren and (max-width: 992px) {
-    #homeMap {
+    #homemap {
         min-height: 20em;
         width: 92%;
     }
-}
+}*/
 
 footer {
     margin-top: 3em;

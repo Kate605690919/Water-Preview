@@ -420,3 +420,41 @@ aside .affix {
 .tgl-ios:checked + .tgl-btn:active:after {
   margin-left: -.8em;
 }
+.homeBody .nav-tabs > li > a {
+    padding: 20px 20px 20px 25px;
+    font-size: 18px;
+}
+.homeBody .commonDevice {
+    margin-bottom: 10px;
+    width: 240px;
+    padding: 10px 10px 0 20px;
+    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+    margin-right: 10px;
+    background: #fff;
+}
+.ibox-title h5 {
+    font-size: 20px;
+    font-weight: 400;
+}
+.homeBody .ibox {
+    margin-bottom: 0px;
+    box-shadow: none;
+    border-top: 1px solid hsla(0, 0%, 84%, 1);
+}
+.homeBody .ibox-content {
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+.homeBody .tab-content {
+    overflow: hidden;
+    padding: 10px;
+}
+.homeBody .commonData {
+    display: flex;
+}
+.homeBody .text-success {
+    color: #00c6e0;
+    font-weight:normal!important;
+}
