@@ -3,12 +3,12 @@
         super(props);
         this.state = { PMViewLog: null, ViewLog: null, QMViewLog: null, FlowList: null, PressureList: null }
         if (window.localStorage) {
-            this._viewLog = localStorage.getItem('viewLog')?JSON.parse(localStorage.getItem('viewLog')).slice(0,3):null;
-            this._PMViewLog = localStorage.getItem('PMViewLog') ? JSON.parse(localStorage.getItem('PMViewLog')).slice(0,2) : null;
+            this._viewLog = localStorage.getItem('viewLog')?JSON.parse(localStorage.getItem('viewLog')).slice(0,3).map((item, index) => { return `fmUids=${item.uid}`; }):[];
+    this._PMViewLog = localStorage.getItem('PMViewLog') ? JSON.parse(localStorage.getItem('PMViewLog')).slice(0,2).map((item, index) => { return `pmUids=${item.uid}`; }) : [];
             this._QMViewLog = localStorage.getItem('QMViewLog') ? JSON.parse(localStorage.getItem('QMViewLog')).slice(0,1) : null;
         }
-        this._viewLog = this._PMViewLog.map((item, index) => { return `fmUids=${item.uid}`; });
-        this._PMViewLog = this._PMViewLog.map((item, index) => { return `pmUids=${item.uid}`; });
+        //this._viewLog = this._viewLog.map((item, index) => { return `fmUids=${item.uid}`; });
+        //this._PMViewLog = this._PMViewLog.map((item, index) => { return `pmUids=${item.uid}`; });
         let _this = this;
 
         fetch(`/FlowMeter/GetLastDayFlowList`).then((response) => {
