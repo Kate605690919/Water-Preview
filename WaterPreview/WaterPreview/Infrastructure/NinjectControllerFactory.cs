@@ -45,6 +45,7 @@ namespace WaterPreview.Util.Infrastructure
             ninjectKernel.Bind<IPressureMonthService>().To<PressureMonthService>();
             ninjectKernel.Bind<IQualityMeterService>().To<QualityMeterService>();
             ninjectKernel.Bind<IQualityMeterStatusService>().To<IQualityMeterStatusService>();
+            ninjectKernel.Bind<IExceptionService>().To<ExceptionService>();
 
 
 

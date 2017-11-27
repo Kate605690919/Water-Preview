@@ -117,6 +117,7 @@
     <Compile Include="Interface\IAreaDeviceService.cs" />
     <Compile Include="Interface\IAreaService.cs" />
     <Compile Include="Interface\IAreaUserService.cs" />
+    <Compile Include="Interface\IExceptionService.cs" />
     <Compile Include="Interface\IFlowDayService.cs" />
     <Compile Include="Interface\IFlowHourService.cs" />
     <Compile Include="Interface\IFlowMeterService.cs" />
@@ -183,6 +184,7 @@
     </Compile>
     <Compile Include="Service\AccountService.cs" />
     <Compile Include="Service\AreaUserService.cs" />
+    <Compile Include="Service\ExceptionService.cs" />
     <Compile Include="Service\FlowDayService.cs" />
     <Compile Include="Service\FlowHourService.cs" />
     <Compile Include="Service\FlowMeterService.cs" />
