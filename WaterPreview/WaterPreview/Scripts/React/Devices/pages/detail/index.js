@@ -92,7 +92,7 @@
                                 </ul>
                                 <div className="tab-content">
                                     <div id="tab-1" className="tab-pane active">
-                                        <DataCount uid={this.props.params.uid} url="/flowmeter/currentData" />
+                                        <DataCount uid={this.props.params.uid} url="/flowmeter/currentData" tableInfo={this.props.tableInfo}/>
                                     </div>
                                     <div id="tab-2" className="tab-pane">
                                         <DataAnalysis uid={this.props.params.uid} url="/flowmeter/RecentFlowData" />
@@ -110,7 +110,8 @@
 }
 const mapStateToProps = (state) => {
     return {
-        header: state.deviceDetail.header
+        header: state.deviceDetail.header,
+        tableInfo: state.deviceDetail.dataCount.tableInfo
     };
 };
 Detail = ReactRedux.connect(mapStateToProps)(Detail);

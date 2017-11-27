@@ -9,7 +9,7 @@ namespace WaterPreview.Service.Interface
     public interface IFlowHourService
     {
 
-        List<FlowHour_t> GetFlowHourByFMUif(Guid fmUid);
+        List<FlowHour_t> GetFlowHourByFMUid(Guid fmUid);
 
         List<FlowHour_t> GetTimeFlowHourByUid(Guid fmUid, int startTime, int endTime);
 

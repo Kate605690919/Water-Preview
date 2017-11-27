@@ -18,7 +18,7 @@
             let obj = {};
             if (Array.isArray(viewLog)) {
                 for (let i = 0; i < viewLog.length; i++) {
-                    if (viewLog[i].uid == _this._uid.substr(4)) {
+                    if (viewLog[i].uid == _this._uid.substr(6)) {
                         viewLog[i].count = parseInt(viewLog[i].count) + 1;
                         obj = viewLog[i];
                         viewLog.splice(i, 1);
@@ -35,7 +35,7 @@
                     }
                 }
             } else {
-                viewLog = [{ uid: _this._uid.substr(4), count: 1 }];
+                viewLog = [{ uid: _this._uid.substr(6), count: 1 }];
             }
             localStorage.setItem('PMViewLog', JSON.stringify(viewLog));
         }
@@ -78,13 +78,13 @@
                         <div className="ibox-content">
                             <div className="row" id="dataAnalysis">
                                 <div className="col-md-3">
-                                    <MiniCard bigH={{ header: '昨日总流量', content: analysis ? analysis.lastdayAvg : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.lastdayAvg_proportion }%` : '加载中...' }} />
+                                    <MiniCard bigH={{ header: '昨日总流量', content: analysis ? analysis.lastday_pressure : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.lastday_pressure_proportion }%` : '加载中...' }} />
                                 </div>
                                 <div className="col-md-3">
-                                    <MiniCard bigH={{ header: '上月总流量', content: analysis ? analysis.lastmonthAvg : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.lastmonthAvg_proportion}%` : '加载中...' }} />
+                                    <MiniCard bigH={{ header: '上月总流量', content: analysis ? analysis.month_pressure : '加载中...' }} smallH={{ header: '变化趋势', content: analysis ? `${analysis.month_pressure_proportion}%` : '加载中...' }} />
                                 </div>
                                 <div className="col-md-6">
-                                    <MiniCard bigH={{ header: '昨日凌晨2点-4点流量均值', content: analysis ? analysis.lastmonthAvg_proportion : '加载中...' }} smallH={{ header: '夜间用水量*24*30/总用水量', content: analysis ? `${analysis.lastnightAvg_proportion}%` : '加载中...' }} />
+                                    <MiniCard bigH={{ header: '昨日凌晨2点-4点流量均值', content: analysis ? analysis.night_pressure : '加载中...' }} smallH={{ header: '夜间用水量*24*30/总用水量', content: analysis ? `${analysis.night_pressure_proportion}%` : '加载中...' }} />
                                 </div>
                             </div>
 

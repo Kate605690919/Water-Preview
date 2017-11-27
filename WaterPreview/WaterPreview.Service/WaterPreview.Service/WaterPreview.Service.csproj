@@ -129,6 +129,7 @@
     <Compile Include="Interface\IPressureMonthService.cs" />
     <Compile Include="Interface\IQualityMeterService.cs" />
     <Compile Include="Interface\IQualityMeterStatusService.cs" />
+    <Compile Include="RedisContract\AreaAnalysisData.cs" />
     <Compile Include="RedisContract\DevicesDataAndUser.cs" />
     <Compile Include="RedisContract\FlowMeterStatusAndArea.cs" />
     <Compile Include="RedisContract\PressureMeterStatusAndArea.cs" />
