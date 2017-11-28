@@ -73,7 +73,7 @@
             var pressureList = PressureList.data.map((item, index, arr) => {
                 return (
                     <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'space-between', 'borderTop': '1px solid #e7eaec'  }}>
-                        <span className="label label-success">压力计</span>
+                        <span className="label label-info">压力计</span>
                         <span>{item.pressuremeter.PM_Description}</span>
                         <span>{parseInt(item.lastday_pressure).toFixed(2)}</span>
                         <span>{item.lastday_pressure_proportion}</span>
