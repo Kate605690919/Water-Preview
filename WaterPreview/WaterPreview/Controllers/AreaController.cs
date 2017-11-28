@@ -40,7 +40,7 @@ namespace WaterPreview.Controllers
 
         public JsonResult AreaTree()
         {
-            //DBHelper.ClearCache();
+            DBHelper.ClearCache();
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 
@@ -95,10 +95,18 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusAndArea();
-            List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]);
-
-
-            string dataresult = ToJson<List<FlowMeterStatusAndArea>>.Obj2Json<List<FlowMeterStatusAndArea>>(fmstatusAndAreaList);
+            List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, 
+                ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]);
+            List<Area_t> subarealist = areaService.GetSubArea(areaUid);
+            List<FlowMeterStatusAndArea> fms_areas = new List<FlowMeterStatusAndArea>();
+            foreach (var item in fmstatusAndAreaList)
+            {
+                if (subarealist.Where(p => p.Ara_UId == item.area.Ara_UId).Count()>0)
+                {
+                    fms_areas.Add(item);
+                }
+            }
+            string dataresult = ToJson<List<FlowMeterStatusAndArea>>.Obj2Json<List<FlowMeterStatusAndArea>>(fms_areas);
             dataresult = dataresult.Replace("\\\\", "");
 
             result.Data = dataresult;
@@ -110,9 +118,21 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => pressuremeterService.GetPressureMeterStatusAndArea();
-            List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea,ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]);
+            List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea,
+                ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]).ToList();
+            List<Area_t> subarealist = areaService.GetSubArea(areaUid);
+
+            List<PressureMeterStatusAndArea> pms_areas = new List<PressureMeterStatusAndArea>();
+            foreach (var item in pmstatusAndAreaList)
+            {
+                if (subarealist.Where(p => p.Ara_UId == item.area.Ara_UId).Count()>0)
+                {
+                    pms_areas.Add(item);
+                }
+            }
+            
             //result.Data = pmstatusAndAreaList;
-            string dataresult = ToJson<List<PressureMeterStatusAndArea>>.Obj2Json<List<PressureMeterStatusAndArea>>(pmstatusAndAreaList).Replace("\\\\", "");
+            string dataresult = ToJson<List<PressureMeterStatusAndArea>>.Obj2Json<List<PressureMeterStatusAndArea>>(pms_areas).Replace("\\\\", "");
             dataresult = dataresult.Replace("\\\\", "");
 
             result.Data = dataresult;

@@ -28,7 +28,7 @@ namespace WaterPreview.Service.Service
                 {
                     pressuremeter = FindAll().Where(p => p.PM_UId == pmsa_item.PM_UId).FirstOrDefault(),
                     status = pms_service.GetPressureMeterStatusByUid(pmsa_item.PM_UId).FirstOrDefault(),
-                    area = area_service.GetAreaByDeviceUid(pmsa_item.PM_UId)
+                    area = area_service.GetAreaByDeviceUid(pmsa_item.PM_UId),
                 };
                 pmsalist.Add(item);
             }
@@ -83,7 +83,12 @@ namespace WaterPreview.Service.Service
             return pmanalysis;
         }
 
-       
+        public List<FlowMeterStatusAndArea> GetChildAreaPressureMeter(List<FlowMeterStatusAndArea> fmsa_list, Guid areaUid)
+        {
+            List<FlowMeterStatusAndArea> child_fmsa_list = new List<FlowMeterStatusAndArea>();
+
+            return child_fmsa_list;
+        }
 
     }
 }
