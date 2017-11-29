@@ -52,7 +52,7 @@
             <div className="homeBody" style={{ width: '100%'}}>
                 <div className="commonData">
                     <div className="commonDevice">
-                        <div style={{ color: 'rgb(158, 158, 158)', marginBottom: '10px', fontSize: '14px' }}># 常用设备</div>
+                        <div style={{ marginBottom: '10px', fontSize: '14px' }}># 常用设备</div>
                         <CardListItem />
                     </div>
                     <div id="homeMap" style={{marginBottom: '10px'}}></div>

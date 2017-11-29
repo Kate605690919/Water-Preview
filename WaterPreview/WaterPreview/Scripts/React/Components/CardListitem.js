@@ -2,87 +2,62 @@
     constructor(props) {
         super(props);
         this.state = { FlowList: { status: 'loadding' }, PressureList: {status: 'loadding'} };
-        if (window.localStorage) {
-            this._viewLog = localStorage.getItem('viewLog') ? JSON.parse(localStorage.getItem('viewLog')).slice(0, 3).map((item, index) => { return `fmUids=${item.uid}`; }) : [];
-            this._PMViewLog = localStorage.getItem('PMViewLog') ? JSON.parse(localStorage.getItem('PMViewLog')).slice(0, 2).map((item, index) => { return `pmUids=${item.uid}`; }) : [];
-            this._QMViewLog = localStorage.getItem('QMViewLog') ? JSON.parse(localStorage.getItem('QMViewLog')).slice(0, 1) : null;
-        }
-        let _this = this;
-        fetch('/FlowMeter/GetMostVisitsFlowMeter', {
-            method: 'POST',
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            body: _this._viewLog.join('&')
-        }).then((response) => {
-            if (response.status !== 200) {
-                throw new Error('Fail to get response with status ' + response.status);
-            }
-            response.json().then((res) => {
-                res = JSON.parse(res);
-                _this.setState({ FlowList: { data: res, status: 'success' } });
-            }).catch((error) => {
-                _this.setState({ FlowList: { error: err, status: 'failure' } });
-                console.error(error);
-            });
-            }).catch((error) => {
-                _this.setState({ FlowList: { error: err, status: 'failure' } });
-            console.error(error);
-            });
 
-            fetch('/PressureMeter/GetMostVisitsPressureMeter', {
-                method: 'POST',
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: _this._PMViewLog.join('&')
-            }).then((response) => {
-                if (response.status !== 200) {
-                    throw new Error('Fail to get response with status ' + response.status);
-                }
-                response.json().then((res) => {
-                    res = JSON.parse(res);
-                    _this.setState({ PressureList: { data: res, status: 'success' } });
-                }).catch((error) => {
-                    _this.setState({ PressureList: { error: err, status: 'failure' } });
-                    console.error(error);
-                });
-            }).catch((error) => {
-                _this.setState({ PressureList: { error: err, status: 'failure' } });
-                console.error(error);
-            });
+        this.getUids({
+            LSName: 'viewLog', length: 3, url:'/FlowMeter/GetMostVisitsFlowMeter', dataName: 'fmUids', stateName: 'FlowList'
+        })
+        this.getUids({
+            LSName: 'PMViewLog', length: 2, url: '/PressureMeter/GetMostVisitsPressureMeter', dataName: 'pmUids', stateName: 'PressureList'
+        })
     }
-    componentDidMount() {
-       
+
+    getUids({ LSName, length, url, dataName, stateName }) {
+        const LS = localStorage.getItem(LSName),
+            _this = this;
+        if (LS) {
+            let _viewLog = JSON.parse(LS).slice(0, length).map((item, index) => {
+                    return dataName + '=' + item.uid;
+                });
+            (async () => {
+                try {
+                    let res = await $Fetch.fetchSync_Post({ url: url, data: _viewLog.join('&') });
+                    _this.setState({ [stateName]: { data: res, status: 'success' } });
+                } catch (err) {
+                    _this.setState({ [stateName]: { error: err, status: 'failure' } });
+                }
+            })();
+        }
+    }
+    getList({ state, cols }) {
+        if (state == null || state.status === 'loadding') {
+            return <h5>加载中...</h5>;
+        } else if (state.status === 'success') {
+            return state.data.map((item, index, arr) => {
+                return (
+                    <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'space-between', 'borderTop': '1px solid #e7eaec' }}>
+                        <span className={`label label-${cols[0][0]}`}>{cols[0][1]}</span>
+                        <span>{eval(`item.${cols[1]}`)}</span>
+                        <span>{parseInt(eval(`item.${cols[2]}`)).toFixed(2)}</span>
+                        <span>{eval(`item.${cols[3]}`)}</span>
+                    </li>);
+            });
+        } else if (state.status === 'failure') {
+            return <h5>加载失败...</h5>;
+        }
     }
     render() {
         let { FlowList, PressureList } = this.state;
-        if (FlowList == null || FlowList.status === 'loadding') {
-            var flowList = <h5>加载中...</h5>;
-        } else if (FlowList.status === 'success'){
-            var flowList = FlowList.data.map((item, index, arr) => {
-                return (
-                    <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'space-between', 'borderTop': '1px solid #e7eaec' }}>
-                        <span className="label label-success">流量计</span>
-                        <span>{item.flowmeter.FM_Description}</span>
-                        <span>{parseInt(item.lastday_flow).toFixed(2)}</span>
-                        <span>{item.lastday_flow_proportion}</span>
-                    </li>);
-            });
-        }
-
-        if (PressureList == null || PressureList.status === 'loadding') {
-            var pressureList = <h5>加载中...</h5>;
-        } else if (PressureList.status === 'success') {
-            var pressureList = PressureList.data.map((item, index, arr) => {
-                return (
-                    <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'space-between', 'borderTop': '1px solid #e7eaec'  }}>
-                        <span className="label label-info">压力计</span>
-                        <span>{item.pressuremeter.PM_Description}</span>
-                        <span>{parseInt(item.lastday_pressure).toFixed(2)}</span>
-                        <span>{item.lastday_pressure_proportion}</span>
-                    </li>);
-            });
-        }
+        let flowList = this.getList({ state: FlowList, cols: [['success','流量计'], 'flowmeter.FM_Description', 'lastday_flow', 'lastday_flow_proportion'] });
+        let pressureList = this.getList({ state: PressureList, cols: [['info', '压力计'], 'pressuremeter.PM_Description', 'lastday_pressure', 'lastday_pressure_proportion'] });
 
         return (
             <ul className="list-group clear-list m-t">
+                <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'space-between', 'borderTop': '1px solid #e7eaec', 'color': 'rgb(158, 158, 158)' }}>
+                    <span>类型</span>
+                    <span>名称</span>
+                    <span>昨日流量/压力</span>
+                    <span>昨日变化趋势</span>
+                </li>
                 {flowList}
                 {pressureList}
             </ul>
@@ -90,18 +65,6 @@
     }
 }
 
-//(async () => {
-//    try {
-//        let res = await fetch(`/PressureMeter/GetMostVisitsPressureMeter`, {
-//            method: 'POST',
-//            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-//            body: _this._PMViewLog.join('&')
-//        });
-//        _this.setState({ PressureList: { data: res, status: 'success' } });
-//    } catch (err) {
-//        _this.setState({ PressureList: { error: err, status: 'failure' } });
-//    }
-//})();
 //<div className="ibox MiniCard">
 //    <div className="ibox-title" style={{ padding: '0 10px', minHeight: '30px' }}>
 //        <span className="no-margin" style={{ lineHeight: '30px', margin: 0 }}>{this.props.bigH.header}</span>

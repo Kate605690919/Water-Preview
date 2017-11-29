@@ -55,31 +55,29 @@
     }
     /**
      * 同步fetch POST
-     * @param {string} method 默认'GET'
      * @param {string} data 序列化过的对象
      * @param {string} url 纯url，不带参数
-     * @param {function} callBackSuccess 成功回调
-     * @param {function} callBackError 失败回调
      */
-    //fetchSync_Post({ method, url, data }) {
-    //    fetch(url, {
-    //        method: 'POST',
-    //        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    //        body: data
-    //    }).then((response) => {
-    //        if (response.status !== 200) {
-    //            throw new Error('Fail to get response with status ' + response.status);
-    //        }
-    //        response.json().then((res) => {
-    //            res = JSON.parse(res);
-    //            console.log(res);
-    //            _this.setState({ ViewLog: res });
-    //        }).catch((error) => {
-    //            console.error(error);
-    //        });
-    //    }).catch((error) => {
-    //        console.error(error);
-    //    });
-    //}
+    fetchSync_Post({ url, data }) {
+        return new Promise((resolve, reject) => {
+            fetch(url, {
+                method: 'POST',
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: data
+            }).then((response) => {
+                if (response.status !== 200) {
+                    throw new Error('Fail to get response with status ' + response.status);
+                }
+                response.json().then((res) => {
+                    res = JSON.parse(res);
+                    resolve(res);
+                }).catch((error) => {
+                    reject(error);
+                });
+            }).catch((error) => {
+                reject(error);
+            });
+        });
+    }
 }
 let $Fetch = new Fetch();
