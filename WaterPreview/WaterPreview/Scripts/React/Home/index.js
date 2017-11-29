@@ -1,45 +1,45 @@
 ﻿class Home extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { PMViewLog: null, ViewLog: null, QMViewLog: null, FlowList: null, PressureList: null }
-        if (window.localStorage) {
-            this._viewLog = localStorage.getItem('viewLog')?JSON.parse(localStorage.getItem('viewLog')).slice(0,3).map((item, index) => { return `fmUids=${item.uid}`; }):[];
-    this._PMViewLog = localStorage.getItem('PMViewLog') ? JSON.parse(localStorage.getItem('PMViewLog')).slice(0,2).map((item, index) => { return `pmUids=${item.uid}`; }) : [];
-            this._QMViewLog = localStorage.getItem('QMViewLog') ? JSON.parse(localStorage.getItem('QMViewLog')).slice(0,1) : null;
-        }
+    //    this.state = { PMViewLog: null, ViewLog: null, QMViewLog: null, FlowList: null, PressureList: null }
+    //    if (window.localStorage) {
+    //        this._viewLog = localStorage.getItem('viewLog')?JSON.parse(localStorage.getItem('viewLog')).slice(0,3).map((item, index) => { return `fmUids=${item.uid}`; }):[];
+    //this._PMViewLog = localStorage.getItem('PMViewLog') ? JSON.parse(localStorage.getItem('PMViewLog')).slice(0,2).map((item, index) => { return `pmUids=${item.uid}`; }) : [];
+    //        this._QMViewLog = localStorage.getItem('QMViewLog') ? JSON.parse(localStorage.getItem('QMViewLog')).slice(0,1) : null;
+    //    }
         //this._viewLog = this._viewLog.map((item, index) => { return `fmUids=${item.uid}`; });
         //this._PMViewLog = this._PMViewLog.map((item, index) => { return `pmUids=${item.uid}`; });
-        let _this = this;
+        //let _this = this;
 
-        fetch(`/FlowMeter/GetLastDayFlowList`).then((response) => {
-            if (response.status !== 200) {
-                throw new Error('Fail to get response with status ' + response.status);
-            }
-            response.json().then((res) => {
-                res = JSON.parse(res);
-                console.log('flowlist',res);
-                _this.setState({ FlowList: res });
-            }).catch((error) => {
-                console.error(error);
-            });
-        }).catch((error) => {
-            console.error(error);
-            });
+        //fetch(`/FlowMeter/GetLastDayFlowList`).then((response) => {
+        //    if (response.status !== 200) {
+        //        throw new Error('Fail to get response with status ' + response.status);
+        //    }
+        //    response.json().then((res) => {
+        //        res = JSON.parse(res);
+        //        console.log('flowlist',res);
+        //        _this.setState({ FlowList: res });
+        //    }).catch((error) => {
+        //        console.error(error);
+        //    });
+        //}).catch((error) => {
+        //    console.error(error);
+        //    });
 
-        fetch(`/PressureMeter/GetLastDayPressureList`).then((response) => {
-            if (response.status !== 200) {
-                throw new Error('Fail to get response with status ' + response.status);
-            }
-            response.json().then((res) => {
-                res = JSON.parse(res);
-                console.log('pressure', res);
-                _this.setState({ PressureList: res });
-            }).catch((error) => {
-                console.error(error);
-            });
-        }).catch((error) => {
-            console.error(error);
-            });
+    //    fetch(`/PressureMeter/GetLastDayPressureList`).then((response) => {
+    //        if (response.status !== 200) {
+    //            throw new Error('Fail to get response with status ' + response.status);
+    //        }
+    //        response.json().then((res) => {
+    //            res = JSON.parse(res);
+    //            console.log('pressure', res);
+    //            _this.setState({ PressureList: res });
+    //        }).catch((error) => {
+    //            console.error(error);
+    //        });
+    //    }).catch((error) => {
+    //        console.error(error);
+    //        });
     }
     componentDidMount() {
         //地图
@@ -47,15 +47,12 @@
         initMap(idMap);
     }
     render() {
-        let { ViewLog, PMViewLog, QMViewLog } = this.state;
         return (
             <div className="homeBody" style={{ width: '100%'}}>
                 <div className="commonData">
-                    <div className="commonDevice">
-                        <div style={{ marginBottom: '10px', fontSize: '14px' }}># 常用设备</div>
-                        <CardListItem />
-                    </div>
-                    <div id="homeMap" style={{marginBottom: '10px'}}></div>
+                    <CardListItem />
+                    <CardRank />
+                    <div id="homeMap" style={{ marginBottom: '10px' }}></div>
                 </div>
                 <Footer />
             </div>

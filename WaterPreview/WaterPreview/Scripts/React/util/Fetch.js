@@ -79,5 +79,26 @@
             });
         });
     }
+    /**
+     * 同步fetch GET
+     * @param {string} url url，带参数
+     */
+    fetchSync_Get(url) {
+        return new Promise((resolve, reject) => {
+            fetch(url).then((response) => {
+                if (response.status !== 200) {
+                    throw new Error('Fail to get response with status ' + response.status);
+                }
+                response.json().then((res) => {
+                    res = JSON.parse(res);
+                    resolve(res);
+                }).catch((error) => {
+                    reject(error);
+                });
+            }).catch((error) => {
+                reject(error);
+            });
+        });
+    }
 }
 let $Fetch = new Fetch();

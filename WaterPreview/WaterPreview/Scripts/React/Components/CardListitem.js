@@ -30,15 +30,15 @@
     }
     getList({ state, cols }) {
         if (state == null || state.status === 'loadding') {
-            return <h5>加载中...</h5>;
+            return <Loading />;
         } else if (state.status === 'success') {
             return state.data.map((item, index, arr) => {
                 return (
                     <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'space-between', 'borderTop': '1px solid #e7eaec' }}>
                         <span className={`label label-${cols[0][0]}`}>{cols[0][1]}</span>
-                        <span>{eval(`item.${cols[1]}`)}</span>
-                        <span>{parseInt(eval(`item.${cols[2]}`)).toFixed(2)}</span>
-                        <span>{eval(`item.${cols[3]}`)}</span>
+                        <span style={{'width': '65px'}}>{eval(`item.${cols[1]}`)}</span>
+                        <span style={{ 'width': '65px' }}>{parseInt(eval(`item.${cols[2]}`)).toFixed(2)}</span>
+                        <span style={{ 'width': '65px' }}>{eval(`item.${cols[3]}`)}<i className={`fa fa-level-${parseInt(eval(`item.${cols[3]}`)) >= 0 ? 'up' : 'down'}`}></i></span>
                     </li>);
             });
         } else if (state.status === 'failure') {
@@ -51,16 +51,19 @@
         let pressureList = this.getList({ state: PressureList, cols: [['info', '压力计'], 'pressuremeter.PM_Description', 'lastday_pressure', 'lastday_pressure_proportion'] });
 
         return (
-            <ul className="list-group clear-list m-t">
-                <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'space-between', 'borderTop': '1px solid #e7eaec', 'color': 'rgb(158, 158, 158)' }}>
-                    <span>类型</span>
-                    <span>名称</span>
-                    <span>昨日流量/压力</span>
-                    <span>昨日变化趋势</span>
-                </li>
-                {flowList}
-                {pressureList}
-            </ul>
+            <div className="commonDevice" style={{ 'borderRight': '1px solid rgb(231, 234, 236)', 'paddingRight': '20px',  'width': '320px' }}>
+                <h3>常用设备</h3>
+                <ul className="list-group clear-list m-t" style={{ minHeight: '270px' }}>
+                    <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'space-between', 'borderTop': '1px solid #e7eaec', 'color': 'rgb(158, 158, 158)' }}>
+                        <span>类型</span>
+                        <span>名称</span>
+                        <span>昨日流量/压力</span>
+                        <span>昨日变化趋势</span>
+                    </li>
+                    {flowList}
+                    {pressureList}
+                </ul>
+            </div>
         );
     }
 }
