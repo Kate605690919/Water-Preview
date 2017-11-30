@@ -9,7 +9,17 @@
     onEditViewCount() {
         
     }
-    getList({ state, cols }) {
+    getUids({ url, stateName }) {
+        let _this = this;
+        (async () => {
+            try {
+                let res = await $Fetch.fetchSync_Post({ url: url });
+                _this.setState({ [stateName]: { data: res, status: 'success' } });
+            } catch (err) {
+                _this.setState({ [stateName]: { error: err, status: 'failure' } });
+            }
+        })();
+    }
     getList({ state, cols, length = 3 }) {
         length = parseInt(length);
         if (state == null || state.status === 'loadding') {
@@ -48,12 +58,18 @@
                         <span>昨日变化趋势</span>
                     </li>
                     {flowList}
+                    <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'flex-end', 'borderTop': '1px solid #e7eaec', 'color': 'rgb(158, 158, 158)' }}>
                         <span></span>
                         <span></span>
+                        <a className="label label-default" style={{ 'lineHeight': '15px', 'marginRight': '10px' }}>下一个<i aria-hidden="true" className="fa fa-arrow-down" style={{ 'marginLeft': '5px' }}></i></a>
+                        <Link to="/Devices" className="label label-default" style={{ 'lineHeight': '15px' }}>更多<i aria-hidden="true" className="fa fa-hand-o-right" style={{ 'marginLeft': '5px'}}></i></Link>
                     </li>
                     {pressureList}
+                    <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'flex-end', 'borderTop': '1px solid #e7eaec', 'color': 'rgb(158, 158, 158)' }}>
                         <span></span>
                         <span></span>
+                        <a className="label label-default" style={{ 'lineHeight': '15px', 'marginRight': '10px' }}>下一个<i aria-hidden="true" className="fa fa-arrow-down" style={{ 'marginLeft': '5px' }}></i></a>
+                        <Link to="/Devices" className="label label-default" style={{ 'lineHeight': '15px' }}>更多<i aria-hidden="true" className="fa fa-hand-o-right" style={{ 'marginLeft': '5px' }}></i></Link>
                     </li>
                 </ul>
 
