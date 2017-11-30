@@ -15,20 +15,28 @@ namespace WaterPreview.Controllers
 {
     public class PressureMeterController:BaseController
     {
-
+        static IPressureService pressure_service;
         static IPressureMeterService pressuremeter_service;
         static IPressureHourService pressurehour_service;
+        static IPressureDayService pressureday_service;
         static IPressureMonthService pressuremonth_service;
         static IAccountService account_service;
 
 
-        public PressureMeterController(IPressureMeterService pmservice, IPressureHourService phourservice,IPressureMonthService pmonthservice,IAccountService accservice)
+        public PressureMeterController(IPressureService pservice,IPressureMeterService pmservice,
+            IPressureHourService phourservice, IPressureDayService pdayservice, IPressureMonthService pmonthservice, IAccountService accservice)
         {
+            this.AddDisposableObject(pservice);
+            pressure_service = pservice;
+
             this.AddDisposableObject(pmservice);
             pressuremeter_service = pmservice;
 
             this.AddDisposableObject(phourservice);
             pressurehour_service = phourservice;
+
+            this.AddDisposableObject(pdayservice);
+            pressureday_service = pdayservice;
 
             this.AddDisposableObject(pmonthservice);
             pressuremonth_service = pmonthservice;
@@ -68,6 +76,44 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             result.Data = pressurehour_service.GetPressureHourByUid(pmUid);
+            return result;
+        }
+
+        /// <summary>
+        /// pmuid和两个时间点之间的水压计对应水压示数
+        /// </summary>
+        /// <param name="pmUid"></param>
+        /// <param name="startDt"></param>
+        /// <param name="endDt"></param>
+        /// <returns></returns>
+        public JsonResult GetPressureDetailWithTime(Guid pmUid, DateTime startDt, DateTime endDt)
+        {
+            JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+            TimeSpan timespan = endDt-startDt;
+            int start = int.Parse(startDt.ToString("yyyyMMddHH"));
+            int end = int.Parse(endDt.ToString("yyyyMMddHH"));
+
+            if(timespan.TotalDays<1){
+                result.Data = pressure_service.GetPressureByUidAndTime(pmUid, startDt, endDt).Select(p => new
+                {
+                    value = p.Pre_Value,
+                    time = p.Pre_CreateDt.ToString("yyyyMMddHHmm")
+                });
+            }else if(timespan.TotalDays<5){
+                result.Data = pressurehour_service.GetPressureHourByUidWithTime(pmUid, start, end).Select(p => new
+                {
+                    value = p.PH_AverageValue,
+                    time = p.PH_Time,
+                });
+            }else{
+                result.Data = pressureday_service.GetPressureDayByUidWithTime(pmUid, start, end).Select(p =>
+                    new
+                    {
+                        value = p.PD_AverageValue,
+                        time =p.PD_Time
+                    });
+            }
             return result;
         }
 

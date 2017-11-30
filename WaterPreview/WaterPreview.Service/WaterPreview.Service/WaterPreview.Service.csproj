@@ -124,10 +124,12 @@
     <Compile Include="Interface\IFlowMeterStatusService.cs" />
     <Compile Include="Interface\IFlowMonthService.cs" />
     <Compile Include="Interface\IFlowService.cs" />
+    <Compile Include="Interface\IPressureDayService.cs" />
     <Compile Include="Interface\IPressureHourService.cs" />
     <Compile Include="Interface\IPressureMeterService.cs" />
     <Compile Include="Interface\IPressureMeterStatusService.cs" />
     <Compile Include="Interface\IPressureMonthService.cs" />
+    <Compile Include="Interface\IPressureService.cs" />
     <Compile Include="Interface\IQualityMeterService.cs" />
     <Compile Include="Interface\IQualityMeterStatusService.cs" />
     <Compile Include="other\GetSubAreaList.cs" />
@@ -195,10 +197,12 @@
     <Compile Include="Service\FlowMeterStatusService.cs" />
     <Compile Include="Service\FlowMonthService.cs" />
     <Compile Include="Service\FlowService.cs" />
+    <Compile Include="Service\PressureDayService.cs" />
     <Compile Include="Service\PressureHourService.cs" />
     <Compile Include="Service\PressureMeterService.cs" />
     <Compile Include="Service\PressureMeterStatusService.cs" />
     <Compile Include="Service\PressureMonthService.cs" />
+    <Compile Include="Service\PressureService.cs" />
     <Compile Include="Service\QualityMeterService.cs" />
     <Compile Include="Service\QualityMeterStatusService.cs" />
     <Compile Include="sp_helpdiagramdefinition_Result.cs">
