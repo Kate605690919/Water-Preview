@@ -76,9 +76,9 @@ namespace WaterPreview.Controllers
         public JsonResult Detail(Guid uid)
         {
             JsonResult result = new JsonResult();
-            //获取账号访问设备uid的访问次数，
+            //获取账号访问设备uid的访问次数，不设置过期时间
             Func<List<VisitCount>> initvisit = ()=>{return new List<VisitCount>();};
-            List<VisitCount> vclist = DBHelper.get<List<VisitCount>>(initvisit, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitFlowMeterCount"]);
+            List<VisitCount> vclist = DBHelper.getWithNoExpire<List<VisitCount>>(initvisit, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitFlowMeterCount"]);
             //增加账号访问设备uid的访问次数
             Func<List<VisitCount>> visitcount = () => account_Service.AddDeviceVisits(vclist,uid);
             DBHelper.getAndFresh<VisitCount>(visitcount, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitFlowMeterCount"]);
