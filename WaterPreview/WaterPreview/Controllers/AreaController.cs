@@ -40,7 +40,6 @@ namespace WaterPreview.Controllers
 
         public JsonResult AreaTree()
         {
-            DBHelper.ClearCache();
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 

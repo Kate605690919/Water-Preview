@@ -123,6 +123,7 @@
     <Compile Include="Interface\IFlowMeterService.cs" />
     <Compile Include="Interface\IFlowMeterStatusService.cs" />
     <Compile Include="Interface\IFlowMonthService.cs" />
+    <Compile Include="Interface\IFlowService.cs" />
     <Compile Include="Interface\IPressureHourService.cs" />
     <Compile Include="Interface\IPressureMeterService.cs" />
     <Compile Include="Interface\IPressureMeterStatusService.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="RedisContract\FlowMeterStatusAndArea.cs" />
     <Compile Include="RedisContract\PressureMeterStatusAndArea.cs" />
     <Compile Include="RedisContract\QualityMeterStatusAndArea.cs" />
+    <Compile Include="RedisContract\VisitCount.cs" />
     <Compile Include="Service\AreaDeviceService.cs" />
     <Compile Include="Service\AreaService.cs" />
     <Compile Include="Interface\IAccountService.cs" />
@@ -192,6 +194,7 @@
     <Compile Include="Service\FlowMeterService.cs" />
     <Compile Include="Service\FlowMeterStatusService.cs" />
     <Compile Include="Service\FlowMonthService.cs" />
+    <Compile Include="Service\FlowService.cs" />
     <Compile Include="Service\PressureHourService.cs" />
     <Compile Include="Service\PressureMeterService.cs" />
     <Compile Include="Service\PressureMeterStatusService.cs" />

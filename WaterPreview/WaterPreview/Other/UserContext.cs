@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using WaterPreview.Service;
 using WaterPreview.Service.Interface;
+using WaterPreview.Service.RedisContract;
 using WaterPreview.Service.Service;
 
 namespace WaterPreview.Other
@@ -20,8 +21,6 @@ namespace WaterPreview.Other
 
         public static Guid areaSourceUid = Guid.Parse("6F6B8DB5-1202-4644-B1B2-A52284D73E07");
         
-        public static string allFlowAnalysisByUserUid = "allFlowAnalysisByUserUid"+account.Usr_UId;
-
 
         public static User_t GetCurrentAccount()
         {
@@ -47,6 +46,6 @@ namespace WaterPreview.Other
             return areauser.AU_AreaUId;
         }
 
-
+        
     }
 }

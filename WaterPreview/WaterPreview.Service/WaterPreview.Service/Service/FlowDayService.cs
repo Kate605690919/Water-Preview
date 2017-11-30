@@ -17,5 +17,7 @@ namespace WaterPreview.Service.Service
             var fdlist = db.FlowDay_t.Where(p=>p.Fld_FlowMeterUid==fmuid);
             return fdlist.Count() == 0 ? new List<FlowDay_t>() : fdlist.ToList();
         }
+
+        
     }
 }

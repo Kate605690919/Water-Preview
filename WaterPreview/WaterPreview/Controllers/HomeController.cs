@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WaterPreview.Base;
 using WaterPreview.Other;
+using WaterPreview.Redis;
 using WaterPreview.Service;
 using WaterPreview.Service.Interface;
 
@@ -39,6 +40,8 @@ namespace WaterPreview.Controllers
             }
             Response.Cookies["username"].Value = user.Usr_UId.ToString();
             Response.Cookies["username"].Expires = DateTime.Now.AddDays(1);
+            //DBHelper.ClearCache();
+
             return RedirectToAction("index");
         }
 

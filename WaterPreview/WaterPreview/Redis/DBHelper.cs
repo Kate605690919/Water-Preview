@@ -87,6 +87,24 @@ namespace WaterPreview.Redis
             }
         }
 
+        public static T getWithNoExpire<T>(Func<T> init,string key,int dbindex =1)
+        {
+            using (RedisClient rc = new RedisClient(ConnectionString))
+            {
+                rc.Select(dbindex);
+                var name = key;
+                if (!rc.Exists(name))
+                {
+                    var list = init();
+                    rc.Set(name, JsonConvert.SerializeObject(list));
+                    return list;
+                }
+
+                return JsonConvert.DeserializeObject<T>(rc.Get(name));
+
+            }
+        }
+
         public static void ClearCache()
         {
             try

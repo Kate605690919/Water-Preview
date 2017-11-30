@@ -48,10 +48,16 @@ namespace WaterPreview.Service.Service
         public List<FlowMeterData> GetFlowMetersDataByUserUid(User_t account)
         {
             List<FlowMeter_t> fmlist = new List<FlowMeter_t>();
-            fmlist = FindAll().Where(p => p.FM_WaterConsumerUId == account.Usr_UId).ToList();
-            //如果fmuid为默认值，也就是未传值，则角色为客户；若fmuid有传值，则以获取fmuid数据
-            List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
+            if (account.Usr_Type == 3)
+            {
+                fmlist = FindAll().Where(p => p.FM_WaterConsumerUId == account.Usr_UId).ToList();
+            }
+            else
+            {
+                fmlist = FindAll();
+            }
 
+            List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
             foreach (var item in fmlist)
             {
                 var fmdata = GetAnalysisByFlowMeter(item,(DateTime)item.FM_FlowCountLast);

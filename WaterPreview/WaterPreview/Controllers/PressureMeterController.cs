@@ -19,9 +19,10 @@ namespace WaterPreview.Controllers
         static IPressureMeterService pressuremeter_service;
         static IPressureHourService pressurehour_service;
         static IPressureMonthService pressuremonth_service;
+        static IAccountService account_service;
 
 
-        public PressureMeterController(IPressureMeterService pmservice, IPressureHourService phourservice,IPressureMonthService pmonthservice)
+        public PressureMeterController(IPressureMeterService pmservice, IPressureHourService phourservice,IPressureMonthService pmonthservice,IAccountService accservice)
         {
             this.AddDisposableObject(pmservice);
             pressuremeter_service = pmservice;
@@ -31,6 +32,9 @@ namespace WaterPreview.Controllers
 
             this.AddDisposableObject(pmonthservice);
             pressuremonth_service = pmonthservice;
+
+            this.AddDisposableObject(accservice);
+            account_service = accservice;
         }
 
         /// <summary>
@@ -41,6 +45,15 @@ namespace WaterPreview.Controllers
         public JsonResult Detail(Guid pmuid)
         {
             JsonResult result = new JsonResult();
+
+            //获取账号访问设备uid的访问次数，
+            Func<List<VisitCount>> initvisit = () => { return new List<VisitCount>(); };
+            List<VisitCount> vclist = DBHelper.get<List<VisitCount>>(initvisit, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
+            //增加账号访问设备uid的访问次数
+            Func<List<VisitCount>> visitcount = () => account_service.AddDeviceVisits(vclist, pmuid);
+            DBHelper.getAndFresh<VisitCount>(visitcount, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
+
+            //获取并返回设备uid的区域状态数据
             Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => (pressuremeter_service.GetPressureMeterStatusAndArea());
             result.Data = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea, ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]).Where(p => p.pressuremeter.PM_UId == pmuid).ToList();
             return result;
@@ -85,8 +98,11 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            PressureMeter_t pm = pressuremeter_service.GetAllPressureMeter().Where(p=>p.PM_UId==pmuid).FirstOrDefault();
-            result.Data = pressuremeter_service.GetAnalysisByPressureMeter(pm,time);
+            User_t account = UserContext.GetCurrentAccount();
+
+            Func<List<PressureMeterData>> pmdataFunc = ()=>pressuremeter_service.GetPressureMetersDataByUser(account);
+            var pmdataanalysis = DBHelper.get<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["allPressureAnalysisByUserUid"] + account.Usr_UId);
+            result.Data = pmdataanalysis.Where(p=>p.pressuremeter.PM_UId==pmuid).FirstOrDefault();
             return result;
         }
 
@@ -101,25 +117,36 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             User_t account = UserContext.GetCurrentAccount();
             List<PressureMeterData> pmdatalist = new List<PressureMeterData>();
-            if (pmUids.Length == 0&&account.Usr_Type!=3)
+
+            Func<List<PressureMeterData>> pmdataFunc = () => pressuremeter_service.GetPressureMetersDataByUser(account);
+            var pmdataanalysis = DBHelper.get<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["allPressureAnalysisByUserUid"] + account.Usr_UId);
+
+            Func<List<VisitCount>> initvisit = () => { return new List<VisitCount>(); };
+            List<VisitCount> vclist = DBHelper.get<List<VisitCount>>(initvisit, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
+
+            if (vclist.Count > 0)
             {
-                List<PressureMeter_t> pmlist = pressuremeter_service.GetAllPressureMeter().Take(2).ToList();
-                for (int i = 0; i < 2; i++)
+                vclist.OrderByDescending(p => p.count).ToList();
+
+                for (var i = 0; i < vclist.Count; i++)
                 {
-                    PressureMeter_t pm = pressuremeter_service.GetAllPressureMeter().Where(p => p.PM_UId == pmlist[i].PM_UId).FirstOrDefault();
-                    var pmdata = pressuremeter_service.GetAnalysisByPressureMeter(pm, (DateTime)pm.PM_CountLast);
+                    var pmdata = pmdataanalysis.Where(p => p.pressuremeter.PM_UId == Guid.Parse(vclist[i].uid)).FirstOrDefault();
                     pmdatalist.Add(pmdata);
                 }
-            }
-            else if (pmUids.Length!=0)
-            {
-                for (int i = 0; i < pmUids.Length; i++)
+                for (var i = 0; i < pmdataanalysis.Count; i++)
                 {
-                    PressureMeter_t pm = pressuremeter_service.GetAllPressureMeter().Where(p => p.PM_UId == Guid.Parse(pmUids[i])).FirstOrDefault();
-                    var pmdata = pressuremeter_service.GetAnalysisByPressureMeter(pm, (DateTime)pm.PM_CountLast);
-                    pmdatalist.Add(pmdata);
+                    if (vclist.Where(p => p.uid == pmdataanalysis[i].pressuremeter.PM_UId.ToString()).Count() == 0)
+                    {
+                        pmdatalist.Add(pmdataanalysis[i]);
+                    }
                 }
             }
+            else
+            {
+                pmdatalist = pmdataanalysis;
+            }
+
+           
             string dataresult = ToJson<List<PressureMeterData>>.Obj2Json<List<PressureMeterData>>(pmdatalist).Replace("\\\\", "");
             dataresult = dataresult.Replace("\\\\", "");
             result.Data = dataresult;
@@ -136,6 +163,8 @@ namespace WaterPreview.Controllers
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             List<PressureMeterData> fmdatalist = new List<PressureMeterData>();
             User_t account = new User_t();
+
+
             if (account.Usr_Type == 3)
             {
                 //List<FlowMeter_t> fmlist_customer = pressuremeter_service.GetAllPressureMeter();
@@ -152,7 +181,7 @@ namespace WaterPreview.Controllers
                 List<PressureMeterData> pmdata = GetAnalysisData(pmlist);
                 fmdatalist = pmdata.OrderByDescending(p => p.lastday_pressure_proportion).Take(3).ToList();
             }
-
+            
             string dataresult = ToJson<List<PressureMeterData>>.Obj2Json<List<PressureMeterData>>(fmdatalist).Replace("\\\\", "");
             dataresult = dataresult.Replace("\\\\", "");
 

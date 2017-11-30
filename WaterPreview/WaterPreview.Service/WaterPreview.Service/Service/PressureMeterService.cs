@@ -83,11 +83,25 @@ namespace WaterPreview.Service.Service
             return pmanalysis;
         }
 
-        public List<FlowMeterStatusAndArea> GetChildAreaPressureMeter(List<FlowMeterStatusAndArea> fmsa_list, Guid areaUid)
+        public List<PressureMeterData> GetPressureMetersDataByUser(User_t account)
         {
-            List<FlowMeterStatusAndArea> child_fmsa_list = new List<FlowMeterStatusAndArea>();
+            List<PressureMeter_t> pmlist = new List<PressureMeter_t>();
+            List<PressureMeterData> pmdatalist = new List<PressureMeterData>();
 
-            return child_fmsa_list;
+            if (account.Usr_Type == 3)
+            {
+                //获取客户的水压计，当前水压计未绑定客户
+            }
+            else
+            {
+                pmlist = FindAll();
+                foreach (var item in pmlist)
+                {
+                    var pmdata = GetAnalysisByPressureMeter(item, (DateTime)item.PM_CountLast);
+                    pmdatalist.Add(pmdata);
+                }
+            }
+            return pmdatalist;
         }
 
     }
