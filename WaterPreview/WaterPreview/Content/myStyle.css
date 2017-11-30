@@ -460,6 +460,14 @@ aside .affix {
     color: #00c6e0;
     font-weight:normal!important;
 }
+#DeviceViewCount .control-label {
+    color: rgb(158,158,158);
+    font-weight: 400;
+}
+#DeviceViewCount .form-control {
+    border: none;
+    border-bottom: 1px solid #e5e6e7;
+}
 /*loading*/
 .loading {
     width: 100px;

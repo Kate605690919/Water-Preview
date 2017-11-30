@@ -3,40 +3,23 @@
         super(props);
         this.state = { FlowList: { status: 'loadding' }, PressureList: {status: 'loadding'} };
 
-        this.getUids({
-            LSName: 'viewLog', length: 3, url:'/FlowMeter/GetMostVisitsFlowMeter', dataName: 'fmUids', stateName: 'FlowList'
-        })
-        this.getUids({
-            LSName: 'PMViewLog', length: 2, url: '/PressureMeter/GetMostVisitsPressureMeter', dataName: 'pmUids', stateName: 'PressureList'
-        })
+        this.getUids({ url: '/FlowMeter/GetMostVisitsFlowMeter', stateName: 'FlowList' });
+        this.getUids({ url: '/PressureMeter/GetMostVisitsPressureMeter', stateName: 'PressureList' });
     }
-
-    getUids({ LSName, length, url, dataName, stateName }) {
-        const LS = localStorage.getItem(LSName),
-            _this = this;
-        if (LS) {
-            let _viewLog = JSON.parse(LS).slice(0, length).map((item, index) => {
-                    return dataName + '=' + item.uid;
-                });
-            (async () => {
-                try {
-                    let res = await $Fetch.fetchSync_Post({ url: url, data: _viewLog.join('&') });
-                    _this.setState({ [stateName]: { data: res, status: 'success' } });
-                } catch (err) {
-                    _this.setState({ [stateName]: { error: err, status: 'failure' } });
-                }
-            })();
-        }
+    onEditViewCount() {
+        
     }
     getList({ state, cols }) {
+    getList({ state, cols, length = 3 }) {
+        length = parseInt(length);
         if (state == null || state.status === 'loadding') {
             return <Loading />;
         } else if (state.status === 'success') {
-            return state.data.map((item, index, arr) => {
+            return state.data.slice(0, length).map((item, index, arr) => {
                 return (
                     <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'space-between', 'borderTop': '1px solid #e7eaec' }}>
                         <span className={`label label-${cols[0][0]}`}>{cols[0][1]}</span>
-                        <span style={{'width': '65px'}}>{eval(`item.${cols[1]}`)}</span>
+                        <span style={{'width': '120px'}}>{eval(`item.${cols[1]}`)}</span>
                         <span style={{ 'width': '65px' }}>{parseInt(eval(`item.${cols[2]}`)).toFixed(2)}</span>
                         <span style={{ 'width': '65px' }}>{eval(`item.${cols[3]}`)}<i className={`fa fa-level-${parseInt(eval(`item.${cols[3]}`)) >= 0 ? 'up' : 'down'}`}></i></span>
                     </li>);
@@ -47,13 +30,17 @@
     }
     render() {
         let { FlowList, PressureList } = this.state;
-        let flowList = this.getList({ state: FlowList, cols: [['success','流量计'], 'flowmeter.FM_Description', 'lastday_flow', 'lastday_flow_proportion'] });
-        let pressureList = this.getList({ state: PressureList, cols: [['info', '压力计'], 'pressuremeter.PM_Description', 'lastday_pressure', 'lastday_pressure_proportion'] });
-
+        let { formInfo, flowCount, pressureCount } = this.props;
+        let flowList = this.getList({ length: flowCount, state: FlowList, cols: [['success','流量计'], 'flowmeter.FM_Description', 'lastday_flow', 'lastday_flow_proportion'] });
+        let pressureList = this.getList({ length: pressureCount, state: PressureList, cols: [['info', '压力计'], 'pressuremeter.PM_Description', 'lastday_pressure', 'lastday_pressure_proportion'] });
+        formInfo.data = { flowCount: flowCount, pressureCount: pressureCount};
         return (
-            <div className="commonDevice" style={{ 'borderRight': '1px solid rgb(231, 234, 236)', 'paddingRight': '20px',  'width': '320px' }}>
-                <h3>常用设备</h3>
-                <ul className="list-group clear-list m-t" style={{ minHeight: '270px' }}>
+            <div className="commonDevice" style={{ 'borderRight': '1px solid rgb(231, 234, 236)', 'paddingRight': '20px',  'width': '380px' }}>
+                <div style={{ display: 'flex', 'justifyContent': 'space-between', }}>
+                    <h3>常用设备</h3>
+                    <a href='javascript:void(0)' data-toggle="modal" data-target="#myModal"><i className="fa fa-cog fa-2" aria-hidden="true" style={{'lineHeight': '32.33px', 'fontSize': '16px'}}></i></a>
+                </div>
+                <ul className="list-group clear-list m-t" style={{ minHeight: '270px', 'marginTop': '0' }}>
                     <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'space-between', 'borderTop': '1px solid #e7eaec', 'color': 'rgb(158, 158, 158)' }}>
                         <span>类型</span>
                         <span>名称</span>
@@ -61,13 +48,45 @@
                         <span>昨日变化趋势</span>
                     </li>
                     {flowList}
+                        <span></span>
+                        <span></span>
+                    </li>
                     {pressureList}
+                        <span></span>
+                        <span></span>
+                    </li>
                 </ul>
+
+                <div className="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div className="modal-dialog" role="document">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 className="modal-title" id="myModalLabel">更改设备显示数量</h4>
+                            </div>
+                            <div className="modal-body">
+                                <Form formInfo={formInfo}/>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-primary" onClick={this.props.onEditViewCount}>保存修改</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         );
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        formInfo: state.home.editDeviceViewCount,
+        flowCount: parseInt(state.home.DeviceViewCount.flowCount),
+        pressureCount: parseInt(state.home.DeviceViewCount.pressureCount),
+    };
+};
 
+CardListItem = ReactRedux.connect(mapStateToProps)(CardListItem);
 //<div className="ibox MiniCard">
 //    <div className="ibox-title" style={{ padding: '0 10px', minHeight: '30px' }}>
 //        <span className="no-margin" style={{ lineHeight: '30px', margin: 0 }}>{this.props.bigH.header}</span>

@@ -46,7 +46,7 @@
         return (
             <div className="commonDevice" style={{'width': '250px'}} >
                 <h3>昨日流量/压力变化排行</h3>
-                <ul className="list-group clear-list m-t" style={{ minHeight: '270px' }}>
+                <ul className="list-group clear-list m-t" style={{ minHeight: '270px', 'marginTop': '0' }}>
                     <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'space-between', 'borderTop': '1px solid #e7eaec', 'color': 'rgb(158, 158, 158)' }}>
                         <span>类型</span>
                         <span>名称</span>
