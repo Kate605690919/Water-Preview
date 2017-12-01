@@ -207,28 +207,18 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            List<PressureMeterData> fmdatalist = new List<PressureMeterData>();
-            User_t account = new User_t();
+            List<PressureMeterData> pmdatalist = new List<PressureMeterData>();
+
+            User_t account = UserContext.GetCurrentAccount();
 
 
-            if (account.Usr_Type == 3)
-            {
-                //List<FlowMeter_t> fmlist_customer = pressuremeter_service.GetAllPressureMeter();
-                //if (fmlist_customer.Count > 0)
-                //{
-                //    fmdatalist = GetAnalysisData(fmlist_customer).OrderByDescending(p => p.lastday_flow_proportion).Take(3).ToList();
-                //    //昨日流量趋势占比降序排列，前三
-                //}
+            Func<List<PressureMeterData>> pmdataFunc = () => pressuremeter_service.GetPressureMetersDataByUser(account);
+            var pmdataanalysis = DBHelper.get<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["allPressureAnalysisByUserUid"] + account.Usr_UId);
 
-            }
-            else
-            {
-                List<PressureMeter_t> pmlist = pressuremeter_service.GetAllPressureMeter();
-                List<PressureMeterData> pmdata = GetAnalysisData(pmlist);
-                fmdatalist = pmdata.OrderByDescending(p => p.lastday_pressure_proportion).Take(3).ToList();
-            }
-            
-            string dataresult = ToJson<List<PressureMeterData>>.Obj2Json<List<PressureMeterData>>(fmdatalist).Replace("\\\\", "");
+            pmdatalist = pmdataanalysis.Where(p => p.lastday_pressure_proportion != "无法计算").OrderByDescending(p => p.lastday_pressure_proportion).Take(3).ToList();
+
+
+            string dataresult = ToJson<List<PressureMeterData>>.Obj2Json<List<PressureMeterData>>(pmdatalist).Replace("\\\\", "");
             dataresult = dataresult.Replace("\\\\", "");
 
             result.Data = dataresult;

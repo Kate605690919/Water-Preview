@@ -206,7 +206,7 @@ namespace WaterPreview.Controllers
 
                 Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
                 List<FlowMeterData> fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);
-                fmdatalist = fmdataanalysis.OrderByDescending(p => p.lastday_flow_proportion).Take(3).ToList();
+                fmdatalist = fmdataanalysis.Where(p=>p.lastday_flow_proportion!="无法计算").OrderByDescending(p => p.lastday_flow_proportion).Take(3).ToList();
 
             
             string dataresult = ToJson<List<FlowMeterData>>.Obj2Json<List<FlowMeterData>>(fmdatalist).Replace("\\\\", "");
