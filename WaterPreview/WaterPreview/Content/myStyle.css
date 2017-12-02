@@ -47,7 +47,7 @@ a:hover, a:active {
     }
 
 .navbar-nav > li {
-    padding: 0 16px;
+    margin-right: 15px;
     font-size: 15px;
     list-style: none;
     padding-top: 2px;
@@ -56,15 +56,20 @@ a:hover, a:active {
 .navbar-default .navbar-nav > li > a {
     font-family: 'Microsoft YaHei';
     color: #fff;
+    padding: 0;
+    line-height: 50px;
+}
+.navbar-right > li > a {
+    font-size: 14px;
 }
 /*#f8f459*/ 
 .nav > li > a {
     font-weight: normal;
 }
 
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .nav > li > a:focus {
-    color: #ebebeb;
-    background-color: #39393c;
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a.active, .navbar-default .nav > li > a:focus {
+    background: transparent;
+    color: #795548;
 }
 /*导航栏子菜单*/
 .navbar-nav > li > .dropdown-menu {
@@ -115,11 +120,9 @@ a:hover, a:active {
 /*导航栏右侧显示设置*/
 .navbar-right > li {
     font-size: smaller;
-    padding: 16px 12px 0 6px;
 }
 
 .userLogined {
-    color: #e7e7e7;
     background-color: transparent;
 }
 /*主体内容Container部分*/

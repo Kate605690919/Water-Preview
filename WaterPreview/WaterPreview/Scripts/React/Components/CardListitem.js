@@ -2,12 +2,22 @@
     constructor(props) {
         super(props);
         this.state = { FlowList: { status: 'loadding' }, PressureList: {status: 'loadding'} };
-
+        this.onEditViewCount = this.onEditViewCount.bind(this);
+        this.onIncreaseFC = this.onIncreaseFC.bind(this);
+        this.onIncreasePC = this.onIncreasePC.bind(this);
         this.getUids({ url: '/FlowMeter/GetMostVisitsFlowMeter', stateName: 'FlowList' });
         this.getUids({ url: '/PressureMeter/GetMostVisitsPressureMeter', stateName: 'PressureList' });
     }
     onEditViewCount() {
-        
+        const FC = $('#DeviceViewCount0').val();
+        const PC = $('#DeviceViewCount1').val();
+        this.props.onChangeDeviceCount(FC, PC);
+    }
+    onIncreaseFC() {
+        this.props.increaseFC();
+    }
+    onIncreasePC() {
+        this.props.increasePC();
     }
     getUids({ url, stateName }) {
         let _this = this;
@@ -61,14 +71,14 @@
                     <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'flex-end', 'borderTop': '1px solid #e7eaec', 'color': 'rgb(158, 158, 158)' }}>
                         <span></span>
                         <span></span>
-                        <a className="label label-default" style={{ 'lineHeight': '15px', 'marginRight': '10px' }}>下一个<i aria-hidden="true" className="fa fa-arrow-down" style={{ 'marginLeft': '5px' }}></i></a>
+                        <a className="label label-default" style={{ 'lineHeight': '15px', 'marginRight': '10px' }} onClick={this.onIncreaseFC}>下一个<i aria-hidden="true" className="fa fa-arrow-down" style={{ 'marginLeft': '5px' }}></i></a>
                         <Link to="/Devices" className="label label-default" style={{ 'lineHeight': '15px' }}>更多<i aria-hidden="true" className="fa fa-hand-o-right" style={{ 'marginLeft': '5px'}}></i></Link>
                     </li>
                     {pressureList}
                     <li className="list-group-item" style={{ display: 'flex', 'justifyContent': 'flex-end', 'borderTop': '1px solid #e7eaec', 'color': 'rgb(158, 158, 158)' }}>
                         <span></span>
                         <span></span>
-                        <a className="label label-default" style={{ 'lineHeight': '15px', 'marginRight': '10px' }}>下一个<i aria-hidden="true" className="fa fa-arrow-down" style={{ 'marginLeft': '5px' }}></i></a>
+                        <a className="label label-default" style={{ 'lineHeight': '15px', 'marginRight': '10px' }} onClick={this.onIncreasePC}>下一个<i aria-hidden="true" className="fa fa-arrow-down" style={{ 'marginLeft': '5px' }}></i></a>
                         <Link to="/Devices" className="label label-default" style={{ 'lineHeight': '15px' }}>更多<i aria-hidden="true" className="fa fa-hand-o-right" style={{ 'marginLeft': '5px' }}></i></Link>
                     </li>
                 </ul>
@@ -84,7 +94,7 @@
                                 <Form formInfo={formInfo}/>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-primary" onClick={this.props.onEditViewCount}>保存修改</button>
+                                <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={this.onEditViewCount}>保存修改</button>
                             </div>
                         </div>
                     </div>
@@ -101,8 +111,20 @@ const mapStateToProps = (state) => {
         pressureCount: parseInt(state.home.DeviceViewCount.pressureCount),
     };
 };
-
-CardListItem = ReactRedux.connect(mapStateToProps)(CardListItem);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onChangeDeviceCount: (FC, PC) => {
+            dispatch(changeDeviceCount(FC, PC));
+        },
+        increaseFC: () => {
+            dispatch(increaseFC());
+        },
+        increasePC: () => {
+            dispatch(increasePC());
+        }
+    }
+}
+CardListItem = ReactRedux.connect(mapStateToProps, mapDispatchToProps)(CardListItem);
 //<div className="ibox MiniCard">
 //    <div className="ibox-title" style={{ padding: '0 10px', minHeight: '30px' }}>
 //        <span className="no-margin" style={{ lineHeight: '30px', margin: 0 }}>{this.props.bigH.header}</span>

@@ -2,6 +2,21 @@
     let newState = Object.assign({}, state);
     switch (action.type) {
         //manageReducer
+        case CHANGE_DEVICE_COUNT: {
+            localStorage.setItem('flowCount', action.FC);
+            localStorage.setItem('pressureCount', action.PC);
+            newState.home.DeviceViewCount.flowCount = action.FC;
+            newState.home.DeviceViewCount.pressureCount = action.PC;
+            return { ...state, home: Object.assign({}, newState.home) };
+        }
+        case INCREASE_FC: {
+            newState.home.DeviceViewCount.flowCount = parseInt(newState.home.DeviceViewCount.flowCount)+1;
+            return { ...state, home: Object.assign({}, newState.home) };
+        }
+        case INCREASE_PC: {
+            newState.home.DeviceViewCount.pressureCount = parseInt(newState.home.DeviceViewCount.pressureCount) + 1;
+            return { ...state, home: Object.assign({}, newState.home) };
+        }
         case EDIT_MANAGE: {
             newState.formInfo.itemInfo = newState.formInfo.itemInfo.map((item) => { item.input.readOnly = null; return item });
             newState.formInfo.itemInfo[0].id = 9;
