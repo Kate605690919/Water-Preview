@@ -36,6 +36,7 @@ namespace WaterPreview
                       "~/Scripts/sources/react/react-dom.min.js",
                       "~/Scripts/sources/react/redux.min.js",
                       "~/Scripts/sources/react/react-redux.min.js",
+                      "~/Scripts/sources/react/antd.min.js",
                       "~/Scripts/sources/react/babel.min.js"
                       ));
 
@@ -45,6 +46,7 @@ namespace WaterPreview
                       "~/Content/jquery.duallistbox.min.css",
                       "~/Content/datatables.min.css",
                       "~/Content/site.css",
+                      "~/Content/antd.min.css",
                       "~/Content/inspinia/animate.css",
                       "~/Content/inspinia/style.css",
                       "~/Content/jstree/style.min.css",

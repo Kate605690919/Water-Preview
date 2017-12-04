@@ -193,6 +193,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\antd.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -276,6 +277,7 @@
     <Content Include="Scripts\sources\jquery.validate.min.js" />
     <Content Include="Scripts\sources\jstree.min.js" />
     <Content Include="Scripts\sources\modernizr-2.6.2.js" />
+    <Content Include="Scripts\sources\react\antd.min.js" />
     <Content Include="Scripts\sources\react\babel.min.js" />
     <Content Include="Scripts\sources\react\react-dom.min.js" />
     <Content Include="Scripts\sources\react\react-redux.min.js" />
