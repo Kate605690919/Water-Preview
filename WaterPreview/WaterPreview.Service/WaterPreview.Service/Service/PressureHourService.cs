@@ -25,5 +25,11 @@ namespace WaterPreview.Service.Service
             phlist = GetPressureHourByUid(pmuid).Where(p => p.PH_Time >= (startday * 100 + 9) && p.PH_Time < (endday * 100 + 9)).ToList();
             return phlist;
         }
+
+        public List<PressureHour_t> GetPressureHourByUidWithTime(Guid pmUid, int startTime, int endTime)
+        {
+            var phlist = FindAll().Where(p => p.PH_PressureMeterUid == pmUid).ToList();
+            return phlist.Count == 0 ? new List<PressureHour_t>() : phlist.Where(p => p.PH_Time > startTime && p.PH_Time < endTime).OrderBy(p=>p.PH_Time).ToList();
+        }
     }
 }

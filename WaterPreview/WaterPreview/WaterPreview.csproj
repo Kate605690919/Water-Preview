@@ -235,6 +235,8 @@
     <Content Include="Scripts\React\Components\HeaderTop.js" />
     <Content Include="Scripts\React\Components\HeatMapFm.js" />
     <Content Include="Scripts\React\Components\JsTree.js" />
+    <Content Include="Scripts\React\Components\CardListitem.js" />
+    <Content Include="Scripts\React\Components\loadding.js" />
     <Content Include="Scripts\React\Components\MiniCard.js" />
     <Content Include="Scripts\React\Components\Select.js" />
     <Content Include="Scripts\React\Components\Step.js" />
@@ -249,6 +251,8 @@
     <Content Include="Scripts\React\Devices\pages\detail\index.js" />
     <Content Include="Scripts\React\Devices\ToolBar.js" />
     <Content Include="Scripts\React\FeedBack\index.js" />
+    <Content Include="Scripts\React\Home\action.js" />
+    <Content Include="Scripts\React\Home\cardRank.js" />
     <Content Include="Scripts\React\Home\index.js" />
     <Content Include="Scripts\React\reducer.js" />
     <Content Include="Scripts\React\Staff\index.js" />

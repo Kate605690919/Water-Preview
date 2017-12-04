@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WaterPreview.Service.Base;
+using WaterPreview.Service.other;
 using WaterPreview.Service.Service;
 
 namespace WaterPreview.Service.Interface
 {
     public class AreaService:BaseService<Area_t>,IAreaService
     {
+
+
         public Area_t GetAreaByUserUid(Guid useruid)
         {
             IAreaUserService areauser_service = new AreaUserService();
@@ -21,12 +24,25 @@ namespace WaterPreview.Service.Interface
         {
             IAreaDeviceService ad_service = new AreaDeviceService();
             AreaDevice_t ad = ad_service.GetAreaDeviceByDeviceUid(deviceUid);
-            return FindAll().Where(p => p.Ara_UId == ad.AD_AreaUid).FirstOrDefault();
+            return ad.AD_AreaUid==new Guid()?new Area_t():FindAll().Where(p => p.Ara_UId == ad.AD_AreaUid).FirstOrDefault();
         }
 
         public List<Area_t> GetAllArea()
         {
             return FindAll();
         }
+
+        public List<Area_t> GetSubArea(Guid areaUid)
+        {
+            List<Area_t> arealist = new List<Area_t>();
+            Area_t area = FindAll().Where(p=>p.Ara_UId==areaUid).FirstOrDefault();
+            arealist.Add(area);
+            GetSubAreaList subarea = new GetSubAreaList(areaUid);
+            arealist.AddRange(subarea.Area_SubNode);
+
+            return arealist;
+        }
+
+        
     }
 }

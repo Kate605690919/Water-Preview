@@ -47,7 +47,7 @@ a:hover, a:active {
     }
 
 .navbar-nav > li {
-    padding: 0 16px;
+    margin-right: 15px;
     font-size: 15px;
     list-style: none;
     padding-top: 2px;
@@ -56,15 +56,20 @@ a:hover, a:active {
 .navbar-default .navbar-nav > li > a {
     font-family: 'Microsoft YaHei';
     color: #fff;
+    padding: 0;
+    line-height: 50px;
+}
+.navbar-right > li > a {
+    font-size: 14px;
 }
 /*#f8f459*/ 
 .nav > li > a {
     font-weight: normal;
 }
 
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .nav > li > a:focus {
-    color: #ebebeb;
-    background-color: #39393c;
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a.active, .navbar-default .nav > li > a:focus {
+    background: transparent;
+    color: #795548;
 }
 /*导航栏子菜单*/
 .navbar-nav > li > .dropdown-menu {
@@ -115,11 +120,9 @@ a:hover, a:active {
 /*导航栏右侧显示设置*/
 .navbar-right > li {
     font-size: smaller;
-    padding: 16px 12px 0 6px;
 }
 
 .userLogined {
-    color: #e7e7e7;
     background-color: transparent;
 }
 /*主体内容Container部分*/
@@ -425,11 +428,7 @@ aside .affix {
     font-size: 18px;
 }
 .homeBody .commonDevice {
-    margin-bottom: 10px;
-    width: 240px;
-    padding: 10px 10px 0 20px;
-    box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
-    margin-right: 10px;
+    margin: 0px 10px;
     background: #fff;
 }
 .ibox-title h5 {
@@ -453,8 +452,70 @@ aside .affix {
 }
 .homeBody .commonData {
     display: flex;
+    border-bottom: none !important;
+    border-top: 0;
+    padding: 20px 20px 20px 20px;
+    margin: 25px 10px 0 10px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    background: #fff;
 }
 .homeBody .text-success {
     color: #00c6e0;
     font-weight:normal!important;
+}
+#DeviceViewCount .control-label {
+    color: rgb(158,158,158);
+    font-weight: 400;
+}
+#DeviceViewCount .form-control {
+    border: none;
+    border-bottom: 1px solid #e5e6e7;
+}
+/*loading*/
+.loading {
+    width: 100px;
+    height: 10px;
+    margin: 10px auto;
+    position: relative;
+}
+
+    .loading span {
+        position: absolute;
+        width: 15px;
+        height: 100%;
+        border-radius: 50%;
+        background: #00b4cc;
+        -webkit-animation: load 1.04s ease-in infinite alternate;
+    }
+
+@-webkit-keyframes load {
+    0% {
+        opacity: 1;
+        -webkit-transform: translate(0px);
+    }
+
+    100% {
+        opacity: 0.2;
+        -webkit-transform: translate(150px);
+    }
+}
+
+.loading span:nth-child(1) {
+    -webkit-animation-delay: 0.13s;
+}
+
+.loading span:nth-child(2) {
+    -webkit-animation-delay: 0.26s;
+}
+
+.loading span:nth-child(3) {
+    -webkit-animation-delay: 0.39s;
+}
+
+.loading span:nth-child(4) {
+    -webkit-animation-delay: 0.52s;
+}
+
+.loading span:nth-child(5) {
+    -webkit-animation-delay: 0.65s;
 }

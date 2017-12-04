@@ -29,6 +29,20 @@ function dateFormat(data, trail) {
     return ar_date.join('/');
 }
 const DeviceInfo = {
+    home: {
+        DeviceViewCount: {
+            flowCount: localStorage.getItem('flowCount') || 3,
+            pressureCount: localStorage.getItem('pressureCount') || 2
+        },
+        editDeviceViewCount: {
+            formId: 'DeviceViewCount',
+            itemInfo: [{
+                id: 0, label: '流量计', input: { name: 'Flow_Count', value: 'flowCount' }
+            }, {
+                id: 1, label: '压力计', input: { name: 'Pressure_Count', value: 'pressureCount' }
+            }]
+        }
+    },
     areaUid: '',
     device: ['FM', 'PM'],
     jsTreeInfo: {

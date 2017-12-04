@@ -4,8 +4,8 @@
     }
 
     componentDidMount() {
+        let form = this.refs.form;
         if (this.props.formInfo.func) {
-            let form = this.refs.form;
             let _this = this;
             let { url, data, successFunc } = this.props.formInfo.func;
             $(form).submit((e) => {
@@ -30,34 +30,20 @@
     render() {
         let formEls = null, btn = null, value = null, _this = this;
         let bindMap = this.props.formInfo.itemInfo.map.bind(this);
-        //if (!this.props.formInfo.data) {
-        //    return false;
-        //} else {
-            try {
-                formEls = this.props.formInfo.itemInfo.map(function (item) {
-                    try {
-                        value = eval(`_this.props.formInfo.data.${item.input.value}`);
-                    } catch (error) {
-                        value = null;
-                    }
-                    return <FormItem itemInfo={item} formId={_this.props.formInfo.formId} value={value} />;
-                });
-            } catch (error) {
 
-            }
-        //}
+        try {
+            formEls = this.props.formInfo.itemInfo.map(function (item) {
+                try {
+                    value = eval(`_this.props.formInfo.data.${item.input.value}`);
+                } catch (error) {
+                    value = null;
+                }
+                return <FormItem itemInfo={item} formId={_this.props.formInfo.formId} value={value} />;
+            });
+        } catch (error) {
 
-        //try {
-        //    debugger;
-        //    formEls = this.props.formInfo.itemInfo.map(function(item) {
-        //        value = eval(`_this.props.formInfo.data.${item.input.value}`);
-        //        return <FormItem itemInfo={item} formId={_this.props.formInfo.formId} value={value} />;
-        //    });
-        //    } catch (error) {
-        //    if (error instanceof TypeError) {
-        //        return <FormItem itemInfo={item} formId={_this.props.formInfo.formId} value={null} />;
-        //    }
-        //}
+        }
+
         if (this.props.formInfo.btnContent) {
             btn = <button className="btn btn-md btn-primary pull-left m-t-n-xs" type="submit" style={{ backgroundColor: 'rgb(0, 198, 224)', borderColor: 'rgb(0, 188, 212)' }}> <strong>{ this.props.formInfo.btnContent }</strong></button >
         } else {

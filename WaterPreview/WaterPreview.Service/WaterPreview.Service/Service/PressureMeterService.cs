@@ -28,7 +28,7 @@ namespace WaterPreview.Service.Service
                 {
                     pressuremeter = FindAll().Where(p => p.PM_UId == pmsa_item.PM_UId).FirstOrDefault(),
                     status = pms_service.GetPressureMeterStatusByUid(pmsa_item.PM_UId).FirstOrDefault(),
-                    area = area_service.GetAreaByDeviceUid(pmsa_item.PM_UId)
+                    area = area_service.GetAreaByDeviceUid(pmsa_item.PM_UId),
                 };
                 pmsalist.Add(item);
             }
@@ -83,7 +83,26 @@ namespace WaterPreview.Service.Service
             return pmanalysis;
         }
 
-       
+        public List<PressureMeterData> GetPressureMetersDataByUser(User_t account)
+        {
+            List<PressureMeter_t> pmlist = new List<PressureMeter_t>();
+            List<PressureMeterData> pmdatalist = new List<PressureMeterData>();
+
+            if (account.Usr_Type == 3)
+            {
+                //获取客户的水压计，当前水压计未绑定客户
+            }
+            else
+            {
+                pmlist = FindAll();
+                foreach (var item in pmlist)
+                {
+                    var pmdata = GetAnalysisByPressureMeter(item, (DateTime)item.PM_CountLast);
+                    pmdatalist.Add(pmdata);
+                }
+            }
+            return pmdatalist;
+        }
 
     }
 }

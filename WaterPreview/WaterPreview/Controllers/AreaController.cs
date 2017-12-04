@@ -40,7 +40,6 @@ namespace WaterPreview.Controllers
 
         public JsonResult AreaTree()
         {
-            //DBHelper.ClearCache();
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 
@@ -95,10 +94,42 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusAndArea();
-            List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]);
+            List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, 
+                ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]);
 
+            //筛选出子区域范围内的所有流量计
+            List<Area_t> subarealist = areaService.GetSubArea(areaUid);
+            List<FlowMeterStatusAndArea> fms_areas = new List<FlowMeterStatusAndArea>();
+            foreach (var item in fmstatusAndAreaList)
+            {
+                if (subarealist.Where(p => p.Ara_UId == item.area.Ara_UId).Count()>0)
+                {
+                    fms_areas.Add(item);
+                }
+            }
 
-            string dataresult = ToJson<List<FlowMeterStatusAndArea>>.Obj2Json<List<FlowMeterStatusAndArea>>(fmstatusAndAreaList);
+            //获取设备访问次数,根据访问次数排序,再将剩余的设备整合
+            Func<List<VisitCount>> initvisit = () => { return new List<VisitCount>(); };
+            List<VisitCount> vclist = DBHelper.getWithNoExpire<List<VisitCount>>(initvisit, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitFlowMeterCount"]);
+            List<FlowMeterStatusAndArea> fms_areas_order = new List<FlowMeterStatusAndArea>();
+            vclist = vclist.OrderByDescending(p=>p.count).ToList();
+            foreach (var item in vclist)
+            {
+                var data = fms_areas.Where(p => p.flowmeter.FM_UId == Guid.Parse(item.uid)).FirstOrDefault();
+                if (data != null)
+                {
+                    fms_areas_order.Add(data);
+                }
+            }
+            foreach (var item in fms_areas)
+            {
+                if (vclist.Where(p => p.uid == item.flowmeter.FM_UId.ToString()).Count() == 0)
+                {
+                    fms_areas_order.Add(item);
+                }
+            }
+
+            string dataresult = ToJson<List<FlowMeterStatusAndArea>>.Obj2Json<List<FlowMeterStatusAndArea>>(fms_areas_order);
             dataresult = dataresult.Replace("\\\\", "");
 
             result.Data = dataresult;
@@ -110,9 +141,42 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => pressuremeterService.GetPressureMeterStatusAndArea();
-            List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea,ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]);
+            List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea,
+                ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]).ToList();
+            List<Area_t> subarealist = areaService.GetSubArea(areaUid);
+
+            List<PressureMeterStatusAndArea> pms_areas = new List<PressureMeterStatusAndArea>();
+            foreach (var item in pmstatusAndAreaList)
+            {
+                if (subarealist.Where(p => p.Ara_UId == item.area.Ara_UId).Count()>0)
+                {
+                    pms_areas.Add(item);
+                }
+            }
+
+            //获取设备访问次数,根据访问次数排序,再将剩余的设备整合
+            Func<List<VisitCount>> initvisit = () => { return new List<VisitCount>(); };
+            List<VisitCount> vclist = DBHelper.getWithNoExpire<List<VisitCount>>(initvisit, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
+            List<PressureMeterStatusAndArea> pms_areas_order = new List<PressureMeterStatusAndArea>();
+            vclist = vclist.OrderByDescending(p => p.count).ToList();
+            foreach (var item in vclist)
+            {
+                var data = pms_areas.Where(p => p.pressuremeter.PM_UId == Guid.Parse(item.uid)).FirstOrDefault();
+                if (data != null)
+                {
+                    pms_areas_order.Add(data);
+                }
+            }
+            foreach (var item in pms_areas)
+            {
+                if (vclist.Where(p => p.uid == item.pressuremeter.PM_UId.ToString()).Count() == 0)
+                {
+                    pms_areas_order.Add(item);
+                }
+            }
+
             //result.Data = pmstatusAndAreaList;
-            string dataresult = ToJson<List<PressureMeterStatusAndArea>>.Obj2Json<List<PressureMeterStatusAndArea>>(pmstatusAndAreaList).Replace("\\\\", "");
+            string dataresult = ToJson<List<PressureMeterStatusAndArea>>.Obj2Json<List<PressureMeterStatusAndArea>>(pms_areas_order).Replace("\\\\", "");
             dataresult = dataresult.Replace("\\\\", "");
 
             result.Data = dataresult;

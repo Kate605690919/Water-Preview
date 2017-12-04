@@ -34,11 +34,14 @@ namespace WaterPreview.Util.Infrastructure
             ninjectKernel.Bind<IAreaDeviceService>().To<AreaDeviceService>();
             ninjectKernel.Bind<IAreaService>().To<AreaService>();
             ninjectKernel.Bind<IAreaUserService>().To<AreaUserService>();
+            ninjectKernel.Bind<IFlowService>().To<FlowService>();
             ninjectKernel.Bind<IFlowDayService>().To<FlowDayService>();
             ninjectKernel.Bind<IFlowHourService>().To<FlowHourService>();
             ninjectKernel.Bind<IFlowMeterService>().To<FlowMeterService>();
             ninjectKernel.Bind<IFlowMeterStatusService>().To<FlowMeterStatusService>();
             ninjectKernel.Bind<IFlowMonthService>().To<FlowMonthService>();
+            ninjectKernel.Bind<IPressureService>().To<PressureService>();
+            ninjectKernel.Bind<IPressureDayService>().To<PressureDayService>();
             ninjectKernel.Bind<IPressureHourService>().To<PressureHourService>();
             ninjectKernel.Bind<IPressureMeterService>().To<PressureMeterService>();
             ninjectKernel.Bind<IPressureMeterStatusService>().To<PressureMeterStatusService>();

@@ -46,7 +46,7 @@ namespace WaterPreview.Redis
         }
 
         /// <summary>
-        /// 更新并获取key对应的init返回的值
+        /// 更新并获取key对应的init返回的值,不设置过期时间
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="init"></param>
@@ -63,7 +63,7 @@ namespace WaterPreview.Redis
                 var list = init();
                 rc.Set(name, JsonConvert.SerializeObject(list));
                 //设置值的过期时间为24小时
-                rc.Expire(name, new TimeSpan(24, 0, 0));
+                //rc.Expire(name, new TimeSpan(24, 0, 0));
                 return list;
             }
         }
@@ -82,6 +82,32 @@ namespace WaterPreview.Redis
                     rc.Expire(name, new TimeSpan(24, 0, 0));
                     return list;
                 }
+                return JsonConvert.DeserializeObject<T>(rc.Get(name));
+
+            }
+        }
+
+        /// <summary>
+        /// 设置init并获取key对应的值，不设置过期时间，当前仅使用在存储访问次数
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="init"></param>
+        /// <param name="key"></param>
+        /// <param name="dbindex"></param>
+        /// <returns></returns>
+        public static T getWithNoExpire<T>(Func<T> init,string key,int dbindex =1)
+        {
+            using (RedisClient rc = new RedisClient(ConnectionString))
+            {
+                rc.Select(dbindex);
+                var name = key;
+                if (!rc.Exists(name))
+                {
+                    var list = init();
+                    rc.Set(name, JsonConvert.SerializeObject(list));
+                    return list;
+                }
+
                 return JsonConvert.DeserializeObject<T>(rc.Get(name));
 
             }
