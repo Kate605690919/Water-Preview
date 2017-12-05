@@ -56,7 +56,7 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            User_t account = UserContext.GetCurrentAccount();
+            User_t account = UserContext.account;
 
                 Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
 
@@ -78,10 +78,10 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             //获取账号访问设备uid的访问次数，不设置过期时间
             Func<List<VisitCount>> initvisit = ()=>{return new List<VisitCount>();};
-            List<VisitCount> vclist = DBHelper.getWithNoExpire<List<VisitCount>>(initvisit, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitFlowMeterCount"]);
+            List<VisitCount> vclist = DBHelper.getWithNoExpire<List<VisitCount>>(initvisit, UserContext.account.Usr_UId + ConfigurationManager.AppSettings["VisitFlowMeterCount"]);
             //增加账号访问设备uid的访问次数
             Func<List<VisitCount>> visitcount = () => account_Service.AddDeviceVisits(vclist,uid);
-            DBHelper.getAndFresh<VisitCount>(visitcount, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitFlowMeterCount"]);
+            DBHelper.getAndFresh<VisitCount>(visitcount, UserContext.account.Usr_UId + ConfigurationManager.AppSettings["VisitFlowMeterCount"]);
             //获取并返回设备uid的区域状态数据
             Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => (flowmeter_Service.GetFlowMeterStatusAndArea());
             result.Data = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]).Where(p => p.flowmeter.FM_UId == uid).ToList();
@@ -154,10 +154,10 @@ namespace WaterPreview.Controllers
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 
             List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
-            User_t account = UserContext.GetCurrentAccount();
+            User_t account = UserContext.account;
             //获取账号访问设备次数的list
             Func<List<VisitCount>> initvisit = () => { return new List<VisitCount>(); };
-            List<VisitCount> vclist = DBHelper.get<List<VisitCount>>(initvisit, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitFlowMeterCount"]);
+            List<VisitCount> vclist = DBHelper.get<List<VisitCount>>(initvisit, UserContext.account.Usr_UId + ConfigurationManager.AppSettings["VisitFlowMeterCount"]);
 
             Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
             List<FlowMeterData> fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);
@@ -202,7 +202,7 @@ namespace WaterPreview.Controllers
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
 
-            User_t account = UserContext.GetCurrentAccount();
+            User_t account = UserContext.account;
 
                 Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
                 List<FlowMeterData> fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);

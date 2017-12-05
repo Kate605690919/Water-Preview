@@ -36,7 +36,6 @@
 
   
 	<add key="Microsoft.VisualStudio.Enterprise.AspNetHelper.VsInstrLocation" value="D:\Program Files (x86)\Microsoft Visual Studio 2017\Team Tools\Performance Tools\vsinstr.exe"/>
-	
 	</appSettings>
   <system.web>
     <authentication mode="None"/>

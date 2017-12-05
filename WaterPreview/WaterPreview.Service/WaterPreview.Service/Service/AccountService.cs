@@ -18,12 +18,14 @@ namespace WaterPreview.Service.Service
 
         public User_t GetAccountByUid(Guid uid)
         {
-            return FindAll().Where(p => p.Usr_UId == uid).SingleOrDefault();
+            var user = FindAll().Where(p => p.Usr_UId == uid).ToList();
+            return user.Count==0?new User_t():user.FirstOrDefault();
         }
 
         public User_t GetAccountByName(string name)
         {
-            return FindAll().Where(p => p.Usr_Name == name).SingleOrDefault();
+            var user = FindAll().Where(p => p.Usr_Name == name).ToList();
+            return user.Count==0?new User_t():user.FirstOrDefault();
         }
 
         public List<VisitCount> AddDeviceVisits(List<VisitCount> dvlist, Guid deviceUid)

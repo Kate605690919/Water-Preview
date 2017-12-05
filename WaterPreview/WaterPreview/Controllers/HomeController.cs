@@ -30,6 +30,8 @@ namespace WaterPreview.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
+
         public ActionResult Login(string userName, string password)
         {
             User_t user = accountService.GetAccountByName(userName);
@@ -41,7 +43,7 @@ namespace WaterPreview.Controllers
             Response.Cookies["username"].Value = user.Usr_UId.ToString();
             Response.Cookies["username"].Expires = DateTime.Now.AddDays(1);
             //DBHelper.ClearCache();
-
+            //return 
             return RedirectToAction("index");
         }
 

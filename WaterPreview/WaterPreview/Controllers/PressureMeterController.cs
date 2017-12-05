@@ -56,10 +56,10 @@ namespace WaterPreview.Controllers
 
             //获取账号访问设备uid的访问次数，并不设置过期时间
             Func<List<VisitCount>> initvisit = () => { return new List<VisitCount>(); };
-            List<VisitCount> vclist = DBHelper.getWithNoExpire<List<VisitCount>>(initvisit, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
+            List<VisitCount> vclist = DBHelper.getWithNoExpire<List<VisitCount>>(initvisit, UserContext.account.Usr_UId + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
             //增加账号访问设备uid的访问次数
             Func<List<VisitCount>> visitcount = () => account_service.AddDeviceVisits(vclist, pmuid);
-            DBHelper.getAndFresh<VisitCount>(visitcount, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
+            DBHelper.getAndFresh<VisitCount>(visitcount, UserContext.account.Usr_UId + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
 
             //获取并返回设备uid的区域状态数据
             Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => (pressuremeter_service.GetPressureMeterStatusAndArea());
@@ -144,7 +144,7 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            User_t account = UserContext.GetCurrentAccount();
+            User_t account = UserContext.account;
 
             Func<List<PressureMeterData>> pmdataFunc = ()=>pressuremeter_service.GetPressureMetersDataByUser(account);
             var pmdataanalysis = DBHelper.get<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["allPressureAnalysisByUserUid"] + account.Usr_UId);
@@ -161,14 +161,14 @@ namespace WaterPreview.Controllers
         public JsonResult GetMostVisitsPressureMeter(string[] pmUids)
         {
             JsonResult result = new JsonResult();
-            User_t account = UserContext.GetCurrentAccount();
+            User_t account = UserContext.account;
             List<PressureMeterData> pmdatalist = new List<PressureMeterData>();
 
             Func<List<PressureMeterData>> pmdataFunc = () => pressuremeter_service.GetPressureMetersDataByUser(account);
             var pmdataanalysis = DBHelper.get<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["allPressureAnalysisByUserUid"] + account.Usr_UId);
 
             Func<List<VisitCount>> initvisit = () => { return new List<VisitCount>(); };
-            List<VisitCount> vclist = DBHelper.get<List<VisitCount>>(initvisit, UserContext.GetCurrentAccount().Usr_UId + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
+            List<VisitCount> vclist = DBHelper.get<List<VisitCount>>(initvisit, UserContext.account.Usr_UId + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
 
             if (vclist.Count > 0)
             {
@@ -209,7 +209,7 @@ namespace WaterPreview.Controllers
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             List<PressureMeterData> pmdatalist = new List<PressureMeterData>();
 
-            User_t account = UserContext.GetCurrentAccount();
+            User_t account = UserContext.account;
 
 
             Func<List<PressureMeterData>> pmdataFunc = () => pressuremeter_service.GetPressureMetersDataByUser(account);

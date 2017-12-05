@@ -12,8 +12,8 @@ namespace WaterPreview.Service.Service
     {
         public List<PressureHour_t> GetPressureHourByUid(Guid pmUid)
         {
-            var phlist = FindAll().Where(p => p.PH_PressureMeterUid == pmUid);
-            return phlist.Count()==0 ?  new List<PressureHour_t>(): phlist.ToList();
+            var phlist = FindAll().Where(p => p.PH_PressureMeterUid == pmUid).ToList();
+            return phlist.Count==0 ?  new List<PressureHour_t>(): phlist.ToList();
         }
 
         public List<PressureHour_t> GetDayPressureByUid(Guid pmuid, DateTime time)

@@ -108,6 +108,7 @@
     <Compile Include="Flow_t.cs">
       <DependentUpon>WaterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="InnerRoleAuthority_t.cs">
       <DependentUpon>WaterModel.tt</DependentUpon>
     </Compile>
