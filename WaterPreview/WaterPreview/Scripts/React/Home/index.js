@@ -1,4 +1,4 @@
-﻿let { DatePicker, message } = antd;
+﻿let { Button } = antd;
 class Home extends React.Component {
     constructor(props) {
         super(props);
@@ -12,6 +12,15 @@ class Home extends React.Component {
         //地图
         var idMap = document.querySelector("#homeMap");
         initMap(idMap);
+        (async () => {
+            try {
+                let res = await $Fetch.fetchSync_Post({ url: '/FlowMeter/GetAreaAvgFlow' });
+                //_this.setState({ [stateName]: { data: res, status: 'success' } });
+                console.log(res);
+            } catch (err) {
+                //_this.setState({ [stateName]: { error: err, status: 'failure' } });
+            }
+        })();
     }
     render() {
         return (
