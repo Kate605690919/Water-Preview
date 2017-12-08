@@ -34,6 +34,9 @@ const DeviceInfo = {
             flowCount: localStorage.getItem('flowCount') || 3,
             pressureCount: localStorage.getItem('pressureCount') || 2
         },
+        DeviceViewRank: {
+            renderFlag: false
+        },
         editDeviceViewCount: {
             formId: 'DeviceViewCount',
             itemInfo: [{

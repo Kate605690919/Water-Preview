@@ -1,6 +1,10 @@
 ﻿function reducer(state = [], action) {
     let newState = Object.assign({}, state);
     switch (action.type) {
+        case RENDER_RANK: {
+            newState.home.DeviceViewRank.renderFlag = true;
+            return { ...state, home: Object.assign({}, newState.home) };
+        }
         //manageReducer
         case CHANGE_DEVICE_COUNT: {
             localStorage.setItem('flowCount', action.FC);

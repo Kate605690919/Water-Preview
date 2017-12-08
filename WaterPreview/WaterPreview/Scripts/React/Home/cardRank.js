@@ -2,22 +2,27 @@
     constructor(props) {
         super(props);
         this.state = { PMViewLog: { status: 'loadding' }, ViewLog: { status: 'loadding' } };
-
-        this.getList({
-            url: '/FlowMeter/GetLastDayFlowList', stateName: 'ViewLog'
-        });
-        this.getList({
-            url: '/PressureMeter/GetLastDayPressureList', stateName: 'PMViewLog'
-        });
     }
-
+    componentWillUpdate() {
+        let flag = this.props.renderFlag;
+        if (flag) {
+            this.getList({
+                url: '/FlowMeter/GetLastDayFlowList', stateName: 'ViewLog'
+            });
+            this.getList({
+                url: '/PressureMeter/GetLastDayPressureList', stateName: 'PMViewLog'
+            });
+        }
+    }
     getList({ url, stateName }) {
         const _this = this;
         (async () => {
             try {
                 let res = await $Fetch.fetchSync_Get(url);
+                this.props.renderFlag = false;
                 _this.setState({ [stateName]: { data: res, status: 'success' } });
             } catch (err) {
+                this.props.renderFlag = false;
                 _this.setState({ [stateName]: { error: err, status: 'failure' } });
             }
         })();
@@ -59,3 +64,10 @@
         );
     }
 }
+const mapStateToProps = (state) => {
+    return {
+        renderFlag: state.home.editDeviceViewCount
+    };
+};
+CardRank = ReactRedux.connect(mapStateToProps)(CardRank);
+
