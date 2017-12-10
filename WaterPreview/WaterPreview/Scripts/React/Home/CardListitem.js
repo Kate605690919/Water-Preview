@@ -5,6 +5,7 @@
         this.onEditViewCount = this.onEditViewCount.bind(this);
         this.onIncreaseFC = this.onIncreaseFC.bind(this);
         this.onIncreasePC = this.onIncreasePC.bind(this);
+        this.onRenderRank = this.onRenderRank.bind(this);
         this.getUids({ url: '/FlowMeter/GetMostVisitsFlowMeter', stateName: 'FlowList' });
         this.getUids({ url: '/PressureMeter/GetMostVisitsPressureMeter', stateName: 'PressureList' });
     }
@@ -19,11 +20,15 @@
     onIncreasePC() {
         this.props.increasePC();
     }
+    onRenderRank() {
+        this.props.renderRank();
+    }
     getUids({ url, stateName }) {
         let _this = this;
         (async () => {
             try {
                 let res = await $Fetch.fetchSync_Post({ url: url });
+                if (stateName === 'PressureList')    _this.onRenderRank();
                 _this.setState({ [stateName]: { data: res, status: 'success' } });
             } catch (err) {
                 _this.setState({ [stateName]: { error: err, status: 'failure' } });
@@ -99,7 +104,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         );
     }
@@ -121,6 +125,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         increasePC: () => {
             dispatch(increasePC());
+        },
+        renderRank: () => {
+            dispatch(renderRank());
         }
     }
 }

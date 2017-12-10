@@ -13,14 +13,14 @@ namespace WaterPreview.Service.Service
         public List<FlowHour_t> GetFlowHourByFMUid(Guid fmUid)
         {
             dpnetwork_data_20160419_NewEntities db = new dpnetwork_data_20160419_NewEntities();
-            var fhlist = db.FlowHour_t.Where(p => p.Flh_FlowMeterUid == fmUid);
+            var fhlist = db.FlowHour_t.Where(p => p.Flh_FlowMeterUid == fmUid).ToList();
             return fhlist.Count() == 0 ? new List<FlowHour_t>() : fhlist.ToList();
         }
 
         public List<FlowHour_t> GetTimeFlowHourByUid(Guid fmUid,int startTime,int endTime)
         {
             dpnetwork_data_20160419_NewEntities db = new dpnetwork_data_20160419_NewEntities();
-            var fhlist = db.FlowHour_t.Where(p => p.Flh_FlowMeterUid == fmUid);
+            var fhlist = db.FlowHour_t.Where(p => p.Flh_FlowMeterUid == fmUid).ToList();
             return  fhlist.Count()==0?new List<FlowHour_t>():fhlist.Where(p=>p.Flh_Time<=endTime&&p.Flh_Time>=startTime).ToList();
 
         }

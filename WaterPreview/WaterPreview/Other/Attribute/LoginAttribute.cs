@@ -18,7 +18,6 @@ namespace WaterPreview.Other.Attribute
         //执行Action之前操作
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            base.OnActionExecuting(filterContext);
 
             if (IsCheck)
             {
@@ -26,6 +25,7 @@ namespace WaterPreview.Other.Attribute
                 {
                     return;
                 }
+                
                 HttpCookieCollection CookieCollect = System.Web.HttpContext.Current.Request.Cookies;
                 if (CookieCollect.Count == 0 || CookieCollect["username"] == null)
                 {
@@ -52,6 +52,9 @@ namespace WaterPreview.Other.Attribute
                 }
 
             }
+
+            base.OnActionExecuting(filterContext);
+
         }
     }
 }
