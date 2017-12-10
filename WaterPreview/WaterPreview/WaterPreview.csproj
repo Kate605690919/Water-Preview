@@ -193,8 +193,33 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\antd.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\datatables.min.css" />
+    <Content Include="Content\datepicker3.css" />
+    <Content Include="Content\daterangepicker-bs3.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\iCheck\custom.css" />
+    <Content Include="Content\iCheck\green%402x.png" />
+    <Content Include="Content\iCheck\green.png" />
+    <Content Include="Content\inspinia\animate.css" />
+    <Content Include="Content\inspinia\style.css" />
+    <Content Include="Content\jquery.duallistbox.min.css" />
+    <Content Include="Content\jquery.steps.min.css" />
+    <Content Include="Content\jstree\32px.png" />
+    <Content Include="Content\jstree\39px.png" />
+    <Content Include="Content\jstree\40px.png" />
+    <Content Include="Content\jstree\style.css" />
+    <Content Include="Content\jstree\style.min.css" />
+    <Content Include="Content\jstree\throbber.gif" />
+    <Content Include="Content\myStyle.css" />
+    <Content Include="Content\pages\config.css" />
+    <Content Include="Content\pages\deviceTree.css" />
+    <Content Include="Content\pages\flowmeter.css" />
+    <Content Include="Content\pages\homeIndex.css" />
+    <Content Include="Content\pages\pressureMeter.css" />
+    <Content Include="Content\steps\jquery.steps.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -276,6 +301,7 @@
     <Content Include="Scripts\sources\jquery.validate.min.js" />
     <Content Include="Scripts\sources\jstree.min.js" />
     <Content Include="Scripts\sources\modernizr-2.6.2.js" />
+    <Content Include="Scripts\sources\react\antd.min.js" />
     <Content Include="Scripts\sources\react\babel.min.js" />
     <Content Include="Scripts\sources\react\react-dom.min.js" />
     <Content Include="Scripts\sources\react\react-redux.min.js" />

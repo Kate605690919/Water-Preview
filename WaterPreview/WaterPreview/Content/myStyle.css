@@ -261,6 +261,9 @@ thead > tr > th {
 #root, #App {
     width: 100%;
 }
+#root {
+    padding: 50px 0;
+}
 #App {
     display: flex;
 }
