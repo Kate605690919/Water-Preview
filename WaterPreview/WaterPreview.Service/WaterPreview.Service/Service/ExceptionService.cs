@@ -28,5 +28,12 @@ namespace WaterPreview.Service.Service
             return alarmexception;
         }
 
+        public int GetExceptionCount(Guid userUid)
+        {
+            ExceptionService exceptionservice = new ExceptionService();
+            var count = exceptionservice.GetException(userUid).Count;
+            return count;
+        }
+
     }
 }
