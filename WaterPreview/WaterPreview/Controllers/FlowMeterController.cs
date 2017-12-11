@@ -201,12 +201,27 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
-
             User_t account = UserContext.account;
 
-                Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
-                List<FlowMeterData> fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);
-                fmdatalist = fmdataanalysis.Where(p=>p.lastday_flow_proportion!="无法计算").OrderByDescending(p => p.lastday_flow_proportion).Take(3).ToList();
+            Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
+            List<FlowMeterData> fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);
+            //先剔除“无法计算”的昨日流量比例，按大小排序，再补上“无法计算”
+            var fmdatatemp1 = fmdataanalysis.Where(p => p.lastday_flow_proportion != "无法计算").ToList();
+            if (fmdatatemp1.Count >=0&&fmdatatemp1.Count<3)
+            {
+                fmdatalist.AddRange(fmdatatemp1);
+                var fmdatatemp2 = fmdataanalysis.Where(p => p.lastday_flow_proportion == "无法计算").ToList();
+                if (fmdatatemp2.Count > 0)
+                {
+                    fmdatalist.AddRange(fmdatatemp2);
+                    fmdatalist = fmdatalist.Take(3).ToList();
+                }
+            }
+            else if (fmdatatemp1.Count >= 3)
+            {
+                fmdatalist = fmdatatemp1.OrderByDescending(p => p.lastday_flow_proportion).Take(3).ToList();
+
+            }
 
             
             string dataresult = ToJson<List<FlowMeterData>>.Obj2Json<List<FlowMeterData>>(fmdatalist).Replace("\\\\", "");
