@@ -28,7 +28,7 @@
         (async () => {
             try {
                 let res = await $Fetch.fetchSync_Post({ url: url });
-                if (stateName === 'PressureList')    _this.onRenderRank();
+                if (stateName === 'FlowList')    _this.onRenderRank();
                 _this.setState({ [stateName]: { data: res, status: 'success' } });
             } catch (err) {
                 _this.setState({ [stateName]: { error: err, status: 'failure' } });

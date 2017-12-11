@@ -11,17 +11,6 @@
             url: '/PressureMeter/GetLastDayPressureList', stateName: 'PMViewLog'
         });
     }
-    //componentWillUpdate(nextProps, nextState) {
-    //    let flag = nextProps.renderFlag;
-    //    if (flag) {
-    //        this.getList({
-    //            url: '/FlowMeter/GetLastDayFlowList', stateName: 'ViewLog'
-    //        });
-    //        this.getList({
-    //            url: '/PressureMeter/GetLastDayPressureList', stateName: 'PMViewLog'
-    //        });
-    //    }
-    //}
     getList({ url, stateName }) {
         const _this = this;
         (async () => {

@@ -21,16 +21,16 @@
             newState.home.DeviceViewCount.pressureCount = parseInt(newState.home.DeviceViewCount.pressureCount) + 1;
             return { ...state, home: Object.assign({}, newState.home) };
         }
-        case EDIT_MANAGE: {
-            newState.formInfo.itemInfo = newState.formInfo.itemInfo.map((item) => { item.input.readOnly = null; return item });
-            newState.formInfo.itemInfo[0].id = 9;
-            newState.formInfo.btnContent = '提交';
-            return {
-                header: state.header,
-                formInfo: Object.assign({}, newState.formInfo),
-                jsTreeInfo: state.jsTreeInfo
-            };
-        }
+        //case EDIT_MANAGE: {
+        //    newState.formInfo.itemInfo = newState.formInfo.itemInfo.map((item) => { item.input.readOnly = null; return item });
+        //    newState.formInfo.itemInfo[0].id = 9;
+        //    newState.formInfo.btnContent = '提交';
+        //    return {
+        //        header: state.header,
+        //        formInfo: Object.assign({}, newState.formInfo),
+        //        jsTreeInfo: state.jsTreeInfo
+        //    };
+        //}
         case CHANGE_JSTREE: {
             newState.jsTreeInfo.event = action.event;
             return { ...state, jsTreeInfo: Object.assign({}, newState.jsTreeInfo) };
@@ -47,33 +47,33 @@
         //}
 
             //client/getAll
-        case CLIENTALL_STARTED: {
-            newState.Client.tableInfo.status = Status.LOADING;
-            return { ...state, Client: Object.assign({}, newState.Client)};
-        }
-        case CLIENTALL_SUCCESS: {
-            newState.Client.tableInfo.data = action.result;
-            newState.Client.tableInfo.status = Status.SUCCESS;
-            return { ...state, userUid: action.userUid, userId: action.userId, status: Status.SUCCESS, Client: Object.assign({}, newState.Client) };
-        }
-        case CLIENTALL_FAILURE: {
-            newState.Client.tableInfo.status = Status.FAILURE;
-            return { ...state, Client: Object.assign({}, newState.Client) };
-        }
-        //staff/getAll
-        case STAFFALL_STARTED: {
-            newState.Staff.tableInfo.status = Status.LOADING;
-            return { ...state, Staff: Object.assign({}, newState.Staff) };
-        }
-        case STAFFALL_SUCCESS: {
-            newState.Staff.tableInfo.data = action.result;
-            newState.Staff.tableInfo.status = Status.SUCCESS;
-            return { ...state, userUid: action.userUid, userId: action.userId, status: Status.SUCCESS, Staff: Object.assign({}, newState.Staff) };
-        }
-        case STAFFALL_FAILURE: {
-            newState.Staff.tableInfo.status = Status.FAILURE;
-            return { ...state, Staff: Object.assign({}, newState.Staff) };
-        }
+        //case CLIENTALL_STARTED: {
+        //    newState.Client.tableInfo.status = Status.LOADING;
+        //    return { ...state, Client: Object.assign({}, newState.Client)};
+        //}
+        //case CLIENTALL_SUCCESS: {
+        //    newState.Client.tableInfo.data = action.result;
+        //    newState.Client.tableInfo.status = Status.SUCCESS;
+        //    return { ...state, userUid: action.userUid, userId: action.userId, status: Status.SUCCESS, Client: Object.assign({}, newState.Client) };
+        //}
+        //case CLIENTALL_FAILURE: {
+        //    newState.Client.tableInfo.status = Status.FAILURE;
+        //    return { ...state, Client: Object.assign({}, newState.Client) };
+        //}
+        ////staff/getAll
+        //case STAFFALL_STARTED: {
+        //    newState.Staff.tableInfo.status = Status.LOADING;
+        //    return { ...state, Staff: Object.assign({}, newState.Staff) };
+        //}
+        //case STAFFALL_SUCCESS: {
+        //    newState.Staff.tableInfo.data = action.result;
+        //    newState.Staff.tableInfo.status = Status.SUCCESS;
+        //    return { ...state, userUid: action.userUid, userId: action.userId, status: Status.SUCCESS, Staff: Object.assign({}, newState.Staff) };
+        //}
+        //case STAFFALL_FAILURE: {
+        //    newState.Staff.tableInfo.status = Status.FAILURE;
+        //    return { ...state, Staff: Object.assign({}, newState.Staff) };
+        //}
 
         //manageReducer
         case GET_FM_STARTED: {

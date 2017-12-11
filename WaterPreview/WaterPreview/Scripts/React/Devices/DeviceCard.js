@@ -10,7 +10,7 @@
         let tables = null;
         switch (status) {
             case Status.LOADING: {
-                tables = <div className="col-xs-9">信息加载中...</div>;
+                tables = <div className="col-xs-9"><Loading /></div>;
                 break;
             }
             case Status.SUCCESS: {

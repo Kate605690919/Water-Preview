@@ -1,37 +1,44 @@
-﻿class ToolBar extends React.Component {
+﻿let { Checkbox } = antd;
+const CheckboxGroup = Checkbox.Group;
+
+const plainOptions = [
+    { label: '流量计', value: 'FM' },
+    { label: '压力计', value: 'PM' },
+    { label: '水质计', value: 'QM' }
+];
+//const defaultCheckedList = ['FM', 'PM'];
+class ToolBar extends React.Component {
     constructor(props) {
         super(props);
         this.onChange = this.onChange.bind(this);
+        this.state = {
+            checkedList: this.props.device,
+            indeterminate: true,
+            checkAll: false
+        }
     }
 
-    onChange(evt) {
+    onChange(checkedList) {
         const uid = this.props.areaUid;
-        const checkboxs = document.getElementsByName('Meter');
-        let devices = [];
-        checkboxs.forEach((item) => {
-            if (item.checked) {
-                this.props[`onGet${item.value}`](uid);
-                devices.push(item.value);
-            }
+        checkedList.forEach((item) => {
+                this.props[`onGet${item}`](uid);
         });
-        this.props.onChangeDevice(devices);
+        this.props.onChangeDevice(checkedList);
+        this.setState({
+            checkedList,
+            indeterminate: !!checkedList.length && (checkedList.length < plainOptions.length),
+            checkAll: checkedList.length === plainOptions.length,
+        });
     }
-
     render() {
-        let checkBoxs = null;
-        let device = this.props.device;
-        checkBoxs = this.props.toolBar.map((item, index, arr) => {
-            var check = !!(device.indexOf(item.value) + 1);
-            return (<label style={{ marginRight: '5px' }}><input type="checkbox" name={item.name} value={item.value} onChange={this.onChange} checked={check} style={{marginRight: '3px', lineHeight: '20px'}}/>{item.label}</label>);
-        });
         return (
-            <div className="toolBar ibox-content" style={{marginBottom: '10px'}}>
-                {checkBoxs}
+            <div className="toolBar ibox-content" style={{ marginBottom: '10px' }}>
+                <CheckboxGroup options={plainOptions} defaultValue={this.props.device} onChange={this.onChange} />
             </div>
         );
     }
 }
-
+//{ checkBoxs }
 const mapStateToProps = (state, ownProps) => {
     return {
         toolBar: state.toolBar,

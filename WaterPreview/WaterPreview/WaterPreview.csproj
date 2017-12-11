@@ -233,13 +233,6 @@
     <Content Include="Scripts\particles\appLogin.js" />
     <Content Include="Scripts\particles\particles.js" />
     <Content Include="Scripts\React\app.js" />
-    <Content Include="Scripts\React\Client\action.js" />
-    <Content Include="Scripts\React\Client\index.js" />
-    <Content Include="Scripts\React\Client\ManageAdd.js" />
-    <Content Include="Scripts\React\Client\manageApp.js" />
-    <Content Include="Scripts\React\Client\ManageBase.js" />
-    <Content Include="Scripts\React\Client\manageDetail.js" />
-    <Content Include="Scripts\React\Client\ManageFM.js" />
     <Content Include="Scripts\React\Components\Battery.js" />
     <Content Include="Scripts\React\Components\Breadcrumb.js" />
     <Content Include="Scripts\React\Components\Card.js" />
@@ -274,12 +267,6 @@
     <Content Include="Scripts\React\Home\cardRank.js" />
     <Content Include="Scripts\React\Home\index.js" />
     <Content Include="Scripts\React\reducer.js" />
-    <Content Include="Scripts\React\Staff\index.js" />
-    <Content Include="Scripts\React\Staff\StaffAdd.js" />
-    <Content Include="Scripts\React\Staff\StaffApp.js" />
-    <Content Include="Scripts\React\Staff\StaffBase.js" />
-    <Content Include="Scripts\React\Staff\StaffDetail.js" />
-    <Content Include="Scripts\React\Staff\StaffPW.js" />
     <Content Include="Scripts\sources\bootstrap-datepicker.js" />
     <Content Include="Scripts\sources\bootstrap.min.js" />
     <Content Include="Scripts\sources\datatables.min.js" />

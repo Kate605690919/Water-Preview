@@ -16,6 +16,8 @@ const GET_QM_SUCCESS = 'QM/GET_SUCCESS';
 const GET_QM_FAILURE = 'QM/GET_FAILURE';
 
 const CHANGE_DEVICE = 'DEVICE/CHANGE';
+
+const CHANGE_JSTREE = 'JATREE/CHANGE';
 //status.js
 const Status = {
     LOADING: 'loading',
@@ -24,6 +26,10 @@ const Status = {
 }
 //action.js
 
+const changeJstree = (event) => ({
+    type: CHANGE_JSTREE,
+    event
+});
 const getFMStarted = () => ({
     type: GET_FM_STARTED
 });
