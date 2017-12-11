@@ -127,7 +127,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(increasePC());
         },
         renderRank: () => {
-            dispatch(renderRank());
+            dispatch(onRenderRank());
         }
     }
 }
