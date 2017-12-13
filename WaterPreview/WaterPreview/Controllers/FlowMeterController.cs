@@ -260,20 +260,7 @@ namespace WaterPreview.Controllers
             result.Data = areadatalist;
 
             return result;
-        }
-
-        public List<FlowMeterData> GetAnalysisData(List<FlowMeter_t> fmlist)
-        {
-            List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
-
-            foreach (var item in fmlist)
-            {
-                FlowMeterData fmdata = flowmeter_Service.GetAnalysisByFlowMeter(item, (DateTime)item.FM_FlowCountLast);
-                //暂时先用数据库中设备最新的时间来获取对应的分析数据,后续将时间调整为实时的日期
-                fmdatalist.Add(fmdata);
-            }
-            return fmdatalist;
-        }
+        }       
 
     }
 }

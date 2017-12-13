@@ -31,7 +31,6 @@ namespace WaterPreview.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-
         public ActionResult Login(string userName, string password)
         {
             User_t user = accountService.GetAccountByName(userName);
@@ -40,33 +39,32 @@ namespace WaterPreview.Controllers
                 ViewBag.Exception = true;
                 return View();
             }
-            Response.Cookies["username"].Value = user.Usr_UId.ToString();
-            Response.Cookies["username"].Expires = DateTime.Now.AddDays(1);
-            //DBHelper.ClearCache();
-            //return 
-            return RedirectToAction("index");
-        }
+            Response.Cookies["wp_username"].Value = user.Usr_UId.ToString();
+            Response.Cookies["wp_username"].Expires = DateTime.Now.AddDays(1);
 
-        
+            return RedirectToAction("index");
+        }       
 
         public ActionResult Index()
         {
             return View();
         }
 
-       
-        public ActionResult About()
+        public ActionResult LogOut()
         {
-            ViewBag.Message = "Your application description page.";
+            User_t account = UserContext.account;
+            if (account != null && account.Usr_UId != new Guid())
+            {
+                UserContext.account = new User_t();
+            }
+            HttpCookie cookies = Request.Cookies["wp_username"];
+            if (cookies != null)
+            {
+                Response.Cookies["wp_username"].Expires = DateTime.Now.AddDays(-1);
+                Request.Cookies.Remove("wp_username");
+            }
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            return RedirectToAction("Login", "Home");
         }
     }
 }

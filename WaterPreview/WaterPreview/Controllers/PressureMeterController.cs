@@ -50,16 +50,21 @@ namespace WaterPreview.Controllers
         /// </summary>
         /// <param name="pmuid"></param>
         /// <returns></returns>
-        public JsonResult Detail(Guid pmuid)
+        [AllowAnonymous]
+        public JsonResult Detail(Guid pmuid,Guid? useruid)
         {
+            
             JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
+            useruid =useruid == null? UserContext.account.Usr_UId:useruid;
 
             //获取账号访问设备uid的访问次数，并不设置过期时间
             Func<List<VisitCount>> initvisit = () => { return new List<VisitCount>(); };
-            List<VisitCount> vclist = DBHelper.getWithNoExpire<List<VisitCount>>(initvisit, UserContext.account.Usr_UId + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
+            List<VisitCount> vclist = DBHelper.getWithNoExpire<List<VisitCount>>(initvisit, useruid + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
             //增加账号访问设备uid的访问次数
             Func<List<VisitCount>> visitcount = () => account_service.AddDeviceVisits(vclist, pmuid);
-            DBHelper.getAndFresh<VisitCount>(visitcount, UserContext.account.Usr_UId + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
+            DBHelper.getAndFresh<VisitCount>(visitcount, useruid + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
 
             //获取并返回设备uid的区域状态数据
             Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => (pressuremeter_service.GetPressureMeterStatusAndArea());
@@ -75,6 +80,8 @@ namespace WaterPreview.Controllers
         public JsonResult GetPressureDetail(Guid pmUid)
         {
             JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
             result.Data = pressurehour_service.GetPressureHourByUid(pmUid);
             return result;
         }
@@ -125,6 +132,8 @@ namespace WaterPreview.Controllers
         public JsonResult RecentPressureData(Guid pmuid)
         {
             JsonResult result = new JsonResult();
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
             var phlist = pressurehour_service.GetPressureHourByUid(pmuid);
             result.Data = new
             {
@@ -162,6 +171,8 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             User_t account = UserContext.account;
+            result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
             List<PressureMeterData> pmdatalist = new List<PressureMeterData>();
 
             Func<List<PressureMeterData>> pmdataFunc = () => pressuremeter_service.GetPressureMetersDataByUser(account);
@@ -225,17 +236,6 @@ namespace WaterPreview.Controllers
             return result;
         }
 
-        public List<PressureMeterData> GetAnalysisData(List<PressureMeter_t> pmlist)
-        {
-            List<PressureMeterData> pmdatalist = new List<PressureMeterData>();
 
-            foreach (var item in pmlist)
-            {
-                PressureMeterData pmdata = pressuremeter_service.GetAnalysisByPressureMeter(item, (DateTime)item.PM_CountLast);
-                //暂时先用数据库中设备最新的时间来获取对应的分析数据,后续将时间调整为实时的日期
-                pmdatalist.Add(pmdata);
-            }
-            return pmdatalist;
-        }
     }
 }

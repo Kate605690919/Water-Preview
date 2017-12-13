@@ -224,6 +224,42 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 
+            User_t account = UserContext.account;
+            List<FlowMeterStatusAndArea> fmlist = new List<FlowMeterStatusAndArea>();
+            List<PressureMeterStatusAndArea> pmlist = new List<PressureMeterStatusAndArea>();
+            List<QualityMeterStatusAndArea> qmlist = new List<QualityMeterStatusAndArea>();
+
+            Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusAndArea();
+            List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, 
+                ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]);
+
+            Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => pressuremeterService.GetPressureMeterStatusAndArea();
+            List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea,
+                ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]).ToList();
+
+            Func<List<QualityMeterStatusAndArea>> qmAndStatusArea = () => qualitymeterService.GetQualityMeterStatusAndArea();
+            List<QualityMeterStatusAndArea> qmstatusAndAreaList = DBHelper.get<QualityMeterStatusAndArea>(qmAndStatusArea,
+                ConfigurationManager.AppSettings["allQualityMeterStatusAndArea"]);
+
+            if(account.Usr_Type==3){
+                Guid areaUid = UserContext.GetAreaByUserUid(account.Usr_UId);
+                fmlist = fmstatusAndAreaList.Where(p => p.flowmeter.FM_WaterConsumerUId==account.Usr_UId).ToList();
+                //qmlist = qmstatusAndAreaList.Where(p=>p.qualitymeter);
+                //pmlist = pmstatusAndAreaList.Where(p=>p.pressuremeter)
+            }
+            else
+            {
+                fmlist = fmstatusAndAreaList;
+                pmlist = pmstatusAndAreaList;
+                qmlist = qmstatusAndAreaList;
+            }
+            result.Data = new
+            {
+                fmstatusAndAreaList = fmlist,
+                pmstatusAndAreaList = pmlist,
+                qmstatusAndAreaList = qmlist,
+
+            };
             return result;
         }
     }

@@ -31,10 +31,10 @@ namespace WaterPreview.Other.Attribute
                 {
                     filterContext.Result = new RedirectResult("/Home/Login");
                 }
-                else if (CookieCollect.Count != 0 && CookieCollect["username"] != null)
+                else if (CookieCollect.Count != 0 && CookieCollect["wp_username"] != null)
                 {
 
-                    string s = CookieCollect["username"].Value;
+                    string s = CookieCollect["wp_username"].Value;
 
                     //IAccountService accountservice = new AccountService();
                     User_t user = accountservice.GetAccountByUid(Guid.Parse(s));
