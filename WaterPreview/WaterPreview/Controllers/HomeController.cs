@@ -60,8 +60,8 @@ namespace WaterPreview.Controllers
             HttpCookie cookies = Request.Cookies["wp_username"];
             if (cookies != null)
             {
-                Response.Cookies["wp_username"].Expires = DateTime.Now.AddDays(-1);
-                Request.Cookies.Remove("wp_username");
+                cookies.Expires = DateTime.Now.AddDays(-1);
+                System.Web.HttpContext.Current.Request.Cookies.Add(cookies);
             }
 
             return RedirectToAction("Login", "Home");

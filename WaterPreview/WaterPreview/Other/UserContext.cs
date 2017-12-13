@@ -25,9 +25,9 @@ namespace WaterPreview.Other
 
         public static User_t GetCurrentAccount()
         {
-            if (HttpContext.Current.Request.Cookies.Count != 0 && HttpContext.Current.Request.Cookies["username"].Value != null)
+            if (HttpContext.Current.Request.Cookies.Count != 0 && HttpContext.Current.Request.Cookies["wp_username"].Value != null)
             {
-                Guid uid = Guid.Parse(HttpContext.Current.Request.Cookies["username"].Value);
+                Guid uid = Guid.Parse(HttpContext.Current.Request.Cookies["wp_username"].Value);
                 account = account_service.GetAccountByUid(uid);
             }
             else
