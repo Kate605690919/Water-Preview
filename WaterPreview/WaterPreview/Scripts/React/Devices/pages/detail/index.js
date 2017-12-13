@@ -4,41 +4,6 @@
         this._uid = this.props.params.uid;
         let _this = this;
         this.state = { detail: null, analysis: null };
-        //pv统计
-        //localStorage.setItem('viewLog', null);
-        if (window.localStorage) {
-            let viewLog = null;
-            try {
-                viewLog = JSON.parse(localStorage.getItem('viewLog'));
-            } catch (error) {
-                if (error instanceof SyntaxError) {
-                    viewLog = null;
-                }
-            }
-            let obj = {};
-            if (Array.isArray(viewLog)) {
-                for (let i = 0; i < viewLog.length; i++) {
-                    if (viewLog[i].uid == _this._uid.substr(4)) {
-                        viewLog[i].count = parseInt(viewLog[i].count) + 1;
-                        obj = viewLog[i];
-                        viewLog.splice(i, 1);
-                    } else {
-                        obj = { uid: _this._uid.substr(4), count: 1 }
-                    }
-                }
-                viewLog[viewLog.length] = { count: -1 };
-                for (let j = 0; j < viewLog.length; j++) {
-                    if (parseInt(viewLog[j].count) < obj.count) {
-                        viewLog.splice(j, 0, obj);
-                        viewLog.pop(1);
-                        break;
-                    }
-                }
-            } else {
-                viewLog = [{ uid: _this._uid.substr(4), count: 1 }];
-            }
-            localStorage.setItem('viewLog', JSON.stringify(viewLog));
-        }
         fetch(`/FlowMeter/Detail`, { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded', }, body: _this._uid }).then((response) => {
             if (response.status !== 200) {
                 throw new Error('Fail to get response with status ' + response.status);

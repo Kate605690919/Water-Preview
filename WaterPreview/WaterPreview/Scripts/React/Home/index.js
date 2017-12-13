@@ -8,27 +8,13 @@ class Home extends React.Component {
         message.info('您选择的日期是： ' + date.toString());
         this.setState({ date });
     }
-    componentDidMount() {
-        //地图
-        var idMap = document.querySelector("#homeMap");
-        initMap(idMap);
-        (async () => {
-            try {
-                let res = await $Fetch.fetchSync_Post({ url: '/FlowMeter/GetAreaAvgFlow' });
-                //_this.setState({ [stateName]: { data: res, status: 'success' } });
-                console.log(res);
-            } catch (err) {
-                //_this.setState({ [stateName]: { error: err, status: 'failure' } });
-            }
-        })();
-    }
     render() {
         return (
             <div className="homeBody" style={{ width: '100%' }}>
                 <div className="commonData">
                     <CardListItem />
                     <CardRank />
-                    <div id="homeMap" style={{ marginBottom: '10px' }}></div>
+                    <HomeMap />
                 </div>
                 <Footer />
             </div>

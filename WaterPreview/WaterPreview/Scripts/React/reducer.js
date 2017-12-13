@@ -2,7 +2,7 @@
     let newState = Object.assign({}, state);
     switch (action.type) {
         case RENDER_RANK: {
-            newState.home.DeviceViewRank.renderFlag = true;
+            newState.home.DeviceViewRank.renderFlag = !newState.home.DeviceViewRank.renderFlag;
             return { ...state, home: Object.assign({}, newState.home) };
         }
         //manageReducer

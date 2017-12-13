@@ -1302,6 +1302,9 @@ button.dim:active:before {
 .badge-success {
     background-color: #1c84c6;
     color: #FFFFFF;
+    line-height: 20px;
+    padding: 0 8px;
+    height: 20px;
 }
 
 .label-warning,
@@ -1318,7 +1321,7 @@ button.dim:active:before {
 
 .label-danger,
 .badge-danger {
-    background-color: #ed5565;
+    background-color: #1c84c6;
     color: #FFFFFF;
 }
 
