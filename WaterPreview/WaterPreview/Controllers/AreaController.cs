@@ -242,7 +242,6 @@ namespace WaterPreview.Controllers
                 ConfigurationManager.AppSettings["allQualityMeterStatusAndArea"]);
 
             if(account.Usr_Type==3){
-                Guid areaUid = UserContext.GetAreaByUserUid(account.Usr_UId);
                 fmlist = fmstatusAndAreaList.Where(p => p.flowmeter.FM_WaterConsumerUId==account.Usr_UId).ToList();
                 //qmlist = qmstatusAndAreaList.Where(p=>p.qualitymeter);
                 //pmlist = pmstatusAndAreaList.Where(p=>p.pressuremeter)
