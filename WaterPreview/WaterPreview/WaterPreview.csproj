@@ -343,6 +343,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+    <None Include="Properties\PublishProfiles\WaterPreview-2017.12.pubxml" />
+    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Home\password.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WaterPreview.Service\WaterPreview.Service\WaterPreview.Service.csproj">
