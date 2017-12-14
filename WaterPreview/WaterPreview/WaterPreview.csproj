@@ -272,6 +272,8 @@
     <Content Include="Scripts\React\Home\HomeMap.js" />
     <Content Include="Scripts\React\Home\index.js" />
     <Content Include="Scripts\React\reducer.js" />
+    <Content Include="Scripts\React\util\Fetch.js" />
+    <Content Include="Scripts\React\util\WebStorage.js" />
     <Content Include="Scripts\sources\bootstrap-datepicker.js" />
     <Content Include="Scripts\sources\bootstrap.min.js" />
     <Content Include="Scripts\sources\datatables.min.js" />
@@ -338,7 +340,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
-    <Folder Include="Scripts\React\util\" />
     <Folder Include="Views\Exception\" />
   </ItemGroup>
   <ItemGroup>
