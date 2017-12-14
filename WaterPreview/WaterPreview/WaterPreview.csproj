@@ -215,9 +215,13 @@
     <Content Include="Content\pages\pressureMeter.css" />
     <Content Include="Content\steps\jquery.steps.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="img\blue.png" />
+    <Content Include="img\green.png" />
+    <Content Include="img\purple.png" />
     <Content Include="Scripts\Calender\calenderApp.js" />
     <Content Include="Scripts\Calender\datepicker\bootstrap-datepicker.js" />
     <Content Include="Scripts\Calender\fullcalendar\fullcalendar.min.js" />
@@ -342,11 +346,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Project_Readme.html" />
-    <None Include="Properties\PublishProfiles\WaterPreview-2017.12.pubxml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\password.cshtml" />
-    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WaterPreview.Service\WaterPreview.Service\WaterPreview.Service.csproj">
