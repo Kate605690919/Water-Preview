@@ -265,6 +265,7 @@
     <Content Include="Scripts\React\FeedBack\index.js" />
     <Content Include="Scripts\React\Home\action.js" />
     <Content Include="Scripts\React\Home\cardRank.js" />
+    <Content Include="Scripts\React\Home\HomeMap.js" />
     <Content Include="Scripts\React\Home\index.js" />
     <Content Include="Scripts\React\reducer.js" />
     <Content Include="Scripts\sources\bootstrap-datepicker.js" />

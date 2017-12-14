@@ -522,3 +522,39 @@ aside .affix {
 .loading span:nth-child(5) {
     -webkit-animation-delay: 0.65s;
 }
+/* map */
+#legend ul li:nth-child(1) i {
+    background-image: url("/img/blue.png")
+}
+#legend ul li:nth-child(2) i {
+    background-image: url("/img/green.png")
+}
+#legend ul li:nth-child(3) i {
+    background-image: url("/img/purple.png")
+}
+#legend ul li i {
+    background-size: cover;
+    height: 15px;
+    width: 12px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+#legend ul li span {
+    line-height: 20px;
+    display: inline-block;
+}
+#legend {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 10px;
+    background: rgba(255,255,255,.8);
+}
+.map {
+    padding: 0;
+    border: 1px solid #fff;
+    width: 50%;
+    position: relative;
+}
+
