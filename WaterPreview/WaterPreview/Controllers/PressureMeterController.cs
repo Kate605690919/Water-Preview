@@ -56,7 +56,6 @@ namespace WaterPreview.Controllers
             
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-
             useruid =useruid == null? UserContext.account.Usr_UId:useruid;
 
             //获取账号访问设备uid的访问次数，并不设置过期时间
@@ -154,6 +153,7 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             User_t account = UserContext.account;
+            Guid useruid = account == null||account.Usr_UId==new Guid()?Guid.Parse(Session["wp_username"].ToString()):account.Usr_UId;
 
             Func<List<PressureMeterData>> pmdataFunc = ()=>pressuremeter_service.GetPressureMetersDataByUser(account);
             var pmdataanalysis = DBHelper.get<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["allPressureAnalysisByUserUid"] + account.Usr_UId);

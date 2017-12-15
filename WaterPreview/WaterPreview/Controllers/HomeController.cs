@@ -41,6 +41,7 @@ namespace WaterPreview.Controllers
             }
             Response.Cookies["wp_username"].Value = user.Usr_UId.ToString();
             Response.Cookies["wp_username"].Expires = DateTime.Now.AddDays(1);
+            Session["wp_username"] = user.Usr_UId.ToString();
 
             return RedirectToAction("index");
         }       

@@ -178,6 +178,7 @@
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
+    <Compile Include="Other\Attribute\JsonRequestBehaviorAttribute.cs" />
     <Compile Include="Other\Attribute\LoginAttribute.cs" />
     <Compile Include="Other\MD5_Util.cs" />
     <Compile Include="Other\ToJson.cs" />

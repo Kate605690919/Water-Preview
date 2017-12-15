@@ -224,6 +224,7 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 
+            Guid uid = Guid.Parse(Session["wp_username"].ToString());
             User_t account = UserContext.account;
             List<FlowMeterStatusAndArea> fmlist = new List<FlowMeterStatusAndArea>();
             List<PressureMeterStatusAndArea> pmlist = new List<PressureMeterStatusAndArea>();

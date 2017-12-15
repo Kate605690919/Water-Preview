@@ -16,9 +16,20 @@ namespace WaterPreview.Other
         static IAreaUserService areauser_service = new AreaUserService();
         static IAreaDeviceService areadevice_service = new AreaDeviceService();
 
-        
+        private static User_t acc;
 
-        public static User_t account = new User_t();
+        public static User_t account
+        {
+            get { return acc; }
+            set
+            {
+                if (account == null || account.Usr_UId == new Guid())
+                {
+                    Guid uid = Guid.Parse(System.Web.HttpContext.Current.Session["wp_username"].ToString());
+                    acc = account_service.GetAccountByUid(uid);
+                }
+            }
+        }
 
         public static Guid areaSourceUid = Guid.Parse("6F6B8DB5-1202-4644-B1B2-A52284D73E07");
         

@@ -27,7 +27,7 @@ namespace WaterPreview.Other.Attribute
                 }
                 
                 HttpCookieCollection CookieCollect = System.Web.HttpContext.Current.Request.Cookies;
-                if (CookieCollect.Count == 0 || CookieCollect["username"] == null)
+                if (CookieCollect.Count == 0 || CookieCollect["wp_username"] == null)
                 {
                     filterContext.Result = new RedirectResult("/Home/Login");
                 }
