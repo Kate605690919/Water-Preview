@@ -180,6 +180,7 @@
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Other\Attribute\JsonRequestBehaviorAttribute.cs" />
     <Compile Include="Other\Attribute\LoginAttribute.cs" />
+    <Compile Include="Other\Cookie.cs" />
     <Compile Include="Other\MD5_Util.cs" />
     <Compile Include="Other\ToJson.cs" />
     <Compile Include="Other\UserContext.cs" />

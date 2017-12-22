@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using WaterPreview.Service;
@@ -18,42 +19,42 @@ namespace WaterPreview.Other
 
         private static User_t acc;
 
-        public static User_t account
-        {
-            get { return acc; }
-            set
-            {
-                if (account == null || account.Usr_UId == new Guid())
-                {
-                    Guid uid = Guid.Parse(System.Web.HttpContext.Current.Session["wp_username"].ToString());
-                    acc = account_service.GetAccountByUid(uid);
-                }
-            }
-        }
+        public static User_t account;
 
-        public static Guid areaSourceUid = Guid.Parse("6F6B8DB5-1202-4644-B1B2-A52284D73E07");
+        //public static User_t account
+        //{
+        //    get { return acc; }
+        //    set
+        //    {
+        //        //if (account == null || account.Usr_UId == new Guid())
+        //        //{
+        //        //    Guid uid = Guid.Parse(System.Web.HttpContext.Current.Session["wp_username"].ToString());
+        //        //    acc = account_service.GetAccountByUid(uid);
+        //        //}
+        //    }
+        //}
+
+        public static Guid AreaSourceUid = Guid.Parse("6F6B8DB5-1202-4644-B1B2-A52284D73E07");
         
 
         public static User_t GetCurrentAccount()
         {
-            if (HttpContext.Current.Request.Cookies.Count != 0 && HttpContext.Current.Request.Cookies["wp_username"].Value != null)
-            {
-                Guid uid = Guid.Parse(HttpContext.Current.Request.Cookies["wp_username"].Value);
-                account = account_service.GetAccountByUid(uid);
-            }
-            else
-            {
-                account = new User_t();
-            }
+            //Cookie cookie = new Cookie();
+            //string uiddd = System.Web.HttpContext.Current.Session["CookieName"].ToString();
+            //account = uiddd == null ? new User_t() : account_service.GetAccountByUid(Guid.Parse(uiddd));
+
+            string useruid = Cookie.GetCookie(ConfigurationManager.AppSettings["CookieName"]);
+            account = useruid == null ? new User_t() : account_service.GetAccountByUid(Guid.Parse(useruid));
+            UserContext.account = account;
             return account;
         }
 
         public static Guid GetAreaByUserUid(Guid useruid)
         {
-            AreaUser_t areauser = areauser_service.GetAllAreaUser().Where(p=>p.AU_UserUId==useruid).FirstOrDefault();
-            if (areauser.AU_UId == new Guid())
+            AreaUser_t areauser = areauser_service.GetAllAreaUser().FirstOrDefault(p => p.AU_UserUId==useruid);
+            if (areauser == null || areauser.AU_UId == new Guid())
             {
-                return areaSourceUid;
+                return AreaSourceUid;
             }
             return areauser.AU_AreaUId;
         }

@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using WaterPreview.Base;
 using WaterPreview.Other;
+using WaterPreview.Other.Attribute;
 using WaterPreview.Redis;
 using WaterPreview.Service;
 using WaterPreview.Service.Interface;
@@ -59,7 +60,7 @@ namespace WaterPreview.Controllers
             }
             else
             {
-                areauid = UserContext.areaSourceUid;
+                areauid = UserContext.AreaSourceUid;
                 area = all.First(p => p.Ara_UId == areauid);
                 areaChild = GetChild(area.Ara_UId, all);
 
@@ -224,7 +225,7 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 
-            Guid uid = Guid.Parse(Session["wp_username"].ToString());
+            //Guid uid = Guid.Parse(Session["wp_username"].ToString());
             User_t account = UserContext.account;
             List<FlowMeterStatusAndArea> fmlist = new List<FlowMeterStatusAndArea>();
             List<PressureMeterStatusAndArea> pmlist = new List<PressureMeterStatusAndArea>();

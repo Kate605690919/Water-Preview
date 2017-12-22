@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using WaterPreview.Base;
 using WaterPreview.Other;
+using WaterPreview.Other.Attribute;
 using WaterPreview.Redis;
 using WaterPreview.Service;
 using WaterPreview.Service.Interface;
@@ -99,8 +100,7 @@ namespace WaterPreview.Controllers
 
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            dpnetwork_data_20160419_NewEntities db = new dpnetwork_data_20160419_NewEntities();
-            var data = db.FlowHour_t.Where(p => p.Flh_FlowMeterUid == uid).OrderByDescending(p => p.Flh_Time).Take(500).ToList();
+            var data = flowhour_Service.GetFlowHourByFMUid(uid).OrderByDescending(p => p.Flh_Time).Take(500).ToList();
             result.Data = new { value = data.Select(p => p.Flh_TotalValue), time = data.Select(p => p.Flh_Time) };
             return result;
         }
@@ -165,16 +165,12 @@ namespace WaterPreview.Controllers
             if (vclist.Count > 0)
             {
                 vclist = vclist.OrderByDescending(p => p.count).ToList();
-                for (var i = 0; i < vclist.Count; i++)
+                fmdatalist.AddRange(vclist.Select(t => fmdataanalysis.FirstOrDefault(p => p.flowmeter.FM_UId == Guid.Parse(t.uid))));
+                foreach (FlowMeterData item in fmdataanalysis)
                 {
-                    var fmdata = fmdataanalysis.Where(p => p.flowmeter.FM_UId == Guid.Parse(vclist[i].uid)).FirstOrDefault();
-                    fmdatalist.Add(fmdata);
-                }
-                for (var i = 0; i < fmdataanalysis.Count; i++)
-                {
-                    if (vclist.Where(p => p.uid == fmdataanalysis[i].flowmeter.FM_UId.ToString()).Count() == 0)
+                    if (vclist.All(p => p.uid != item.flowmeter.FM_UId.ToString()))
                     {
-                        fmdatalist.Add(fmdataanalysis[i]);
+                        fmdatalist.Add(item);
                     }
                 }
             }
@@ -232,7 +228,7 @@ namespace WaterPreview.Controllers
         }
 
         /// <summary>
-        /// 获取区域流量
+        /// 获取区域流量,暂时没用到
         /// </summary>
         /// <returns></returns>
         public JsonResult GetAreaAvgFlow()
