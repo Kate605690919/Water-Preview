@@ -19,6 +19,7 @@ namespace WaterPreview.Other.Attribute
         //执行Action之前操作
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            base.OnActionExecuting(filterContext);
 
             if (IsCheck)
             {
@@ -26,30 +27,33 @@ namespace WaterPreview.Other.Attribute
                 {
                     return;
                 }
-
-                //string uiddd = HttpContext.Current.Session["CookieName"].ToString();
-
-                //string uid = TempDataDictionary["Cookie"].ToString();
-
-                Cookie cookie = new Cookie();
-                string uiddd = Cookie.GetCookie(ConfigurationManager.AppSettings["CookieName"]);
-                switch (uiddd==null)
+                HttpCookieCollection CookieCollect = System.Web.HttpContext.Current.Request.Cookies;
+                if (CookieCollect.Count == 0 || CookieCollect[ConfigurationManager.AppSettings["CookieName"]] == null)
                 {
-                    case true:
-                        filterContext.Result = new RedirectResult("/Home/Login");
-                        break;
-                    default:
-                        User_t user = accountservice.GetAccountByUid(Guid.Parse(uiddd.ToString()));
-                        if (user.Usr_UId == new Guid())
-                        {
-                            filterContext.Result = new RedirectResult("/Home/Login");
-                        }
-                        UserContext.account = user;
-                        break;
+                    filterContext.Result = new RedirectResult("/Home/Login");
                 }
+                else if (CookieCollect.Count != 0 && CookieCollect[ConfigurationManager.AppSettings["CookieName"]] != null)
+                {
+
+                    string s = CookieCollect[ConfigurationManager.AppSettings["CookieName"]].Value;
+                     User_t user = accountservice.GetAccountByUid(Guid.Parse(s));
+                     if (user.Usr_UId == new Guid())
+                    {
+                        filterContext.Result = new RedirectResult("/Home/Login");
+                    }
+                    UserContext.account = user;
+                }
+                else
+                {
+                    filterContext.Result = new RedirectResult("/Home/Login");
+
+                }
+                
+                   
+                
+                
             }
 
-            base.OnActionExecuting(filterContext);
             
         }
     }

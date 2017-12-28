@@ -41,24 +41,24 @@ namespace WaterPreview.Controllers
                 ViewBag.Exception = true;
                 return View();
             }
-            Cookie cookie = new Cookie();
-            Cookie.SetCookie(ConfigurationManager.AppSettings["CookieName"], user.Usr_UId.ToString(), 1);
-            string uid = Cookie.GetCookie(ConfigurationManager.AppSettings["CookieName"]);
 
-            Session["CookieName"] = user.Usr_UId.ToString();
-            Session.Timeout = 1440;
-            TempData["Cookie"] = user.Usr_UId.ToString();
+            Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Value = user.Usr_UId.ToString();
+            Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Domain = ConfigurationManager.AppSettings["DomainName"];
+            Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Expires = DateTime.Now.AddDays(1); 
+
+            //Session["CookieName"] = user.Usr_UId.ToString();
+            //Session.Timeout = 1440;
+            //TempData["Cookie"] = user.Usr_UId.ToString();
             //TokenIds.Add(Session.SessionID, Guid.NewGuid());
-            //return RedirectToAction("index",false);
-            return View("index");
+            return RedirectToAction("index",false);
+            //return View("index");
         }       
 
         public ActionResult Index()
         {
-            string uid = TempData["Cookie"].ToString();
+            //string uid = TempData["Cookie"].ToString();
             //Cookie cookie = new Cookie();
-            Cookie.SetCookie(ConfigurationManager.AppSettings["CookieName"], uid, 1);
-            string uidToo = Cookie.GetCookie(ConfigurationManager.AppSettings["CookieName"]);
+            
             return View();
         }
 
@@ -66,8 +66,13 @@ namespace WaterPreview.Controllers
         {
             User_t account = UserContext.account;
             account = account != null && account.Usr_UId != new Guid() ? account : new User_t();
-            Cookie cookie = new Cookie();
-            cookie.DelCookie(ConfigurationManager.AppSettings["CookieName"]);
+            HttpCookie cookie = Request.Cookies[ConfigurationManager.AppSettings["CookieName"]];
+            if (cookie != null)
+            {
+                cookie.Domain = ConfigurationManager.AppSettings["DomainName"];
+                cookie.Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies.Add(cookie);
+            }
 
             return RedirectToAction("Login", "Home");
         }
