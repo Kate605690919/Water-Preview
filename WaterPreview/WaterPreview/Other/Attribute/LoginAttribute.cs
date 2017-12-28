@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -18,6 +19,7 @@ namespace WaterPreview.Other.Attribute
         //执行Action之前操作
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
+            base.OnActionExecuting(filterContext);
 
             if (IsCheck)
             {
@@ -25,22 +27,18 @@ namespace WaterPreview.Other.Attribute
                 {
                     return;
                 }
-                
                 HttpCookieCollection CookieCollect = System.Web.HttpContext.Current.Request.Cookies;
-                if (CookieCollect.Count == 0 || CookieCollect["wp_username"] == null)
+                if (CookieCollect.Count == 0 || CookieCollect[ConfigurationManager.AppSettings["CookieName"]] == null)
                 {
                     filterContext.Result = new RedirectResult("/Home/Login");
                 }
-                else if (CookieCollect.Count != 0 && CookieCollect["wp_username"] != null)
+                else if (CookieCollect.Count != 0 && CookieCollect[ConfigurationManager.AppSettings["CookieName"]] != null)
                 {
 
-                    string s = CookieCollect["wp_username"].Value;
-
-                    //IAccountService accountservice = new AccountService();
-                    User_t user = accountservice.GetAccountByUid(Guid.Parse(s));
-                    if (user.Usr_UId == new Guid())
+                    string s = CookieCollect[ConfigurationManager.AppSettings["CookieName"]].Value;
+                     User_t user = accountservice.GetAccountByUid(Guid.Parse(s));
+                     if (user.Usr_UId == new Guid())
                     {
-
                         filterContext.Result = new RedirectResult("/Home/Login");
                     }
                     UserContext.account = user;
@@ -50,11 +48,13 @@ namespace WaterPreview.Other.Attribute
                     filterContext.Result = new RedirectResult("/Home/Login");
 
                 }
-
+                
+                   
+                
+                
             }
 
-            base.OnActionExecuting(filterContext);
-
+            
         }
     }
 }

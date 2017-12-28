@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using WaterPreview.Base;
 using WaterPreview.Other;
+using WaterPreview.Other.Attribute;
 using WaterPreview.Redis;
 using WaterPreview.Service;
 using WaterPreview.Service.Interface;
@@ -187,7 +188,7 @@ namespace WaterPreview.Controllers
 
                 for (var i = 0; i < vclist.Count; i++)
                 {
-                    var pmdata = pmdataanalysis.Where(p => p.pressuremeter.PM_UId == Guid.Parse(vclist[i].uid)).FirstOrDefault();
+                    var pmdata = pmdataanalysis.FirstOrDefault(p => p.pressuremeter.PM_UId == Guid.Parse(vclist[i].uid));
                     pmdatalist.Add(pmdata);
                 }
                 for (var i = 0; i < pmdataanalysis.Count; i++)
