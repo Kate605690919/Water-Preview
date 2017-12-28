@@ -46,18 +46,13 @@ namespace WaterPreview.Controllers
             Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Domain = ConfigurationManager.AppSettings["DomainName"];
             Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Expires = DateTime.Now.AddDays(1); 
 
-            //Session["CookieName"] = user.Usr_UId.ToString();
-            //Session.Timeout = 1440;
-            //TempData["Cookie"] = user.Usr_UId.ToString();
-            //TokenIds.Add(Session.SessionID, Guid.NewGuid());
+
             return RedirectToAction("index",false);
             //return View("index");
         }       
 
         public ActionResult Index()
         {
-            //string uid = TempData["Cookie"].ToString();
-            //Cookie cookie = new Cookie();
             
             return View();
         }
