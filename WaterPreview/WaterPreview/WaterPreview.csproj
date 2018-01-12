@@ -176,6 +176,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Base\BaseController.cs" />
     <Compile Include="Controllers\AreaController.cs" />
     <Compile Include="Controllers\ExceptionController.cs" />
@@ -189,12 +190,15 @@
     <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
     <Compile Include="Other\Attribute\JsonRequestBehaviorAttribute.cs" />
     <Compile Include="Other\Attribute\LoginAttribute.cs" />
+    <Compile Include="Other\Authorization\AuthorizationServerProvider.cs" />
+    <Compile Include="Other\Authorization\RefreshTokenProvider.cs" />
     <Compile Include="Other\MD5_Util.cs" />
     <Compile Include="Other\ToJson.cs" />
     <Compile Include="Other\UserContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Redis\DBHelper.cs" />
     <Compile Include="Redis\RedisHelper.cs" />
+    <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\antd.min.css" />

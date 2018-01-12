@@ -33,7 +33,7 @@ namespace WaterPreview.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(string userName, string password,string backUrl)
+        public ActionResult Login(string userName, string password)
         {
             User_t user = accountService.GetAccountByName(userName);
             if (user.Usr_UId == new Guid() || user.Usr_Password != MD5_Util.MD5Encrypt(password))
@@ -44,10 +44,10 @@ namespace WaterPreview.Controllers
 
             Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Value = user.Usr_UId.ToString();
             Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Domain = ConfigurationManager.AppSettings["DomainName"];
-            Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Expires = DateTime.Now.AddDays(1); 
+            Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Expires = DateTime.Now.AddDays(1);
 
-
-            return RedirectToAction("index",false);
+            UserContext.account = user;
+            return RedirectToAction("index");
             //return View("index");
         }       
 
