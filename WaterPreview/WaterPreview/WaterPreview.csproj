@@ -192,6 +192,7 @@
     <Compile Include="Other\Attribute\LoginAttribute.cs" />
     <Compile Include="Other\Authorization\AuthorizationServerProvider.cs" />
     <Compile Include="Other\Authorization\RefreshTokenProvider.cs" />
+    <Compile Include="Other\Client\HttpClientCrant.cs" />
     <Compile Include="Other\MD5_Util.cs" />
     <Compile Include="Other\ToJson.cs" />
     <Compile Include="Other\UserContext.cs" />
