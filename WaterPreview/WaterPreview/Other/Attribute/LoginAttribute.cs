@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WaterPreview.Service;
@@ -27,27 +28,48 @@ namespace WaterPreview.Other.Attribute
                 {
                     return;
                 }
-                HttpCookieCollection CookieCollect = System.Web.HttpContext.Current.Request.Cookies;
-                if (CookieCollect.Count == 0 || CookieCollect[ConfigurationManager.AppSettings["CookieName"]] == null)
+                HttpCookieCollection CookieCollect = HttpContext.Current.Request.Cookies;
+                //if (CookieCollect.Count == 0 || CookieCollect[ConfigurationManager.AppSettings["CookieName"]].Value == null)
+                //{
+                //    filterContext.Result = new RedirectResult("/Home/Login");
+
+                //}
+                if (UserContext.account == null || UserContext.account.Usr_UId == new Guid())
                 {
                     filterContext.Result = new RedirectResult("/Home/Login");
-                }
-                else if (CookieCollect.Count != 0 && CookieCollect[ConfigurationManager.AppSettings["CookieName"]] != null)
-                {
-
-                    string s = CookieCollect[ConfigurationManager.AppSettings["CookieName"]].Value;
-                     User_t user = accountservice.GetAccountByUid(Guid.Parse(s));
-                     if (user.Usr_UId == new Guid())
-                    {
-                        filterContext.Result = new RedirectResult("/Home/Login");
-                    }
-                    UserContext.account = user;
                 }
                 else
                 {
-                    filterContext.Result = new RedirectResult("/Home/Login");
-
+                    //string s = CookieCollect[ConfigurationManager.AppSettings["CookieName"]].Value;
+                    //User_t user = accountservice.GetAccountByUid(Guid.Parse(s));
+                    //if (user.Usr_UId == new Guid())
+                    //{
+                    //    filterContext.Result = new RedirectResult("/Home/Login");
+                    //}
+                    //UserContext.account = user;
                 }
+
+                //HttpCookieCollection CookieCollect = System.Web.HttpContext.Current.Request.Cookies;
+                //if (CookieCollect.Count == 0 || CookieCollect[ConfigurationManager.AppSettings["CookieName"]] == null)
+                //{
+                //    filterContext.Result = new RedirectResult("/Home/Login");
+                //}
+                //else if (CookieCollect.Count != 0 && CookieCollect[ConfigurationManager.AppSettings["CookieName"]] != null)
+                //{
+
+                //    string s = CookieCollect[ConfigurationManager.AppSettings["CookieName"]].Value;
+                //     User_t user = accountservice.GetAccountByUid(Guid.Parse(s));
+                //     if (user.Usr_UId == new Guid())
+                //    {
+                //        filterContext.Result = new RedirectResult("/Home/Login");
+                //    }
+                //    UserContext.account = user;
+                //}
+                //else
+                //{
+                //    filterContext.Result = new RedirectResult("/Home/Login");
+
+                //}
                 
                    
                 

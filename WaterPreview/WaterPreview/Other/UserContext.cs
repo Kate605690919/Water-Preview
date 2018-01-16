@@ -25,15 +25,15 @@ namespace WaterPreview.Other
 
         public static User_t GetCurrentAccount()
         {
-            if (HttpContext.Current.Request.Cookies.Count != 0 && HttpContext.Current.Request.Cookies[ConfigurationManager.AppSettings["CookieName"]].Value != null)
-            {
-                Guid uid = Guid.Parse(HttpContext.Current.Request.Cookies[ConfigurationManager.AppSettings["CookieName"]].Value);
-                account = uid == new Guid() ? new User_t() : account_service.GetAccountByUid(uid);
-            }
-            else
-            {
-                account = new User_t();
-            }
+            //if (HttpContext.Current.Request.Cookies.Count != 0 && HttpContext.Current.Request.Cookies[ConfigurationManager.AppSettings["CookieName"]].Value != null)
+            //{
+            //    Guid uid = Guid.Parse(HttpContext.Current.Request.Cookies[ConfigurationManager.AppSettings["CookieName"]].Value);
+            //    account = uid == new Guid() ? new User_t() : account_service.GetAccountByUid(uid);
+            //}
+            //else
+            //{
+            //    account = new User_t();
+            //}
             return account;
         }
 
