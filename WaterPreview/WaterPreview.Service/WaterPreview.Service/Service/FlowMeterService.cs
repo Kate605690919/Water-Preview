@@ -80,7 +80,7 @@ namespace WaterPreview.Service.Service
             IFlowDayService fd_service = new FlowDayService();
             IFlowMonthService flowmonth_Service = new FlowMonthService();
 
-                List<FlowHour_t> fhlist = fh_service.GetDayFlowByUidAndDate(fm.FM_UId, (DateTime)fm.FM_FlowCountLast);
+                List<FlowHour_t> fhlist = fh_service.GetMonthFlowByUidAndDate(fm.FM_UId, (DateTime)fm.FM_FlowCountLast);
                 //DateTime time = (DateTime)fm.FM_FlowCountLast;
                 int timeint = int.Parse(datetime.ToString("yyyyMM"));
                 //当前日期的前一天
