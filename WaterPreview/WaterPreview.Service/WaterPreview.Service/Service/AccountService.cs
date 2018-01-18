@@ -44,5 +44,15 @@ namespace WaterPreview.Service.Service
             return dvlist;
         }
 
+        public bool ValidateAccount(string username, string password)
+        {
+            User_t user = GetAccountByName(username);
+            if (user.Usr_UId == new Guid() || user.Usr_Password != password)
+            {
+                return false;
+            }
+            return true;
+        }
+
     }
 }

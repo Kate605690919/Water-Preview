@@ -16,5 +16,7 @@ namespace WaterPreview.Service.Interface
         User_t GetAccountByName(string name);
 
         List<VisitCount> AddDeviceVisits(List<VisitCount> dvlist, Guid deviceUid);
+
+        bool ValidateAccount(string username, string password);
     }
 }
