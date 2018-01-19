@@ -153,35 +153,65 @@ namespace WaterPreview.Controllers
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 
-            List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
+            List<FlowMeterData> fmdata_account = new List<FlowMeterData>();
             User_t account = UserContext.account;
             //获取账号访问设备次数的list
             Func<List<VisitCount>> initvisit = () => { return new List<VisitCount>(); };
             List<VisitCount> vclist = DBHelper.get<List<VisitCount>>(initvisit, UserContext.account.Usr_UId + ConfigurationManager.AppSettings["VisitFlowMeterCount"]);
 
-            Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
-            List<FlowMeterData> fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);
+            //Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
+            //List<FlowMeterData> fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);
+            List<FlowMeter_t> fmlist = new List<FlowMeter_t>();
 
+            if (account.Usr_Type == 3)
+            {
+                fmlist = flowmeter_Service.GetFlowMetersByUserUid(account.Usr_UId).ToList();
+            }
+            else
+            {
+                fmlist = flowmeter_Service.GetAllFlowMeter();
+            }
+            List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
+            foreach (var item in fmlist)
+            {
+                Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(item, (DateTime)item.FM_FlowCountLast);
+                var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]);
+                //var fmdata = GetAnalysisByFlowMeter(item,(DateTime)item.FM_FlowCountLast);
+                fmdatalist.Add(fmdata);
+
+            }
             if (vclist.Count > 0)
             {
                 vclist = vclist.OrderByDescending(p => p.count).ToList();
-                fmdatalist.AddRange(vclist.Select(t => fmdataanalysis.FirstOrDefault(p => p.flowmeter.FM_UId == Guid.Parse(t.uid))));
-                foreach (FlowMeterData item in fmdataanalysis)
+                foreach(var vcitem in vclist){
+                    FlowMeter_t fm = fmlist.First(p => p.FM_UId == Guid.Parse(vcitem.uid));
+                    Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(fm, (DateTime)fm.FM_FlowCountLast);
+                    var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]+fm.FM_UId);
+                    fmdata_account.Add(fmdata);
+
+                }
+                foreach (FlowMeter_t item in fmlist)
                 {
-                    if (vclist.All(p => p.uid != item.flowmeter.FM_UId.ToString()))
+                    if (vclist.All(p => p.uid != item.FM_UId.ToString()))
                     {
-                        fmdatalist.Add(item);
+                        Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(item, (DateTime)item.FM_FlowCountLast);
+                        var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"] + item.FM_UId);
+                        fmdata_account.Add(fmdata);
                     }
                 }
             }
             else
             {
-                fmdatalist = fmdataanalysis;
+                foreach (var item in fmlist)
+                {
+                    Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(item, (DateTime)item.FM_FlowCountLast);
+                    var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]);
+                    fmdata_account.Add(fmdata);
+
+                }
             }
 
-            
-            
-            string dataresult = ToJson<List<FlowMeterData>>.Obj2Json<List<FlowMeterData>>(fmdatalist).Replace("\\\\", "");
+            string dataresult = ToJson<List<FlowMeterData>>.Obj2Json<List<FlowMeterData>>(fmdata_account).Replace("\\\\", "");
             dataresult = dataresult.Replace("\\\\", "");
 
             result.Data = dataresult;               
@@ -196,31 +226,50 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
+            List<FlowMeterData> fmdata_account = new List<FlowMeterData>();
             User_t account = UserContext.account;
+            List<FlowMeter_t> fmlist = new List<FlowMeter_t>();
+            //Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
+            //List<FlowMeterData> fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);
+            if (account.Usr_Type == 3)
+            {
+                fmlist = flowmeter_Service.GetFlowMetersByUserUid(account.Usr_UId);
+            }
+            else
+            {
+                fmlist = flowmeter_Service.GetAllFlowMeter();
+            }
+            List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
+            foreach (var item in fmlist)
+            {
+                Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(item, (DateTime)item.FM_FlowCountLast);
+                var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]+item.FM_UId);
 
-            Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
-            List<FlowMeterData> fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);
+                //var fmdata = GetAnalysisByFlowMeter(item,(DateTime)item.FM_FlowCountLast);
+                fmdatalist.Add(fmdata);
+
+            }
+            
             //先剔除“无法计算”的昨日流量比例，按大小排序，再补上“无法计算”
-            var fmdatatemp1 = fmdataanalysis.Where(p => p.lastday_flow_proportion != "无法计算").ToList();
+            var fmdatatemp1 = fmdatalist.Where(p => p.lastday_flow_proportion != "无法计算").ToList();
             if (fmdatatemp1.Count >=0&&fmdatatemp1.Count<3)
             {
                 fmdatalist.AddRange(fmdatatemp1);
-                var fmdatatemp2 = fmdataanalysis.Where(p => p.lastday_flow_proportion == "无法计算").ToList();
+                var fmdatatemp2 = fmdatalist.Where(p => p.lastday_flow_proportion == "无法计算").ToList();
                 if (fmdatatemp2.Count > 0)
                 {
-                    fmdatalist.AddRange(fmdatatemp2);
-                    fmdatalist = fmdatalist.Take(3).ToList();
+                    fmdata_account.AddRange(fmdatatemp2);
+                    fmdata_account = fmdata_account.Take(3).ToList();
                 }
             }
             else if (fmdatatemp1.Count >= 3)
             {
-                fmdatalist = fmdatatemp1.OrderByDescending(p => p.lastday_flow_proportion).Take(3).ToList();
+                fmdata_account = fmdatatemp1.OrderByDescending(p => p.lastday_flow_proportion).Take(3).ToList();
 
             }
 
-            
-            string dataresult = ToJson<List<FlowMeterData>>.Obj2Json<List<FlowMeterData>>(fmdatalist).Replace("\\\\", "");
+
+            string dataresult = ToJson<List<FlowMeterData>>.Obj2Json<List<FlowMeterData>>(fmdata_account).Replace("\\\\", "");
             dataresult = dataresult.Replace("\\\\", "");
 
             result.Data = dataresult;  

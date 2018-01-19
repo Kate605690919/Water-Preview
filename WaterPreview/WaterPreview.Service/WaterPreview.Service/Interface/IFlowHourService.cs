@@ -13,6 +13,6 @@ namespace WaterPreview.Service.Interface
 
         List<FlowHour_t> GetTimeFlowHourByUid(Guid fmUid, int startTime, int endTime);
 
-        List<FlowHour_t> GetDayFlowByUidAndDate(Guid uid, DateTime date);
+        List<FlowHour_t> GetMonthFlowByUidAndDate(Guid uid, DateTime date);
     }
 }

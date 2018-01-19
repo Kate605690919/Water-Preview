@@ -45,6 +45,24 @@ namespace WaterPreview.Redis
             }
         }
 
+        public static T get<T>(Func<T> init, string key, int dbindex = 1)
+        {
+            using (RedisClient rc = new RedisClient(ConnectionString))
+            {
+                rc.Select(dbindex);
+                var name = key;
+                if (!rc.Exists(name))
+                {
+                    var result = init();
+                    rc.Set(name, JsonConvert.SerializeObject(result));
+                    //设置值的过期时间为24小时
+                    rc.Expire(name, new TimeSpan(24, 0, 0));
+                    return result;
+                }
+                return JsonConvert.DeserializeObject<T>(rc.Get(name));
+
+            }
+        }
         /// <summary>
         /// 更新并获取key对应的init返回的值,不设置过期时间
         /// </summary>
@@ -68,7 +86,7 @@ namespace WaterPreview.Redis
             }
         }
 
-        public static T get<T>(Func<T> init, string key, int dbindex = 1) 
+        public static T getT<T>(Func<T> init, string key, int dbindex = 1) 
         {
             using (RedisClient rc = new RedisClient(ConnectionString))
             {
