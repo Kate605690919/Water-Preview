@@ -190,7 +190,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="App_Start\WebApiConfigghj.cs" />
     <Compile Include="Areas\Client\ClientAreaRegistration.cs" />
     <Compile Include="Base\BaseController.cs" />
     <Compile Include="Controllers\AreaController.cs" />
@@ -209,6 +208,8 @@
     <Compile Include="Other\Client\HttpClientCrant.cs" />
     <Compile Include="Other\CredentialsGrantController.cs" />
     <Compile Include="Other\MD5_Util.cs" />
+    <Compile Include="Other\NinjectDependencyResolver.cs" />
+    <Compile Include="Other\NinjectDependencyScope.cs" />
     <Compile Include="Other\ToJson.cs" />
     <Compile Include="Other\UserContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

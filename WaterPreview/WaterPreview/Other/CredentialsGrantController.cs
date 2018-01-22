@@ -11,10 +11,10 @@ namespace WaterPreview.Other
     public class CredentialsGrantController : ApiController
     {
         // GET api/<controller>
-        [HttpGet,Route("")]
+        [HttpGet,Route("api/hello")]
         public IEnumerable<string> Get()
         {
-            return new string[] { "value1", "value2" };
+            return new string[] { "hello", "world" };
         }
 
         // GET api/<controller>/5
@@ -36,6 +36,11 @@ namespace WaterPreview.Other
         // DELETE api/<controller>/5
         public void Delete(int id)
         {
+        }
+
+        public void Login(string name, string password)
+        {
+
         }
     }
 }
