@@ -13,6 +13,7 @@ using WaterPreview.Redis;
 using WaterPreview.Service;
 using WaterPreview.Service.Interface;
 using WaterPreview.Service.RedisContract;
+using WaterPreview.Service.Service;
 
 namespace WaterPreview.Controllers
 {
@@ -24,18 +25,25 @@ namespace WaterPreview.Controllers
         private static IQualityMeterService qualitymeterService;
 
 
-        public AreaController(IAreaService arService, IFlowMeterService fmService,IPressureMeterService pmService,IQualityMeterService qmService)
+        public AreaController()
         {
-            this.AddDisposableObject(arService);
-            areaService = arService;
-            this.AddDisposableObject(fmService);
-            flowmeterService = fmService;
-
-            this.AddDisposableObject(pmService);
-            pressuremeterService = pmService;
-            this.AddDisposableObject(qmService);
-            qualitymeterService = qmService;
+            areaService = new AreaService();
+            flowmeterService = new FlowMeterService();
+            pressuremeterService = new PressureMeterService();
+            qualitymeterService = new QualityMeterService();
         }
+        //public AreaController(IAreaService arService, IFlowMeterService fmService,IPressureMeterService pmService,IQualityMeterService qmService)
+        //{
+        //    this.AddDisposableObject(arService);
+        //    areaService = arService;
+        //    this.AddDisposableObject(fmService);
+        //    flowmeterService = fmService;
+
+        //    this.AddDisposableObject(pmService);
+        //    pressuremeterService = pmService;
+        //    this.AddDisposableObject(qmService);
+        //    qualitymeterService = qmService;
+        //}
 
 
 

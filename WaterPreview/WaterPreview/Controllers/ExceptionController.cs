@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WaterPreview.Base;
 using WaterPreview.Service.Interface;
+using WaterPreview.Service.Service;
 
 namespace WaterPreview.Controllers
 {
@@ -12,11 +13,16 @@ namespace WaterPreview.Controllers
     {
         private static IExceptionService exceptionService;
 
-        public ExceptionController(IExceptionService exService)
+
+        public ExceptionController()
         {
-            this.AddDisposableObject(exService);
-            exceptionService = exService;
+            exceptionService = new ExceptionService();
         }
+        //public ExceptionController(IExceptionService exService)
+        //{
+        //    this.AddDisposableObject(exService);
+        //    exceptionService = exService;
+        //}
         // GET: Exception
         public ActionResult Index()
         {

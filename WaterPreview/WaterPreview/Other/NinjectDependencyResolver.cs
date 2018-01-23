@@ -6,25 +6,35 @@ using System.Web;
 using System.Web.Http.Dependencies;
 using WaterPreview.Service.Interface;
 using WaterPreview.Service.Service;
+using Ninject;
 
 namespace WaterPreview.Other
 {
-    public class NinjectDependencyResolver:NinjectDependencyScope,IDependencyResolver
+    public class NinjectDependencyResolver:IDependencyResolver
+    //public class NinjectDependencyResolver:NinjectDependencyScope,IDependencyResolver
     {
-        [Ninject.Inject]
-        private IKernel kernel;
+
+        private IKernel kernel {get; set;}
+
+        private List<IDisposable> disposableServices = new List<IDisposable>();
+
+        public NinjectDependencyResolver(NinjectDependencyResolver parent)
+        {
+            this.kernel = parent.kernel;
+        }
+
         public NinjectDependencyResolver()
         {
-
-        }
-
-        public NinjectDependencyResolver(IKernel kernel)
-        {
-            this.kernel = kernel;
+            this.kernel = new Ninject.StandardKernel();
             this.kernel.Settings.InjectNonPublic = true;
-            this.AddBinds();
+            //this.AddBinds();
         }
 
+
+        public void Register<TFrom, TTo>() where TTo : TFrom
+        {
+            this.kernel.Bind<TFrom>().To<TTo>();
+        }
         private void AddBinds()
         {
 
@@ -51,7 +61,38 @@ namespace WaterPreview.Other
 
         public IDependencyScope BeginScope()
         {
-            return new NinjectDependencyScope(this.kernel.BeginBlock());
+            return new NinjectDependencyResolver(this);
+        }
+
+        public object GetService(Type serviceType)
+        {
+            return this.kernel.TryGet(serviceType);
+        }
+
+        public IEnumerable<object> GetServices(Type serviceType)
+        {
+            foreach (var service in this.kernel.GetAll(serviceType))
+            {
+                this.AddDisposableService(service);
+                yield return service;
+            }
+            //return this.kernel.GetAll(serviceType);
+        }
+
+        public void Dispose()
+        {
+            foreach(IDisposable disposable in disposableServices){
+                disposable.Dispose();
+            }
+        }
+
+        private void AddDisposableService(object service)
+        {
+            IDisposable disposable = service as IDisposable;
+            if (null != disposable && !disposableServices.Contains(disposable))
+            {
+                disposableServices.Add(disposable);
+            }
         }
     }
 }

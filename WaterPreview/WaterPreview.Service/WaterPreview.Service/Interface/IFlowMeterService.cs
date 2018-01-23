@@ -14,6 +14,8 @@ namespace WaterPreview.Service.Interface
 
         List<FlowMeterStatusAndArea> GetFlowMeterStatusAndArea();
 
+        FlowMeter_t GetFlowMeterByFMUid(Guid fmUid);
+
         List<FlowMeter_t> GetFlowMetersByUserUid(Guid userUid);
 
         List<FlowMeterData> GetFlowMetersDataByUserUid(User_t account);

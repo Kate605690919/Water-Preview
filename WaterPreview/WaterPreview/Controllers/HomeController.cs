@@ -11,20 +11,24 @@ using WaterPreview.Other.Client;
 using WaterPreview.Redis;
 using WaterPreview.Service;
 using WaterPreview.Service.Interface;
+using WaterPreview.Service.Service;
 
 namespace WaterPreview.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
+        //[Ninject.Inject]
+        private IAccountService accountService;
 
-        private static IAccountService accountService;
-
-        public HomeController(IAccountService accService)
+        public HomeController()
         {
-            this.AddDisposableObject(accService);
-            accountService = accService;
+            //this.AddDisposableObject(accService);
+            accountService = new AccountService();
         }
 
+    //    public HomeController(){
+
+    //}
         [AllowAnonymous]
         public ActionResult Login()
         {

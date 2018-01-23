@@ -11,6 +11,7 @@ using WaterPreview.Redis;
 using WaterPreview.Service;
 using WaterPreview.Service.Interface;
 using WaterPreview.Service.RedisContract;
+using WaterPreview.Service.Service;
 
 
 namespace WaterPreview.Controllers
@@ -25,27 +26,36 @@ namespace WaterPreview.Controllers
         private static IFlowService flow_Service;
 
 
-
-        public FlowMeterController(IFlowMeterService fmservice,IFlowMonthService fmonthservice,IFlowHourService fhourservice,IFlowDayService fdayservice,IAccountService accservice,IFlowService flowservice)
+        public FlowMeterController()
         {
-            this.AddDisposableObject(fmservice);
-            flowmeter_Service = fmservice;
-
-            this.AddDisposableObject(fmonthservice);
-            flowmonth_Service = fmonthservice;
-
-            this.AddDisposableObject(fhourservice);
-            flowhour_Service = fhourservice;
-
-            this.AddDisposableObject(fdayservice);
-            flowday_Service = fdayservice;
-
-            this.AddDisposableObject(accservice);
-            account_Service = accservice;
-
-            this.AddDisposableObject(flowservice);
-            flow_Service = flowservice;
+            flowmeter_Service = new FlowMeterService();
+            flowmonth_Service = new FlowMonthService();
+            flowhour_Service = new FlowHourService();
+            flowday_Service = new FlowDayService();
+            account_Service = new AccountService();
+            flow_Service = new FlowService();
         }
+
+        //public FlowMeterController(IFlowMeterService fmservice,IFlowMonthService fmonthservice,IFlowHourService fhourservice,IFlowDayService fdayservice,IAccountService accservice,IFlowService flowservice)
+        //{
+        //    this.AddDisposableObject(fmservice);
+        //    flowmeter_Service = fmservice;
+
+        //    this.AddDisposableObject(fmonthservice);
+        //    flowmonth_Service = fmonthservice;
+
+        //    this.AddDisposableObject(fhourservice);
+        //    flowhour_Service = fhourservice;
+
+        //    this.AddDisposableObject(fdayservice);
+        //    flowday_Service = fdayservice;
+
+        //    this.AddDisposableObject(accservice);
+        //    account_Service = accservice;
+
+        //    this.AddDisposableObject(flowservice);
+        //    flow_Service = flowservice;
+        //}
 
         /// <summary>
         /// 输出流量计Uid和对应time的各个流量分析数值
@@ -57,12 +67,15 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            User_t account = UserContext.account;
+            //User_t account = UserContext.account;
+            FlowMeter_t flowmeter = flowmeter_Service.GetFlowMeterByFMUid(uid);
+            Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(flowmeter, (DateTime)time);
+            result.Data = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]);
 
-                Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
+                //Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
 
-                var fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);
-                result.Data = fmdataanalysis.Where(p => p.flowmeter.FM_UId == uid).FirstOrDefault();
+                //var fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);
+                //result.Data = fmdataanalysis.Where(p => p.flowmeter.FM_UId == uid).FirstOrDefault();
 
             
             return result;
@@ -171,15 +184,6 @@ namespace WaterPreview.Controllers
             {
                 fmlist = flowmeter_Service.GetAllFlowMeter();
             }
-            List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
-            foreach (var item in fmlist)
-            {
-                Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(item, (DateTime)item.FM_FlowCountLast);
-                var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]);
-                //var fmdata = GetAnalysisByFlowMeter(item,(DateTime)item.FM_FlowCountLast);
-                fmdatalist.Add(fmdata);
-
-            }
             if (vclist.Count > 0)
             {
                 vclist = vclist.OrderByDescending(p => p.count).ToList();
@@ -205,7 +209,7 @@ namespace WaterPreview.Controllers
                 foreach (var item in fmlist)
                 {
                     Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(item, (DateTime)item.FM_FlowCountLast);
-                    var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]);
+                    var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]+item.FM_UId);
                     fmdata_account.Add(fmdata);
 
                 }
@@ -229,8 +233,6 @@ namespace WaterPreview.Controllers
             List<FlowMeterData> fmdata_account = new List<FlowMeterData>();
             User_t account = UserContext.account;
             List<FlowMeter_t> fmlist = new List<FlowMeter_t>();
-            //Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
-            //List<FlowMeterData> fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);
             if (account.Usr_Type == 3)
             {
                 fmlist = flowmeter_Service.GetFlowMetersByUserUid(account.Usr_UId);
