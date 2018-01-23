@@ -9,7 +9,6 @@
      * @param {function} callBackError 失败回调
      */
     fetch({ method = 'GET', data, url, storage, callBackSuccess, callBackError }) {
-        debugger;
         let headers = null;
         if (method === 'GET') {
             url = `${url}?${data}`;
