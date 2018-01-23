@@ -40,6 +40,10 @@ namespace WaterPreview.Service.Service
             return fmsalist;
         }
 
+        public FlowMeter_t GetFlowMeterByFMUid(Guid fmUid)
+        {
+            return FindAll().FirstOrDefault(p => p.FM_UId == fmUid);
+        }
         /// <summary>
         /// 客户获取最新的流量分析数据
         /// </summary>

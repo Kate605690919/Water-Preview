@@ -17,31 +17,31 @@ namespace WaterPreview.Other.Client
         public HttpClientCrant()
         {
             _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("http://localhost:51490/");
+            _httpClient.BaseAddress = new Uri("http://localhost:64915/");
         }
 
         //[Fact]
-        public async Task Get_Accesss_Token_By_Resource_Owner_Password_Credentials_Grant()
+        public async Task Get_Accesss_Token_By_Resource_Owner_Password_Credentials_Grant(string username, string password)
         {
-            Console.WriteLine(await GetAccessToken());
+            Console.WriteLine(await GetAccessToken(username,password));
         }
 
-        public async Task Call_WebAPI_By_Resource_Owner_Password_Credentials_Grant()
+        public async Task Call_WebAPI_By_Resource_Owner_Password_Credentials_Grant(string username,string password)
         {
-            var token = await GetAccessToken();
+            var token = await GetAccessToken(username,password);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             Console.WriteLine(await (await _httpClient.GetAsync("/api/users/current")).Content.ReadAsStringAsync());
         }
 
-        private async Task<string> GetAccessToken()
+        private async Task<string> GetAccessToken(string username,string password)
         {
-            var clientId = "1234";
-            var clientSecret = "5678";
+            var clientId = "preview";
+            var clientSecret = "waterpreviewclient";
 
             var parameters = new Dictionary<string, string>();
             parameters.Add("grant_type", "password");
-            parameters.Add("username", "username");
-            parameters.Add("password", "password");
+            parameters.Add("username", username);
+            parameters.Add("password", password);
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
                 "Basic",

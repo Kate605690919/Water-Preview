@@ -6,6 +6,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using WaterPreview.Service.Interface;
+using WaterPreview.Service.Service;
 
 namespace WaterPreview.Other
 {
@@ -17,8 +19,8 @@ namespace WaterPreview.Other
             string clientSecret;
             context.TryGetBasicCredentials(out clientId, out clientSecret);
 
-            if (clientId == "1234"
-                && clientSecret == "5678")
+            if (clientId == "preview"
+                && clientSecret == "waterpreviewclient")
             {
                 context.Validated(clientId);
             }
@@ -39,7 +41,13 @@ namespace WaterPreview.Other
             OAuthGrantResourceOwnerCredentialsContext context)
         {
             //调用后台的登录服务验证用户名与密码
-            if (context.UserName != "博客园团队" || context.Password != "cnblogs.com")
+            //IAccountService account_service = new AccountService();
+            //string password = MD5_Util.MD5Encrypt(context.Password);
+            //if (!account_service.ValidateAccount(context.UserName, password))
+            //{
+            //    return;
+            //}
+            if (context.UserName == null)
             {
                 return;
             }
