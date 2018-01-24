@@ -17,18 +17,12 @@ namespace WaterPreview.Controllers
 {
     public class HomeController : Controller
     {
-        //[Ninject.Inject]
         private IAccountService accountService;
 
         public HomeController()
         {
-            //this.AddDisposableObject(accService);
             accountService = new AccountService();
         }
-
-    //    public HomeController(){
-
-    //}
         [AllowAnonymous]
         public ActionResult Login()
         {
