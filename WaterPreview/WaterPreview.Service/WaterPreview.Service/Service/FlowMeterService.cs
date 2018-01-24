@@ -115,7 +115,7 @@ namespace WaterPreview.Service.Service
 
                 FlowMeterData fmdata = new FlowMeterData()
                 {
-                    flowmeter = fm,
+                    FM_Uid = fm.FM_UId,
                     lastday_flow = Math.Round((decimal)lastdaytotal, 4) + "",//昨日总流量
                     lastday_flow_proportion = beforelastdaytotal == 0 ? "无法计算" : Math.Round((decimal)((lastdaytotal - beforelastdaytotal) / beforelastdaytotal), 4).ToString("0.00%"), //昨日总流量变化趋势
                     night_flow = yerstodaydata == 0 ? "无法计算" : Math.Round((decimal)yerstodaydata, 4) + "",//昨夜凌晨2-4点流量均值
