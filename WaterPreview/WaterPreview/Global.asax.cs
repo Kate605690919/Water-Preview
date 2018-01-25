@@ -6,8 +6,8 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using WaterPreview.App_Start;
-using WaterPreview.Other;
+//using WaterPreview.App_Start;
+//using WaterPreview.Other;
 using WaterPreview.Service.Interface;
 using WaterPreview.Service.Service;
 using WaterPreview.Util.Infrastructure;
@@ -24,7 +24,7 @@ namespace WaterPreview
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             //ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
 
-            GlobalConfiguration.Configure(WebApiConfig.Register);
+           // GlobalConfiguration.Configure(WebApiConfig.Register);
 
             //var dependencyResolver = new NinjectDependencyResolver(new Ninject.StandardKernel());
             //DependencyResolver.SetResolver(dependencyResolver);

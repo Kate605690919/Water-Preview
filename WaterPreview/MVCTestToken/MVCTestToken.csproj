@@ -7,12 +7,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1461ACFA-9525-4DE2-A806-BD27AEB9992C}</ProjectGuid>
+    <ProjectGuid>{111082E0-6228-4CF7-B67A-818DF6B457E4}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WaterPreview</RootNamespace>
-    <AssemblyName>WaterPreview</AssemblyName>
+    <RootNamespace>MVCTestToken</RootNamespace>
+    <AssemblyName>MVCTestToken</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
@@ -20,8 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <UseGlobalApplicationHostFile />
-    <Use64BitIISExpress />
+    <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,62 +40,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="csredis, Version=3.2.1.0, Culture=neutral, PublicKeyToken=1afd0264bbe4a44a, processorArchitecture=MSIL">
-      <HintPath>..\packages\csredis.3.2.1\lib\net40\csredis.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Web.RedisSessionStateProvider, Version=2.2.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Web.RedisSessionStateProvider.2.2.6\lib\net40\Microsoft.Web.RedisSessionStateProvider.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Ninject.Web.Common, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.Web.Common.3.3.0\lib\net45\Ninject.Web.Common.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Ninject.Web.Common.WebHost, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.Web.Common.WebHost.3.3.0\lib\net45\Ninject.Web.Common.WebHost.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Ninject.Web.Mvc, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.MVC5.3.3.0\lib\net45\Ninject.Web.Mvc.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Ninject.Web.WebApi, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <HintPath>..\packages\Ninject.Web.WebApi.3.3.0\lib\net45\Ninject.Web.WebApi.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="StackExchange.Redis.StrongName, Version=1.2.1.0, Culture=neutral, PublicKeyToken=c219ff1ca8c2ce46, processorArchitecture=MSIL">
-      <HintPath>..\packages\StackExchange.Redis.StrongName.1.2.1\lib\net45\StackExchange.Redis.StrongName.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
+    <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.Http.WebHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -201,155 +164,51 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AuthorizationServerProvider.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\NinjectDependencyResolver.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Areas\Client\ClientAreaRegistration.cs" />
-    <Compile Include="Base\BaseController.cs" />
-    <Compile Include="Controllers\AreaController.cs" />
-    <Compile Include="Controllers\ExceptionController.cs" />
-    <Compile Include="Controllers\FlowMeterController.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\PressureMeterController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\NinjectControllerFactory.cs" />
-    <Compile Include="Other\Attribute\JsonRequestBehaviorAttribute.cs" />
-    <Compile Include="Other\Attribute\LoginAttribute.cs" />
-    <Compile Include="App_Start\AuthorizationServerProvider.cs" />
-    <Compile Include="Other\Authorization\RefreshTokenProvider.cs" />
-    <Compile Include="Other\Client\HttpClientCrant.cs" />
-    <Compile Include="Controllers\CredentialsGrantController.cs" />
-    <Compile Include="Other\MD5_Util.cs" />
-    <Compile Include="App_Start\NinjectDependencyResolver.cs" />
-    <Compile Include="Other\NinjectDependencyScope.cs" />
-    <Compile Include="Other\ToJson.cs" />
-    <Compile Include="Other\UserContext.cs" />
+    <Compile Include="Itestservice.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Redis\DBHelper.cs" />
-    <Compile Include="Redis\RedisHelper.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="testservice.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\antd.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\datatables.min.css" />
-    <Content Include="Content\datepicker3.css" />
-    <Content Include="Content\daterangepicker-bs3.css" />
-    <Content Include="Content\font-awesome.css" />
-    <Content Include="Content\iCheck\custom.css" />
-    <Content Include="Content\iCheck\green%402x.png" />
-    <Content Include="Content\iCheck\green.png" />
-    <Content Include="Content\inspinia\animate.css" />
-    <Content Include="Content\inspinia\style.css" />
-    <Content Include="Content\jquery.duallistbox.min.css" />
-    <Content Include="Content\jquery.steps.min.css" />
-    <Content Include="Content\jstree\32px.png" />
-    <Content Include="Content\jstree\39px.png" />
-    <Content Include="Content\jstree\40px.png" />
-    <Content Include="Content\jstree\style.css" />
-    <Content Include="Content\jstree\style.min.css" />
-    <Content Include="Content\jstree\throbber.gif" />
-    <Content Include="Content\myStyle.css" />
-    <Content Include="Content\pages\config.css" />
-    <Content Include="Content\pages\deviceTree.css" />
-    <Content Include="Content\pages\flowmeter.css" />
-    <Content Include="Content\pages\homeIndex.css" />
-    <Content Include="Content\pages\pressureMeter.css" />
-    <Content Include="Content\steps\jquery.steps.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="img\blue.png" />
-    <Content Include="img\green.png" />
-    <Content Include="img\purple.png" />
-    <Content Include="Scripts\Calender\calenderApp.js" />
-    <Content Include="Scripts\Calender\datepicker\bootstrap-datepicker.js" />
-    <Content Include="Scripts\Calender\fullcalendar\fullcalendar.min.js" />
-    <Content Include="Scripts\Calender\fullcalendar\moment.min.js" />
-    <Content Include="Scripts\Chart\echarts.js" />
-    <Content Include="Scripts\Chart\echarts.min.js" />
-    <Content Include="Scripts\Chart\fmChart.js" />
-    <Content Include="Scripts\jstree\AreaConfig.js" />
-    <Content Include="Scripts\jstree\jstree.js" />
-    <Content Include="Scripts\jstree\jstreeAreaData.js" />
-    <Content Include="Scripts\jstree\jstreeAreAdd.js" />
-    <Content Include="Scripts\map\bMap.js" />
-    <Content Include="Scripts\particles\appLogin.js" />
-    <Content Include="Scripts\particles\particles.js" />
-    <Content Include="Scripts\React\app.js" />
-    <Content Include="Scripts\React\Components\Battery.js" />
-    <Content Include="Scripts\React\Components\Breadcrumb.js" />
-    <Content Include="Scripts\React\Components\Card.js" />
-    <Content Include="Scripts\React\Components\datepicker.js" />
-    <Content Include="Scripts\React\Components\Dd.js" />
-    <Content Include="Scripts\React\Components\DdItem.js" />
-    <Content Include="Scripts\React\Components\EchartsLine.js" />
-    <Content Include="Scripts\React\Components\footer.js" />
-    <Content Include="Scripts\React\Components\Form.js" />
-    <Content Include="Scripts\React\Components\FormItem.js" />
-    <Content Include="Scripts\React\Components\Header.js" />
-    <Content Include="Scripts\React\Components\HeaderTop.js" />
-    <Content Include="Scripts\React\Components\HeatMapFm.js" />
-    <Content Include="Scripts\React\Components\JsTree.js" />
-    <Content Include="Scripts\React\Home\CardListitem.js" />
-    <Content Include="Scripts\React\Components\loadding.js" />
-    <Content Include="Scripts\React\Components\MiniCard.js" />
-    <Content Include="Scripts\React\Components\Select.js" />
-    <Content Include="Scripts\React\Components\Step.js" />
-    <Content Include="Scripts\React\Components\Table.js" />
-    <Content Include="Scripts\React\Devices\action.js" />
-    <Content Include="Scripts\React\Devices\DeviceCard.js" />
-    <Content Include="Scripts\React\Devices\index.js" />
-    <Content Include="Scripts\React\Devices\pages\detail\dataAnalysis.js" />
-    <Content Include="Scripts\React\Devices\pages\detail\dataCount.js" />
-    <Content Include="Scripts\React\Devices\pages\detail\DataStatus.js" />
-    <Content Include="Scripts\React\Devices\pages\detail\FMDetail.js" />
-    <Content Include="Scripts\React\Devices\pages\detail\index.js" />
-    <Content Include="Scripts\React\Devices\ToolBar.js" />
-    <Content Include="Scripts\React\FeedBack\index.js" />
-    <Content Include="Scripts\React\Home\action.js" />
-    <Content Include="Scripts\React\Home\cardRank.js" />
-    <Content Include="Scripts\React\Home\HomeMap.js" />
-    <Content Include="Scripts\React\Home\index.js" />
-    <Content Include="Scripts\React\reducer.js" />
-    <Content Include="Scripts\React\util\Fetch.js" />
-    <Content Include="Scripts\React\util\WebStorage.js" />
-    <Content Include="Scripts\sources\bootstrap-datepicker.js" />
-    <Content Include="Scripts\sources\bootstrap.min.js" />
-    <Content Include="Scripts\sources\datatables.min.js" />
-    <Content Include="Scripts\sources\daterangepicker.js" />
-    <Content Include="Scripts\sources\inspinia\inspinia.js" />
-    <Content Include="Scripts\sources\inspinia\jquery.metisMenu.js" />
-    <Content Include="Scripts\sources\inspinia\jquery.slimscroll.min.js" />
-    <Content Include="Scripts\sources\inspinia\pace.min.js" />
-    <Content Include="Scripts\sources\jquery.bootstrap-duallistbox.js" />
-    <Content Include="Scripts\sources\jquery.duallistbox.js" />
-    <Content Include="Scripts\sources\jquery.min.js" />
-    <Content Include="Scripts\sources\jquery.steps.min.js" />
-    <Content Include="Scripts\sources\jquery.validate.min.js" />
-    <Content Include="Scripts\sources\jstree.min.js" />
-    <Content Include="Scripts\sources\modernizr-2.6.2.js" />
-    <Content Include="Scripts\sources\react\antd.min.js" />
-    <Content Include="Scripts\sources\react\babel.min.js" />
-    <Content Include="Scripts\sources\react\react-dom.min.js" />
-    <Content Include="Scripts\sources\react\react-redux.min.js" />
-    <Content Include="Scripts\sources\react\react.min.js" />
-    <Content Include="Scripts\sources\react\redux.min.js" />
-    <Content Include="Scripts\sources\respond.min.js" />
-    <Content Include="Scripts\steps\jquery.steps.js" />
-    <Content Include="Scripts\steps\jquery.steps.min.js" />
-    <Content Include="Scripts\table\datatableApp.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config">
-      <SubType>Designer</SubType>
-    </Content>
+    <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -363,6 +222,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
@@ -386,35 +246,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Areas\Client\Controllers\" />
-    <Folder Include="Areas\Client\Models\" />
-    <Folder Include="Areas\Client\Views\Shared\" />
-    <Folder Include="Models\" />
-    <Folder Include="Views\Exception\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <Content Include="fonts\fontawesome-webfont.eot" />
-    <Content Include="fonts\fontawesome-webfont.ttf" />
-    <Content Include="fonts\fontawesome-webfont.woff" />
-    <Content Include="fonts\fontawesome-webfont.woff2" />
-    <Content Include="fonts\FontAwesome.otf" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Areas\Client\Views\web.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\Home\password.cshtml" />
-    <None Include="Properties\PublishProfiles\WaterPreview-2017.12-Test.pubxml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WaterPreview.Service\WaterPreview.Service\WaterPreview.Service.csproj">
-      <Project>{92cdc5b3-f1d9-490f-81c1-e9518b1dd2f7}</Project>
-      <Name>WaterPreview.Service</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -432,9 +270,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>64915</DevelopmentServerPort>
+          <DevelopmentServerPort>54071</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:64915/</IISUrl>
+          <IISUrl>http://localhost:54071/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
