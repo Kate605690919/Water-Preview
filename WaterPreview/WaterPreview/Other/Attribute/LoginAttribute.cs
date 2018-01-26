@@ -21,13 +21,13 @@ namespace WaterPreview.Other.Attribute
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
-
+            if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), inherit: true))
+            {
+                return;
+            }
             if (IsCheck)
             {
-                if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), inherit: true))
-                {
-                    return;
-                }
+                
                 HttpCookieCollection CookieCollect = HttpContext.Current.Request.Cookies;
                 //if (CookieCollect.Count == 0 || CookieCollect[ConfigurationManager.AppSettings["CookieName"]].Value == null)
                 //{

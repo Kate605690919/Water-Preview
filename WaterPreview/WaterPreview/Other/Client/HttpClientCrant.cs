@@ -30,6 +30,7 @@ namespace WaterPreview.Other.Client
         {
             var token = await GetAccessToken(username,password);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
             Console.WriteLine(await (await _httpClient.GetAsync("/api/users/current")).Content.ReadAsStringAsync());
         }
 
@@ -52,8 +53,12 @@ namespace WaterPreview.Other.Client
             var responseValue = await response.Content.ReadAsStringAsync();
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                Console.WriteLine(responseValue);
-                Console.ReadKey();
+                //Console.WriteLine(responseValue);
+                //Console.ReadKey();
+                response.Headers.Add("access_token",JObject.Parse(responseValue)["access_token"].Value<string>());
+                HttpContext.Current.Response.Cookies["access_token"].Value = JObject.Parse(responseValue)["access_token"].Value<string>();
+                UserContext.access_token = JObject.Parse(responseValue)["access_token"].Value<string>();
+                HttpContext.Current.Response.Headers.Add("access_token", JObject.Parse(responseValue)["access_token"].Value<string>());
                 return JObject.Parse(responseValue)["access_token"].Value<string>();
             }
             else

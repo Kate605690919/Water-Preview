@@ -52,14 +52,16 @@ namespace WaterPreview.Controllers
             Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Domain = ConfigurationManager.AppSettings["DomainName"];
             Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Expires = DateTime.Now.AddDays(1);
 
-            //HttpClientCrant client = new HttpClientCrant();
-            //client.Call_WebAPI_By_Resource_Owner_Password_Credentials_Grant(userName,password);
+            HttpClientCrant client = new HttpClientCrant();
+            client.Call_WebAPI_By_Resource_Owner_Password_Credentials_Grant(userName,password);
 
             UserContext.account = user;
             return RedirectToAction("index");
             //return View("index");
-        }       
-
+        } 
+      
+        [Login(IsCheck=true)]
+        [AllowAnonymous]
         public ActionResult Index()
         {
             

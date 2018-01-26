@@ -1,4 +1,5 @@
 ﻿using Microsoft.Owin;
+using Microsoft.Owin.Cors;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
 using System;
@@ -15,14 +16,21 @@ namespace WaterPreview
          // 有关配置身份验证的详细信息，请访问 http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
+            ConfigAuth(app);
+            app.UseCors(CorsOptions.AllowAll);
+            //app.UseOAuthAuthorizationServer(OAuthOptions);
+            //app.UseOAuthBearerAuthentication(new IOAuthBearerAuthenticationProvider());
+        }
 
-            var OAuthOptions = new OAuthAuthorizationServerOptions
+        public void ConfigAuth(IAppBuilder app)
+        {
+              var OAuthOptions = new OAuthAuthorizationServerOptions
             {
+                AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
                 Provider = new AuthorizationServerProvider(),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
-                AllowInsecureHttp = true,
-                RefreshTokenProvider = new RefreshTokenProvider()
+                //RefreshTokenProvider = new RefreshTokenProvider()
             };
 
             app.UseOAuthBearerTokens(OAuthOptions);
