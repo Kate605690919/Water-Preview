@@ -209,7 +209,6 @@
     <Compile Include="Areas\Client\ClientAreaRegistration.cs" />
     <Compile Include="Base\BaseController.cs" />
     <Compile Include="Controllers\AreaController.cs" />
-    <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\ExceptionController.cs" />
     <Compile Include="Controllers\FlowMeterController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
