@@ -38,13 +38,16 @@ namespace WaterPreview.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult Login(string userName, string password)
+        public JsonResult Login(string userName, string password)
         {
+            JsonResult result= new JsonResult();
+
             User_t user = accountService.GetAccountByName(userName);
             if (user.Usr_UId == new Guid() || user.Usr_Password != MD5_Util.MD5Encrypt(password))
             {
                 ViewBag.Exception = true;
-                return View();
+                result.Data = false;
+                return result;
             }
             password = MD5_Util.MD5Encrypt(password);
 
@@ -52,12 +55,17 @@ namespace WaterPreview.Controllers
             Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Domain = ConfigurationManager.AppSettings["DomainName"];
             Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Expires = DateTime.Now.AddDays(1);
 
+            Response.Cookies["username"].Value = user.Usr_Name;
+            Response.Cookies["username"].Domain = ConfigurationManager.AppSettings["DomainName"];
+            Response.Cookies["username"].Expires = DateTime.Now.AddDays(1);
             HttpClientCrant client = new HttpClientCrant();
             client.Call_WebAPI_By_Resource_Owner_Password_Credentials_Grant(userName,password);
 
             UserContext.account = user;
-            return RedirectToAction("index");
+            //return RedirectToAction("index");
             //return View("index");
+            result.Data = true;
+            return result;
         } 
       
         [Login(IsCheck=true)]
