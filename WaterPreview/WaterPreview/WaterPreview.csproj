@@ -423,6 +423,8 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Home\password.cshtml" />
     <None Include="Properties\PublishProfiles\WaterPreview-2017.12-Test.pubxml" />
+    <None Include="Properties\PublishProfiles\WaterPreview-2018.01.pubxml" />
+    <None Include="Properties\PublishProfiles\WaterPreview-2018.01.test.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WaterPreview.Service\WaterPreview.Service\WaterPreview.Service.csproj">
