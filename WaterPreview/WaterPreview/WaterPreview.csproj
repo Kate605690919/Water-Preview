@@ -245,7 +245,6 @@
     <Compile Include="Redis\DBHelper.cs" />
     <Compile Include="Redis\RedisHelper.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Startup1.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\antd.min.css" />
