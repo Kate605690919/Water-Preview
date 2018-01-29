@@ -64,7 +64,7 @@
         <h2>智慧水务</h2>
     </div>
     <div class="login-body">
-        <form method="post" action="/Home/login">
+        <form method="post" id="form">
             <div class="form-group">
                 <input id="userName" class="form-control" type="text" name="userName" placeholder="账户"  minlength="3" required="required"/>
             </div>
@@ -83,19 +83,18 @@
         <h2><small>输入信息有误，请重新输入</small></h2>
     }
 </div>
-@*@section scripts{
-    <script src="~/Scripts/particles/particles.js"></script> 
-    <script src="~/Scripts/particles/appLogin.js"></script>
+@section scripts{
     <script>
-        function Check() {
-            if (document.getElementById(userName).length < 3) {
-                var userChecked = document.getElementById(userCheck);
-                userChecked.style.display = block;
-            }
-            if (document.getElementById(passWord).length < 3) {
-                var pwChecked = document.getElementById(pwCheck);
-                pwChecked.style, display = block;
-            }
+        form.onSubmit = function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Home/Login',
+                method: 'POST',
+                data: $('#form').serialize(),
+                success: (res) => {
+                    debugger;
+                }
+            })
         }
     </script>
-}*@
+}
