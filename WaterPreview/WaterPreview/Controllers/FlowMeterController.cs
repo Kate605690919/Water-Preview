@@ -24,6 +24,7 @@ namespace WaterPreview.Controllers
         private static IFlowDayService flowday_Service;
         private static IAccountService account_Service;
         private static IFlowService flow_Service;
+        private static IAreaDeviceService areadevice_Service;
 
 
         public FlowMeterController()
@@ -97,8 +98,15 @@ namespace WaterPreview.Controllers
             Func<List<VisitCount>> visitcount = () => account_Service.AddDeviceVisits(vclist,uid);
             DBHelper.getAndFresh<VisitCount>(visitcount, UserContext.account.Usr_UId + ConfigurationManager.AppSettings["VisitFlowMeterCount"]);
             //获取并返回设备uid的区域状态数据
-            Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => (flowmeter_Service.GetFlowMeterStatusAndArea());
-            result.Data = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]).Where(p => p.flowmeter.FM_UId == uid).ToList();
+
+            AreaDevice_t ad = areadevice_Service.GetAreaDeviceByDeviceUid(uid);
+
+            Func<List<FlowMeterStatusAndArea>> fmsFunc = () => flowmeter_Service.GetFlowMeterStatusByArea(ad.AD_AreaUid);
+            result.Data = DBHelper.get<FlowMeterStatusAndArea>(fmsFunc,
+                ConfigurationManager.AppSettings["FlowMeterStatusByAreaUid"] + ad.AD_AreaUid).Where(p=>p.flowmeter.FM_UId==uid).ToList();
+
+            //Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => (flowmeter_Service.GetFlowMeterStatusAndArea());
+            //result.Data = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]).Where(p => p.flowmeter.FM_UId == uid).ToList();
             return result;
         }
 

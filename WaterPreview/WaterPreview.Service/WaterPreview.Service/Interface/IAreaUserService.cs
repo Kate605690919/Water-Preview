@@ -10,5 +10,7 @@ namespace WaterPreview.Service.Interface
     public interface IAreaUserService
     {
         List<AreaUser_t> GetAllAreaUser();
+
+        AreaUser_t GetAreaUserByUser(Guid userUid);
     }
 }

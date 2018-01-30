@@ -21,21 +21,34 @@ namespace WaterPreview.Service.Service
             return FindAll().Where(p => p.FM_WaterConsumerUId == userUid).ToList();
         }
 
-        public List<FlowMeterStatusAndArea> GetFlowMeterStatusAndArea()
+        /// <summary>
+        /// 获取areaUid对应的流量计信息
+        /// </summary>
+        /// <param name="areaUid"></param>
+        /// <returns></returns>
+        public List<FlowMeterStatusAndArea> GetFlowMeterStatusByArea(Guid areaUid)
         {
             IFlowMeterStatusService fms_service = new FlowMeterStatusService();
             IAreaService area_service = new AreaService();
+            IAreaDeviceService areadevice_service = new AreaDeviceService();
             List<FlowMeterStatusAndArea> fmsalist = new List<FlowMeterStatusAndArea>();
             List<FlowMeter_t> fmlist = FindAll();
-            foreach (var fmsa_item in fmlist)
+           
+            List<AreaDevice_t> adlist = areadevice_service.GetAreaDeviceByAreaUid(areaUid);
+
+            foreach (var aditem in adlist)
             {
-                FlowMeterStatusAndArea item = new FlowMeterStatusAndArea()
+                if (fmlist.Where(p => p.FM_UId == aditem.AD_DeviceUid).Count()>0)
                 {
-                    flowmeter = FindAll().Where(p => p.FM_UId == fmsa_item.FM_UId).FirstOrDefault(),
-                    status = fms_service.GetFlowMeterStatusByUid(fmsa_item.FM_UId).FirstOrDefault(),
-                    area = area_service.GetAreaByDeviceUid(fmsa_item.FM_UId)
-                };
-                fmsalist.Add(item);
+                    FlowMeterStatusAndArea item = new FlowMeterStatusAndArea()
+                    {
+                        flowmeter = FindAll().Where(p => p.FM_UId == aditem.AD_DeviceUid).FirstOrDefault(),
+                        status = fms_service.GetFlowMeterStatusByUid(aditem.AD_DeviceUid).FirstOrDefault(),
+                        area = area_service.GetAreaByDeviceUid(aditem.AD_DeviceUid)
+                    };
+                    fmsalist.Add(item);
+                }
+                
             }
             return fmsalist;
         }

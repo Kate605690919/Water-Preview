@@ -12,7 +12,7 @@ namespace WaterPreview.Service.Interface
 
         List<FlowMeter_t> GetAllFlowMeter();
 
-        List<FlowMeterStatusAndArea> GetFlowMeterStatusAndArea();
+        List<FlowMeterStatusAndArea> GetFlowMeterStatusByArea(Guid areaUid);
 
         FlowMeter_t GetFlowMeterByFMUid(Guid fmUid);
 

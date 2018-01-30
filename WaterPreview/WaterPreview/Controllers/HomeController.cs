@@ -51,13 +51,15 @@ namespace WaterPreview.Controllers
             }
             password = MD5_Util.MD5Encrypt(password);
 
-            Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Value = user.Usr_UId.ToString();
-            Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Domain = ConfigurationManager.AppSettings["DomainName"];
-            Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Expires = DateTime.Now.AddDays(1);
+            Response.Headers.Add("username", user.Usr_Name);
+            Response.Headers.Add("useruid", user.Usr_UId.ToString());
+            //Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Value = user.Usr_UId.ToString();
+            //Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Domain = ConfigurationManager.AppSettings["DomainName"];
+            //Response.Cookies[ConfigurationManager.AppSettings["CookieName"]].Expires = DateTime.Now.AddDays(1);
 
-            Response.Cookies["username"].Value = user.Usr_Name;
-            Response.Cookies["username"].Domain = ConfigurationManager.AppSettings["DomainName"];
-            Response.Cookies["username"].Expires = DateTime.Now.AddDays(1);
+            //Response.Cookies["username"].Value = user.Usr_Name;
+            //Response.Cookies["username"].Domain = ConfigurationManager.AppSettings["DomainName"];
+            //Response.Cookies["username"].Expires = DateTime.Now.AddDays(1);
             HttpClientCrant client = new HttpClientCrant();
             client.Call_WebAPI_By_Resource_Owner_Password_Credentials_Grant(userName,password);
 

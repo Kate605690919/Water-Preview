@@ -32,6 +32,11 @@ namespace WaterPreview.Service.Interface
             return FindAll();
         }
 
+        /// <summary>
+        /// 获取本区域及所有子区域
+        /// </summary>
+        /// <param name="areaUid"></param>
+        /// <returns></returns>
         public List<Area_t> GetSubArea(Guid areaUid)
         {
             List<Area_t> arealist = new List<Area_t>();

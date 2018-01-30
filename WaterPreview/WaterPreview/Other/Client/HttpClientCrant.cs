@@ -55,16 +55,16 @@ namespace WaterPreview.Other.Client
             {
                 //Console.WriteLine(responseValue);
                 //Console.ReadKey();
-                response.Headers.Add("access_token",JObject.Parse(responseValue)["access_token"].Value<string>());
-                HttpContext.Current.Response.Cookies["access_token"].Value = JObject.Parse(responseValue)["access_token"].Value<string>();
+                //response.Headers.Add("access_token",JObject.Parse(responseValue)["access_token"].Value<string>());
+                //HttpContext.Current.Response.Cookies["access_token"].Value = JObject.Parse(responseValue)["access_token"].Value<string>();
                 UserContext.access_token = JObject.Parse(responseValue)["access_token"].Value<string>();
                 HttpContext.Current.Response.Headers.Add("access_token", JObject.Parse(responseValue)["access_token"].Value<string>());
                 return JObject.Parse(responseValue)["access_token"].Value<string>();
             }
             else
             {
-                Console.WriteLine(responseValue);
-                Console.ReadKey();
+                //Console.WriteLine(responseValue);
+                //Console.ReadKey();
 
                 return string.Empty;
             }

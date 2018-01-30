@@ -17,7 +17,7 @@ namespace WaterPreview
         public void ConfigureAuth(IAppBuilder app)
         {
             ConfigAuth(app);
-            app.UseCors(CorsOptions.AllowAll);
+            //app.UseCors(CorsOptions.AllowAll);
             //app.UseOAuthAuthorizationServer(OAuthOptions);
             //app.UseOAuthBearerAuthentication(new IOAuthBearerAuthenticationProvider());
         }

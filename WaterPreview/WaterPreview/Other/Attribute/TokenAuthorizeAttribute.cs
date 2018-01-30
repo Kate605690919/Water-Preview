@@ -11,20 +11,20 @@ namespace WaterPreview.Other.Attribute
     {
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), inherit: true))
+            var request = HttpContext.Current.Request;
+            if (filterContext.ActionDescriptor.IsDefined(typeof(AllowAnonymousAttribute), inherit: true)
+                ||request.HttpMethod=="OPTIONS")
             {
                 return;
             }
 
             if (System.Configuration.ConfigurationManager.AppSettings["check_token"] == "true")
             {
-                var requestHeader = HttpContext.Current.Request.Headers;
                 var token = UserContext.access_token;
-                var webtoken = requestHeader.Get("access_token");
+                var webtoken = request.Headers.Get("access_token");
                 if (webtoken == null || webtoken.ToString() != token)
                 {
                     filterContext.Result = new RedirectResult("/Home/Login");
-
                 }
             }
 

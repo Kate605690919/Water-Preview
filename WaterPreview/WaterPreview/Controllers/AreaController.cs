@@ -23,6 +23,7 @@ namespace WaterPreview.Controllers
         private static IFlowMeterService flowmeterService;
         private static IPressureMeterService pressuremeterService;
         private static IQualityMeterService qualitymeterService;
+        private static IAreaUserService areauserService;
 
 
         public AreaController()
@@ -107,10 +108,10 @@ namespace WaterPreview.Controllers
             List<FlowMeterStatusAndArea> fms_areas_order = new List<FlowMeterStatusAndArea>();
             List<FlowMeterStatusAndArea> fms_areas = new List<FlowMeterStatusAndArea>();
 
-
-            Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusAndArea();
-            List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, 
-                ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]);
+            //获取areauid对应的设备信息，并以areauid区分存储在redis
+            Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusByArea(areaUid);
+            List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea,
+                ConfigurationManager.AppSettings["FlowMeterStatusByAreaUid"]+areaUid);
 
             User_t account = UserContext.account;
             if (account.Usr_Type == 3)
@@ -121,13 +122,21 @@ namespace WaterPreview.Controllers
             {
                 //筛选出子区域范围内的所有流量计
                 List<Area_t> subarealist = areaService.GetSubArea(areaUid);
-                foreach (var item in fmstatusAndAreaList)
+
+                foreach (var areaitem in subarealist)
                 {
-                    if (subarealist.Where(p => p.Ara_UId == item.area.Ara_UId).Count() > 0)
-                    {
-                        fms_areas.Add(item);
-                    }
+                    Func<List<FlowMeterStatusAndArea>> fmsFunc = () => flowmeterService.GetFlowMeterStatusByArea(areaUid);
+                    var  fmslist = DBHelper.get<FlowMeterStatusAndArea>(fmsFunc,
+                        ConfigurationManager.AppSettings["FlowMeterStatusByAreaUid"] + areaitem.Ara_UId);
+                    fms_areas.AddRange(fmslist);
                 }
+                //foreach (var item in fmstatusAndAreaList)
+                //{
+                //    if (subarealist.Where(p => p.Ara_UId == item.area.Ara_UId).Count() > 0)
+                //    {
+                //        fms_areas.Add(item);
+                //    }
+                //}
 
                
             }
@@ -239,9 +248,9 @@ namespace WaterPreview.Controllers
             List<PressureMeterStatusAndArea> pmlist = new List<PressureMeterStatusAndArea>();
             List<QualityMeterStatusAndArea> qmlist = new List<QualityMeterStatusAndArea>();
 
-            Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusAndArea();
-            List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, 
-                ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]);
+            //Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusAndArea();
+            //List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, 
+            //    ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]);
 
             Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => pressuremeterService.GetPressureMeterStatusAndArea();
             List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea,
@@ -252,13 +261,26 @@ namespace WaterPreview.Controllers
                 ConfigurationManager.AppSettings["allQualityMeterStatusAndArea"]);
 
             if(account.Usr_Type==3){
-                fmlist = fmstatusAndAreaList.Where(p => p.flowmeter.FM_WaterConsumerUId==account.Usr_UId).ToList();
+                //fmlist = fmstatusAndAreaList.Where(p => p.flowmeter.FM_WaterConsumerUId==account.Usr_UId).ToList();
                 //qmlist = qmstatusAndAreaList.Where(p=>p.qualitymeter);
-                //pmlist = pmstatusAndAreaList.Where(p=>p.pressuremeter)
+                //pmlist = pmstatusAndAreaList.Where(p=>p.pressuremeter);
+
+                AreaUser_t au = areauserService.GetAreaUserByUser(account.Usr_UId);
+                Func<List<FlowMeterStatusAndArea>> fmsFunc = () => flowmeterService.GetFlowMeterStatusByArea(au.AU_AreaUId);
+                fmlist = DBHelper.get<FlowMeterStatusAndArea>(fmsFunc,
+                    ConfigurationManager.AppSettings["FlowMeterStatusByAreaUid"] + au.AU_AreaUId).Where(p=>p.flowmeter.FM_WaterConsumerUId==account.Usr_UId).ToList();
             }
             else
             {
-                fmlist = fmstatusAndAreaList;
+                List<Area_t> arealist = areaService.GetAllArea();
+                foreach (var areaitem in arealist)
+                {
+                    Func<List<FlowMeterStatusAndArea>> fmsFunc = () => flowmeterService.GetFlowMeterStatusByArea(areaitem.Ara_UId);
+                    var fmdata = DBHelper.get<FlowMeterStatusAndArea>(fmsFunc,
+                        ConfigurationManager.AppSettings["FlowMeterStatusByAreaUid"] + areaitem.Ara_UId);
+                    fmlist.AddRange(fmdata);
+                }
+                //fmlist = fmstatusAndAreaList;
                 pmlist = pmstatusAndAreaList;
                 qmlist = qmstatusAndAreaList;
             }
