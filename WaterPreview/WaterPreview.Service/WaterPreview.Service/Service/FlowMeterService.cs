@@ -13,12 +13,12 @@ namespace WaterPreview.Service.Service
     {
         public List<FlowMeter_t> GetAllFlowMeter()
         {
-            return FindAll();
+            return FindAll().Where(p=>p.FM_Enable==1).ToList();
         }
 
         public List<FlowMeter_t> GetFlowMetersByUserUid(Guid userUid)
         {
-            return FindAll().Where(p => p.FM_WaterConsumerUId == userUid).ToList();
+            return FindAll().Where(p => p.FM_WaterConsumerUId == userUid&&p.FM_Enable==1).ToList();
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace WaterPreview.Service.Service
             IAreaService area_service = new AreaService();
             IAreaDeviceService areadevice_service = new AreaDeviceService();
             List<FlowMeterStatusAndArea> fmsalist = new List<FlowMeterStatusAndArea>();
-            List<FlowMeter_t> fmlist = FindAll();
+            List<FlowMeter_t> fmlist = FindAll().Where(p=>p.FM_Enable==1).ToList();
            
             List<AreaDevice_t> adlist = areadevice_service.GetAreaDeviceByAreaUid(areaUid);
 
@@ -55,7 +55,7 @@ namespace WaterPreview.Service.Service
 
         public FlowMeter_t GetFlowMeterByFMUid(Guid fmUid)
         {
-            return FindAll().FirstOrDefault(p => p.FM_UId == fmUid);
+            return FindAll().FirstOrDefault(p => p.FM_UId == fmUid&&p.FM_Enable==1);
         }
         /// <summary>
         /// 客户获取最新的流量分析数据
@@ -67,11 +67,11 @@ namespace WaterPreview.Service.Service
             List<FlowMeter_t> fmlist = new List<FlowMeter_t>();
             if (account.Usr_Type == 3)
             {
-                fmlist = FindAll().Where(p => p.FM_WaterConsumerUId == account.Usr_UId).ToList();
+                fmlist = FindAll().Where(p => p.FM_WaterConsumerUId == account.Usr_UId&&p.FM_Enable==1).ToList();
             }
             else
             {
-                fmlist = FindAll();
+                fmlist = FindAll().Where(p=>p.FM_Enable==1).ToList();
             }
 
             List<FlowMeterData> fmdatalist = new List<FlowMeterData>();

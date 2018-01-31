@@ -16,7 +16,7 @@ namespace WaterPreview.Service.Service
             IQualityMeterStatusService pms_service = new QualityMeterStatusService();
             IAreaService area_service = new AreaService();
             List<QualityMeterStatusAndArea> qmsalist = new List<QualityMeterStatusAndArea>();
-            List<QualityMeter_t> qmlist = FindAll();
+            List<QualityMeter_t> qmlist = FindAll().Where(p=>!p.QM_Description.Contains("可不用")).ToList();
             foreach (var qmsa_item in qmlist)
             {
                 QualityMeterStatusAndArea item = new QualityMeterStatusAndArea()

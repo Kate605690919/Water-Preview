@@ -13,7 +13,7 @@ namespace WaterPreview.Service.Service
     {
         public List<PressureMeter_t> GetAllPressureMeter()
         {
-            return FindAll();
+            return FindAll().Where(p=>!p.PM_Description.Contains("不可用")).ToList();
         }
 
         public List<PressureMeterStatusAndArea> GetPressureMeterStatusByArea(Guid areaUid)
@@ -22,7 +22,7 @@ namespace WaterPreview.Service.Service
             IAreaService area_service = new AreaService();
             IAreaDeviceService areadevice_service = new AreaDeviceService();
             List<PressureMeterStatusAndArea> pmsalist = new List<PressureMeterStatusAndArea>();
-            List<PressureMeter_t> pmlist = FindAll();
+            List<PressureMeter_t> pmlist = FindAll().Where(p => !p.PM_Description.Contains("不可用")).ToList();
             List<AreaDevice_t> adlist = areadevice_service.GetAreaDeviceByAreaUid(areaUid); 
             foreach (var aditem in adlist)
             {
@@ -100,7 +100,7 @@ namespace WaterPreview.Service.Service
             }
             else
             {
-                pmlist = FindAll();
+                pmlist = FindAll().Where(p => !p.PM_Description.Contains("不可用")).ToList();
                 foreach (var item in pmlist)
                 {
                     var pmdata = GetAnalysisByPressureMeter(item, (DateTime)item.PM_CountLast);
