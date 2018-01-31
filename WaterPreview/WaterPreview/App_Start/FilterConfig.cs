@@ -10,7 +10,7 @@ namespace WaterPreview
         {
             filters.Add(new HandleErrorAttribute());
             filters.Add(new LoginAttribute(){IsCheck = true});
-            filters.Add(new TokenAuthorizeAttribute());
+            //filters.Add(new TokenAuthorizeAttribute());
 
             filters.Add(new JsonRequestBehaviorAttribute());
         }
