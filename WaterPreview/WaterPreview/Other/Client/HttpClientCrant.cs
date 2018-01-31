@@ -1,12 +1,14 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using WaterPreview.Redis;
 
 namespace WaterPreview.Other.Client
 {
@@ -59,6 +61,14 @@ namespace WaterPreview.Other.Client
                 //HttpContext.Current.Response.Cookies["access_token"].Value = JObject.Parse(responseValue)["access_token"].Value<string>();
                 UserContext.access_token = JObject.Parse(responseValue)["access_token"].Value<string>();
                 HttpContext.Current.Response.Headers.Add("access_token", JObject.Parse(responseValue)["access_token"].Value<string>());
+
+                Func<string> tokenFunc = ()=>{return JObject.Parse(responseValue)["access_token"].Value<string>();};
+                DBHelper.getAndFreshT<string>(tokenFunc,ConfigurationManager.AppSettings["tokenByUserUid"]+UserContext.account.Usr_UId);
+
+                Func<Guid> tokenvalueFunc = () => { return UserContext.account.Usr_UId; };
+                DBHelper.getAndFreshT<Guid>(tokenvalueFunc,
+                    "token-"+JObject.Parse(responseValue)["access_token"].Value<string>());
+
                 return JObject.Parse(responseValue)["access_token"].Value<string>();
             }
             else

@@ -9,9 +9,8 @@ namespace WaterPreview
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            filters.Add(new LoginAttribute(){IsCheck = true});
             filters.Add(new TokenAuthorizeAttribute());
-
+            //filters.Add(new LoginAttribute(){IsCheck = true});
             filters.Add(new JsonRequestBehaviorAttribute());
         }
     }
