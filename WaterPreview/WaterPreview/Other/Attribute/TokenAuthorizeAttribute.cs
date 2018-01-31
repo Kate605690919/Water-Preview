@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Http.Filters;
 using System.Web.Mvc;
+using WaterPreview.Redis;
 
 namespace WaterPreview.Other.Attribute
 {
@@ -20,9 +22,28 @@ namespace WaterPreview.Other.Attribute
 
             if (System.Configuration.ConfigurationManager.AppSettings["check_token"] == "true")
             {
-                var token = UserContext.access_token;
+                string token="";
                 var webtoken = request.Headers.Get("access_token");
-                if (webtoken == null || webtoken.ToString() != token)
+                if(webtoken!=null)
+                {
+                    if(UserContext.access_token==null){
+                        Func<Guid> tokenvalueFunc = () => { return UserContext.account.Usr_UId; };
+                        Guid userUid = DBHelper.getAndFreshT<Guid>(tokenvalueFunc, "token-" + webtoken);
+                        if(userUid==new Guid()){
+                             filterContext.Result = new RedirectResult("/Home/Login");
+                        }
+                        UserContext.account.Usr_UId = userUid;
+                    }
+                    else
+                    {
+                        token = UserContext.access_token;
+                    }
+                    if(webtoken.ToString() != token){
+                        filterContext.Result = new RedirectResult("/Home/Login");
+                    }
+
+                }
+                else
                 {
                     filterContext.Result = new RedirectResult("/Home/Login");
                 }

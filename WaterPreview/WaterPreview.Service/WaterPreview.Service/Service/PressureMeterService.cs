@@ -16,21 +16,27 @@ namespace WaterPreview.Service.Service
             return FindAll();
         }
 
-        public List<PressureMeterStatusAndArea> GetPressureMeterStatusAndArea()
+        public List<PressureMeterStatusAndArea> GetPressureMeterStatusByArea(Guid areaUid)
         {
             IPressureMeterStatusService pms_service = new PressureMeterStatusService();
             IAreaService area_service = new AreaService();
+            IAreaDeviceService areadevice_service = new AreaDeviceService();
             List<PressureMeterStatusAndArea> pmsalist = new List<PressureMeterStatusAndArea>();
             List<PressureMeter_t> pmlist = FindAll();
-            foreach (var pmsa_item in pmlist)
+            List<AreaDevice_t> adlist = areadevice_service.GetAreaDeviceByAreaUid(areaUid); 
+            foreach (var aditem in adlist)
             {
-                PressureMeterStatusAndArea item = new PressureMeterStatusAndArea()
+                if(pmlist.Where(p=>p.PM_UId==aditem.AD_DeviceUid).Count()>0)
                 {
-                    pressuremeter = FindAll().Where(p => p.PM_UId == pmsa_item.PM_UId).FirstOrDefault(),
-                    status = pms_service.GetPressureMeterStatusByUid(pmsa_item.PM_UId).FirstOrDefault(),
-                    area = area_service.GetAreaByDeviceUid(pmsa_item.PM_UId),
-                };
-                pmsalist.Add(item);
+                    PressureMeterStatusAndArea item = new PressureMeterStatusAndArea()
+                    {
+                        pressuremeter = FindAll().Where(p => p.PM_UId == aditem.AD_DeviceUid).FirstOrDefault(),
+                        status = pms_service.GetPressureMeterStatusByUid(aditem.AD_DeviceUid).FirstOrDefault(),
+                        area = area_service.GetAreaByDeviceUid(aditem.AD_DeviceUid),
+                    };
+                    pmsalist.Add(item);
+                }
+                
             }
             return pmsalist;
         }

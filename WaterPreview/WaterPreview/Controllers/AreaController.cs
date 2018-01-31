@@ -172,9 +172,14 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => pressuremeterService.GetPressureMeterStatusAndArea();
+
+            //Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusByArea(areaUid);
+            //List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea,
+            //    ConfigurationManager.AppSettings["FlowMeterStatusByAreaUid"] + areaUid);
+
+            Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => pressuremeterService.GetPressureMeterStatusByArea(areaUid);
             List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea,
-                ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]).ToList();
+                ConfigurationManager.AppSettings["PressureMeterStatusByAreaUid"]+areaUid).ToList();
 
             User_t account = UserContext.account;
             List<PressureMeterStatusAndArea> pms_areas = new List<PressureMeterStatusAndArea>();
@@ -183,12 +188,13 @@ namespace WaterPreview.Controllers
             if (account.Usr_Type != 3)
             {
                 List<Area_t> subarealist = areaService.GetSubArea(areaUid);
-                foreach (var item in pmstatusAndAreaList)
+                foreach (var item in subarealist)
                 {
-                    if (subarealist.Where(p => p.Ara_UId == item.area.Ara_UId).Count() > 0)
-                    {
-                        pms_areas.Add(item);
-                    }
+                    Func<List<PressureMeterStatusAndArea>> pmsaFunc = () => pressuremeterService.GetPressureMeterStatusByArea(areaUid);
+                    var pmsalist = DBHelper.get<PressureMeterStatusAndArea>(pmsaFunc,
+                        ConfigurationManager.AppSettings["PressureMeterStatusByAreaUid"] + areaUid).ToList();
+                    pms_areas.AddRange(pmsalist);
+
                 }
 
                 //获取设备访问次数,根据访问次数排序,再将剩余的设备整合
@@ -252,9 +258,9 @@ namespace WaterPreview.Controllers
             //List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, 
             //    ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]);
 
-            Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => pressuremeterService.GetPressureMeterStatusAndArea();
-            List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea,
-                ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]).ToList();
+            //Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => pressuremeterService.GetPressureMeterStatusAndArea();
+            //List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea,
+            //    ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]).ToList();
 
             Func<List<QualityMeterStatusAndArea>> qmAndStatusArea = () => qualitymeterService.GetQualityMeterStatusAndArea();
             List<QualityMeterStatusAndArea> qmstatusAndAreaList = DBHelper.get<QualityMeterStatusAndArea>(qmAndStatusArea,
@@ -279,9 +285,14 @@ namespace WaterPreview.Controllers
                     var fmdata = DBHelper.get<FlowMeterStatusAndArea>(fmsFunc,
                         ConfigurationManager.AppSettings["FlowMeterStatusByAreaUid"] + areaitem.Ara_UId);
                     fmlist.AddRange(fmdata);
+
+                    Func<List<PressureMeterStatusAndArea>> pmsFunc = () => pressuremeterService.GetPressureMeterStatusByArea(areaitem.Ara_UId);
+                    var pmsalist = DBHelper.get<PressureMeterStatusAndArea>(pmsFunc,
+                        ConfigurationManager.AppSettings["PressureMeterStatusByAreaUid"] + areaitem.Ara_UId).ToList();
+                    pmlist.AddRange(pmsalist);
                 }
                 //fmlist = fmstatusAndAreaList;
-                pmlist = pmstatusAndAreaList;
+                //pmlist = pmstatusAndAreaList;
                 qmlist = qmstatusAndAreaList;
             }
             result.Data = new
