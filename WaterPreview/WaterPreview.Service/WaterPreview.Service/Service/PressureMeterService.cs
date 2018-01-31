@@ -30,9 +30,9 @@ namespace WaterPreview.Service.Service
                 {
                     PressureMeterStatusAndArea item = new PressureMeterStatusAndArea()
                     {
-                        pressuremeter = FindAll().Where(p => p.PM_UId == pmsa_item.PM_UId).FirstOrDefault(),
-                        status = pms_service.GetPressureMeterStatusByUid(pmsa_item.PM_UId).FirstOrDefault(),
-                        area = area_service.GetAreaByDeviceUid(pmsa_item.PM_UId),
+                        pressuremeter = FindAll().Where(p => p.PM_UId == aditem.AD_DeviceUid).FirstOrDefault(),
+                        status = pms_service.GetPressureMeterStatusByUid(aditem.AD_DeviceUid).FirstOrDefault(),
+                        area = area_service.GetAreaByDeviceUid(aditem.AD_DeviceUid),
                     };
                     pmsalist.Add(item);
                 }
