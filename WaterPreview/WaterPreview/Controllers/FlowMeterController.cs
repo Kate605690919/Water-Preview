@@ -237,6 +237,7 @@ namespace WaterPreview.Controllers
         /// <returns></returns>
         public JsonResult GetLastDayFlowList()
         {
+
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             List<FlowMeterData> fmdata_account = new List<FlowMeterData>();

@@ -9,20 +9,26 @@
         //     let mapEl = document.querySelector("#homeMap");
         //     initMap(mapEl, data);
         // });
-        $.ajax({
+        $Fetch.fetch({
             url:'/Area/GetMapData',
-            methods: 'GET',
-            xhrFields:{withCredentials:true},
-            beforeSend: function(request) {
-                request.setRequestHeader("access_token", 'token');
-            },
-            success: (data, status, xhr) => {
-                console.log(data);
-                debugger;
+            success: (data) => {
                 let mapEl = document.querySelector("#homeMap");
                 initMap(mapEl, data);
             }
-        });
+        })
+        // $.ajax({
+        //     url:'/Area/GetMapData',
+        //     methods: 'GET',
+        //     xhrFields:{withCredentials:true},
+        //     beforeSend: function(request) {
+        //         request.setRequestHeader("access_token", 'token');
+        //     },
+        //     success: (data, status, xhr) => {
+        //         console.log(data);
+        //         let mapEl = document.querySelector("#homeMap");
+        //         initMap(mapEl, data);
+        //     }
+        // });
     }
     render() {
         return (

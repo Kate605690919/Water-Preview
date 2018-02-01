@@ -47,7 +47,6 @@ namespace WaterPreview.Controllers
         //}
 
 
-
         public JsonResult AreaTree()
         {
             JsonResult result = new JsonResult();
@@ -84,7 +83,6 @@ namespace WaterPreview.Controllers
             result.Data = list;
             return result;
         }
-
         private dynamic GetChild(Guid uid, List<Area_t> all)
         {
             return all.Where(p => p.Ara_Up == uid)
@@ -99,7 +97,6 @@ namespace WaterPreview.Controllers
                     children = GetChild(p.Ara_UId, all)
                 });
         }
-
 
         public JsonResult GetFlowMeterByAreaUid(Guid areaUid)
         {
@@ -168,6 +165,7 @@ namespace WaterPreview.Controllers
             return result;
         }
 
+
         public JsonResult GetPressureMeterByAreaUid(Guid areaUid)
         {
             JsonResult result = new JsonResult();
@@ -227,6 +225,7 @@ namespace WaterPreview.Controllers
             return result;
         }
 
+        
         public JsonResult GetQualityMeterByAreaUid(Guid areaUid)
         {
             JsonResult result = new JsonResult();

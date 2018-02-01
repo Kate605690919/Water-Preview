@@ -24,7 +24,7 @@ namespace WaterPreview
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             //ControllerBuilder.Current.SetControllerFactory(new NinjectControllerFactory());
 
-           // GlobalConfiguration.Configure(WebApiConfig.Register);
+            // GlobalConfiguration.Configure(WebApiConfig.Register);
 
             //var dependencyResolver = new NinjectDependencyResolver(new Ninject.StandardKernel());
             //DependencyResolver.SetResolver(dependencyResolver);
@@ -55,7 +55,16 @@ namespace WaterPreview
             GlobalConfiguration.Configuration.DependencyResolver = dependencyResolver;
            
         }
-
+        protected void Application_BeginRequest(object sender,EventArgs e)
+        {
+           // HttpContext.Current.Response.AddHeader("Access-Control-Allow-Origin", "*");
+            if (HttpContext.Current.Request.HttpMethod == "OPTIONS")
+            {
+                //HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "*");
+                //HttpContext.Current.Response.AddHeader("Access-Control-Allow-Headers", "*");
+                HttpContext.Current.Response.End();
+            }
+        }
 
     }
 }
