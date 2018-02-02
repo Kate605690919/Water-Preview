@@ -78,6 +78,8 @@ namespace WaterPreview.Controllers
                 text = area.Ara_Name,
                 description = area.Ara_Description,
                 id = area.Ara_UId,
+                Lat = area.Ara_Lat,//纬度
+                Lng = area.Ara_Lng,//经度
                 children = areaChild
             };
             result.Data = list;
@@ -93,6 +95,8 @@ namespace WaterPreview.Controllers
                     description = p.Ara_Description,
                     //code=p.Ara_Short,
                     //isleaf = p.Ara_IsLeaf,
+                    Lat = area.Ara_Lat,//纬度
+                    Lng = area.Ara_Lng,//经度
                     id = p.Ara_UId,
                     children = GetChild(p.Ara_UId, all)
                 });
