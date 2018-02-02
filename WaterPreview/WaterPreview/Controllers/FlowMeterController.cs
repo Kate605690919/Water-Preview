@@ -35,6 +35,7 @@ namespace WaterPreview.Controllers
             flowday_Service = new FlowDayService();
             account_Service = new AccountService();
             flow_Service = new FlowService();
+            areadevice_Service = new AreaDeviceService();
         }
 
         //public FlowMeterController(IFlowMeterService fmservice,IFlowMonthService fmonthservice,IFlowHourService fhourservice,IFlowDayService fdayservice,IAccountService accservice,IFlowService flowservice)
