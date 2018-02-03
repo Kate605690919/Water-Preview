@@ -19,11 +19,15 @@ namespace WaterPreview.Controllers
     {
         //[Ninject.Inject]
         private IAccountService accountService;
+        private IRoleService roleService;
+        private IUserInnerRoleService userInnerRoleService;
 
         public HomeController()
         {
             //this.AddDisposableObject(accService);
             accountService = new AccountService();
+            roleService = new RoleService();
+            userInnerRoleService = new UserInnerRoleService();
         }
 
     //    public HomeController(){
@@ -66,7 +70,70 @@ namespace WaterPreview.Controllers
             UserContext.account = user;
             //return RedirectToAction("index");
             //return View("index");
-            result.Data = true;
+            var userInnerRoles = userInnerRoleService.GetByUid(user.Usr_UId);
+            List<InnerRole_t> roleLists = new List<InnerRole_t>();
+            foreach (var item in userInnerRoles)
+            {
+                var role = roleService.GetRoles(item.UIr_IrUId);
+                if(role != null)
+                {
+                    roleLists.Add(role);
+                }  
+            }
+            var names = new List<String>();
+            foreach (var item in roleLists)
+            {
+                var name = item.Ir_Name;
+                names.Add(name);
+            }
+            //var roles = new List<String>();
+            RoleHelper.Role personalRole = new RoleHelper.Role();
+            foreach (var item in names)
+            {
+                switch (item)
+                {
+                    case "总查看员":
+                        RoleHelper.GetAllPermission(personalRole);
+                        break;
+                    case "流量计查看员":
+                        RoleHelper.GetFlowMeterViewPermission(personalRole);
+                        break;
+                    case "流量计管理员":
+                        RoleHelper.GetClientManagePermission(personalRole);
+                        break;
+                    case "压力计查看员":
+                        RoleHelper.GetPressureMeterViewPermission(personalRole);
+                        break;
+                    case "压力计管理员":
+                        RoleHelper.GetPressureMeterManagePermission(personalRole);
+                        break;
+                    case "区域查看员":
+                        RoleHelper.GetAreaViewPermission(personalRole);
+                        break;
+                    case "区域管理员":
+                        RoleHelper.GetAreaManagePermission(personalRole);
+                        break;
+                    case "客户查看员":
+                        RoleHelper.GetClientViewPermission(personalRole);
+                        break;
+                    case "客户管理员":
+                        RoleHelper.GetClientManagePermission(personalRole);
+                        break;
+                    case "职员查看员":
+                        result.Data = RoleHelper.GetStaffViewPermission(personalRole);
+                        break;
+                    case "职员管理员":
+                        RoleHelper.GetStaffManagePermission(personalRole);
+                        break;
+                    case "职位查看员":
+                        RoleHelper.GetRolesViewPermission(personalRole);
+                        break;
+                    case "职位管理员":
+                        RoleHelper.GetRolesManagePermission(personalRole);
+                        break;
+                }
+            }
+            result.Data = personalRole;
             return result;
         } 
       

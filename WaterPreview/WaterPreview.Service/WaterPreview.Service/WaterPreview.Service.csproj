@@ -199,6 +199,8 @@
     <Compile Include="Interface\IPressureService.cs" />
     <Compile Include="Interface\IQualityMeterService.cs" />
     <Compile Include="Interface\IQualityMeterStatusService.cs" />
+    <Compile Include="Interface\IRoleService.cs" />
+    <Compile Include="Interface\IUserInnerRoleService.cs" />
     <Compile Include="other\GetSubAreaList.cs" />
     <Compile Include="RedisContract\AreaAnalysisData.cs" />
     <Compile Include="RedisContract\DevicesDataAndUser.cs" />
@@ -272,6 +274,8 @@
     <Compile Include="Service\PressureService.cs" />
     <Compile Include="Service\QualityMeterService.cs" />
     <Compile Include="Service\QualityMeterStatusService.cs" />
+    <Compile Include="Service\RoleService.cs" />
+    <Compile Include="Service\UserInnerRoleService.cs" />
     <Compile Include="sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>WaterModel.tt</DependentUpon>
     </Compile>

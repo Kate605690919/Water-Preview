@@ -50,6 +50,8 @@ namespace WaterPreview
             dependencyResolver.Register<IQualityMeterService, QualityMeterService>();
             dependencyResolver.Register<IQualityMeterStatusService, QualityMeterStatusService>();
             dependencyResolver.Register<IExceptionService, ExceptionService>();
+            dependencyResolver.Register<IRoleService, RoleService>();
+            dependencyResolver.Register<IUserInnerRoleService, UserInnerRoleService>();
 
             //GlobalConfiguration.Configuration.EnableCors();   
             GlobalConfiguration.Configuration.DependencyResolver = dependencyResolver;
