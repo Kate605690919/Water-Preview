@@ -14,72 +14,45 @@ namespace WaterPreview.Other
             [DefaultValue(false)]
             public bool FlowMeterView { get; set; }
             [DefaultValue(false)]
-            public bool FlowMeterAdd { get; set; }
-            [DefaultValue(false)]
-            public bool FlowMeterDetail { get; set; }
-            [DefaultValue(false)]
-            public bool FlowMeterModify { get; set; }
-            [DefaultValue(false)]
-            public bool FlowMeterDelete { get; set; }
+            public bool FlowMeterManage { get; set; }
 
             //压力计权限
             [DefaultValue(false)]
             public bool PressureMeterView { get; set; }
             [DefaultValue(false)]
-            public bool PressureMeterAdd { get; set; }
+            public bool PressureMeterManage { get; set; }
+
+            //水质计权限
             [DefaultValue(false)]
-            public bool PressureMeterDetail { get; set; }
+            public bool QualityMeterView { get; set; }
             [DefaultValue(false)]
-            public bool PressureMeterModify { get; set; }
-            [DefaultValue(false)]
-            public bool PressureMeterDelete { get; set; }
+            public bool QualityMeterManage { get; set; }
 
             //区域管理权限
             [DefaultValue(false)]
             public bool AreaView { get; set; }
             [DefaultValue(false)]
-            public bool AreaAdd { get; set; }
-            [DefaultValue(false)]
-            public bool AreaDetail { get; set; }
-            [DefaultValue(false)]
-            public bool AreaModify { get; set; }
-            [DefaultValue(false)]
-            public bool AreaDelete { get; set; }
+            public bool AreaManage { get; set; }
+
 
             //客户管理权限
             [DefaultValue(false)]
             public bool ClientView { get; set; }
             [DefaultValue(false)]
-            public bool ClientAdd { get; set; }
-            [DefaultValue(false)]
-            public bool ClientDetail { get; set; }
-            [DefaultValue(false)]
-            public bool ClientModify { get; set; }
-            [DefaultValue(false)]
-            public bool ClientDelete { get; set; }
+            public bool ClientManage { get; set; }
+
             //职员管理权限
             [DefaultValue(false)]
             public bool StaffView { get; set; }
             [DefaultValue(false)]
-            public bool StaffAdd { get; set; }
-            [DefaultValue(false)]
-            public bool StaffDetail { get; set; }
-            [DefaultValue(false)]
-            public bool StaffModify { get; set; }
-            [DefaultValue(false)]
-            public bool StaffDelete { get; set; }
+            public bool StaffManage { get; set; }
+
 
             //职位管理权限
             [DefaultValue(false)]
             public bool RoleView { get; set; }
             [DefaultValue(false)]
-            public bool RoleAdd { get; set; }
-            [DefaultValue(false)]
-            public bool RoleDetail { get; set; }
-            [DefaultValue(false)]
-            public bool RoleModify { get; set; }
-            [DefaultValue(false)]
-            public bool RoleDelete { get; set; }
+            public bool RoleManage { get; set; }
 
         }
 
@@ -87,41 +60,25 @@ namespace WaterPreview.Other
         {
             //var role = new Role();
             role.FlowMeterView = true;
-            role.FlowMeterAdd = true;
-            role.FlowMeterDetail = true;
-            role.FlowMeterModify = true;
-            role.FlowMeterDelete = true;
+            role.FlowMeterManage = true;
 
             role.PressureMeterView = true;
-            role.PressureMeterAdd = true;
-            role.PressureMeterDetail = true;
-            role.PressureMeterModify = true;
-            role.PressureMeterDelete = true;
+            role.PressureMeterManage = true;
+
+            role.QualityMeterView = true;
+            role.QualityMeterManage = true;
 
             role.AreaView = true;
-            role.AreaAdd = true;
-            role.AreaDetail = true;
-            role.AreaModify = true;
-            role.AreaDelete = true;
+            role.AreaManage = true;
 
             role.ClientView = true;
-            role.ClientAdd = true;
-            role.ClientDetail = true;
-            role.ClientModify = true;
-            role.ClientDelete = true;
+            role.ClientManage = true;
 
             role.StaffView = true;
-            role.StaffAdd = true;
-            role.StaffDetail = true;
-            role.StaffModify = true;
-            role.StaffDelete = true;
-
+            role.StaffManage = true;
 
             role.RoleView = true;
-            role.RoleAdd = true;
-            role.RoleDetail = true;
-            role.RoleModify = true;
-            role.RoleDelete = true;
+            role.RoleManage = true;
 
             return role;
         }
@@ -137,10 +94,7 @@ namespace WaterPreview.Other
         {
             //var role = new Role();
             role.FlowMeterView = true;
-            role.FlowMeterAdd = true;
-            role.FlowMeterDetail = true;
-            role.FlowMeterModify = true;
-            role.FlowMeterDelete = true;
+            role.FlowMeterManage = true;
             return role;
         }
 
@@ -155,10 +109,22 @@ namespace WaterPreview.Other
         {
             //var role = new Role();
             role.PressureMeterView = true;
-            role.PressureMeterAdd = true;
-            role.PressureMeterDetail = true;
-            role.PressureMeterModify = true;
-            role.PressureMeterDelete = true;
+            role.PressureMeterManage = true;
+            return role;
+        }
+
+        public static Role GetQualityMeterViewPermission(Role role)
+        {
+            //var role = new Role();
+            role.QualityMeterView = true;
+            return role;
+        }
+
+        public static Role GetQualityMeterManagePermission(Role role)
+        {
+            //var role = new Role();
+            role.QualityMeterView = true;
+            role.QualityMeterManage = true;
             return role;
         }
 
@@ -173,10 +139,7 @@ namespace WaterPreview.Other
         {
             //var role = new Role();
             role.AreaView = true;
-            role.AreaAdd = true;
-            role.AreaDetail = true;
-            role.AreaModify = true;
-            role.AreaDelete = true;
+            role.AreaManage = true;
             return role;
         }
 
@@ -191,10 +154,7 @@ namespace WaterPreview.Other
         {
             //var role = new Role();
             role.ClientView = true;
-            role.ClientAdd = true;
-            role.ClientDetail = true;
-            role.ClientModify = true;
-            role.ClientDelete = true;
+            role.ClientManage = true;
             return role;
         }
 
@@ -209,10 +169,7 @@ namespace WaterPreview.Other
         {
             //var role = new Role();
             role.StaffView = true;
-            role.StaffAdd = true;
-            role.StaffDetail = true;
-            role.StaffModify = true;
-            role.StaffDelete = true;
+            role.StaffManage = true;
             return role;
         }
 
@@ -227,10 +184,7 @@ namespace WaterPreview.Other
         {
             //var role = new Role();
             role.RoleView = true;
-            role.RoleAdd = true;
-            role.RoleDetail = true;
-            role.RoleModify = true;
-            role.RoleDelete = true;
+            role.RoleManage = true;
             return role;
         }
     }

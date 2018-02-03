@@ -107,6 +107,12 @@ namespace WaterPreview.Controllers
                     case "压力计管理员":
                         RoleHelper.GetPressureMeterManagePermission(personalRole);
                         break;
+                    case "水质计查看员":
+                        RoleHelper.GetQualityMeterViewPermission(personalRole);
+                        break;
+                    case "水质计管理员":
+                        RoleHelper.GetQualityMeterManagePermission(personalRole);
+                        break;
                     case "区域查看员":
                         RoleHelper.GetAreaViewPermission(personalRole);
                         break;
