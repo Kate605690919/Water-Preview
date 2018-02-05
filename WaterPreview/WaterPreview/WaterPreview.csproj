@@ -240,6 +240,7 @@
     <Compile Include="Other\MD5_Util.cs" />
     <Compile Include="App_Start\NinjectDependencyResolver.cs" />
     <Compile Include="Other\RoleHelper.cs" />
+
     <Compile Include="Other\ToJson.cs" />
     <Compile Include="Other\UserContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

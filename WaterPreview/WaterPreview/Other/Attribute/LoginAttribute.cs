@@ -29,11 +29,7 @@ namespace WaterPreview.Other.Attribute
             {
                 
                 HttpCookieCollection CookieCollect = HttpContext.Current.Request.Cookies;
-                //if (CookieCollect.Count == 0 || CookieCollect[ConfigurationManager.AppSettings["CookieName"]].Value == null)
-                //{
-                //    filterContext.Result = new RedirectResult("/Home/Login");
 
-                //}
                 if (UserContext.account == null || UserContext.account.Usr_UId == new Guid())
                 {
                     filterContext.Result = new RedirectResult("/Home/Login");
@@ -72,8 +68,7 @@ namespace WaterPreview.Other.Attribute
                 //}
                 
                    
-                
-                
+                              
             }
 
             

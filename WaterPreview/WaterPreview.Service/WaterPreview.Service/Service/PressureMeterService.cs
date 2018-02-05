@@ -41,6 +41,11 @@ namespace WaterPreview.Service.Service
             return pmsalist;
         }
 
+        public PressureMeter_t GetPressureMeterByPMUid(Guid pmUid)
+        {
+            return FindAll().FirstOrDefault(p => p.PM_UId == pmUid);
+        }
+
         //等水压计和客户有绑定信息了 查询客户对应的水压数据
         //public List<PressureMeterData> GetPressureMetersDataByUser(User_t account)
         //{
@@ -75,7 +80,7 @@ namespace WaterPreview.Service.Service
 
             PressureMeterData pmanalysis = new PressureMeterData()
             {
-                pressuremeter = pm,
+                PM_Uid = pm.PM_UId,
                 lastday_pressure = Math.Round(lastday_AvgData, 4)+"",
                 lastday_pressure_proportion = beforelastday_AvgData == 0 ? "无法计算" : Math.Round((lastday_AvgData - beforelastday_AvgData) / beforelastday_AvgData, 4).ToString("0.00%"),
 

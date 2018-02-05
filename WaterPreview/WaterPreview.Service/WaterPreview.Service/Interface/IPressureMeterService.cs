@@ -13,6 +13,8 @@ namespace WaterPreview.Service.Interface
 
         List<PressureMeterStatusAndArea> GetPressureMeterStatusByArea(Guid areaUid);
 
+        PressureMeter_t GetPressureMeterByPMUid(Guid pmUid);
+
         PressureMeterData GetAnalysisByPressureMeter(PressureMeter_t pm, DateTime datetime);
 
         List<PressureMeterData> GetPressureMetersDataByUser(User_t account);

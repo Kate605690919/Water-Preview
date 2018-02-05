@@ -38,27 +38,6 @@ namespace WaterPreview.Controllers
             areadevice_Service = new AreaDeviceService();
         }
 
-        //public FlowMeterController(IFlowMeterService fmservice,IFlowMonthService fmonthservice,IFlowHourService fhourservice,IFlowDayService fdayservice,IAccountService accservice,IFlowService flowservice)
-        //{
-        //    this.AddDisposableObject(fmservice);
-        //    flowmeter_Service = fmservice;
-
-        //    this.AddDisposableObject(fmonthservice);
-        //    flowmonth_Service = fmonthservice;
-
-        //    this.AddDisposableObject(fhourservice);
-        //    flowhour_Service = fhourservice;
-
-        //    this.AddDisposableObject(fdayservice);
-        //    flowday_Service = fdayservice;
-
-        //    this.AddDisposableObject(accservice);
-        //    account_Service = accservice;
-
-        //    this.AddDisposableObject(flowservice);
-        //    flow_Service = flowservice;
-        //}
-
         /// <summary>
         /// 输出流量计Uid和对应time的各个流量分析数值
         /// </summary>
@@ -72,6 +51,7 @@ namespace WaterPreview.Controllers
             //User_t account = UserContext.account;
             FlowMeter_t flowmeter = flowmeter_Service.GetFlowMeterByFMUid(uid);
             Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(flowmeter, (DateTime)time);
+
             result.Data = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]+uid);
 
                 //Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
@@ -79,7 +59,6 @@ namespace WaterPreview.Controllers
                 //var fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);
                 //result.Data = fmdataanalysis.Where(p => p.flowmeter.FM_UId == uid).FirstOrDefault();
 
-            
             return result;
         }
 

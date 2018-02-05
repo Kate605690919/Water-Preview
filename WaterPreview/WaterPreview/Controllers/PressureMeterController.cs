@@ -171,13 +171,12 @@ namespace WaterPreview.Controllers
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             User_t account = UserContext.account;
             Guid useruid = account == null||account.Usr_UId==new Guid()?Guid.Parse(Session["wp_username"].ToString()):account.Usr_UId;
+
             PressureMeter_t pm = pressuremeter_service.GetAllPressureMeter().FirstOrDefault(p=>p.PM_UId==pmuid);
             Func<PressureMeterData> pmdataFunc = () => pressuremeter_service.GetAnalysisByPressureMeter(pm, (DateTime)pm.PM_CountLast);
             result.Data = DBHelper.getT<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["PressureMeterAnalysisByPMUid"] + pm.PM_UId);
 
-            //Func<List<PressureMeterData>> pmdataFunc = ()=>pressuremeter_service.GetPressureMetersDataByUser(account);
-            //var pmdataanalysis = DBHelper.get<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["allPressureAnalysisByUserUid"] + account.Usr_UId);
-            //result.Data = pmdataanalysis.Where(p=>p.pressuremeter.PM_UId==pmuid).FirstOrDefault();
+
             return result;
         }
 
@@ -223,12 +222,12 @@ namespace WaterPreview.Controllers
 
                 for (var i = 0; i < vclist.Count; i++)
                 {
-                    var pmdata = pmdataanalysis.FirstOrDefault(p => p.pressuremeter.PM_UId == Guid.Parse(vclist[i].uid));
+                    var pmdata = pmdataanalysis.FirstOrDefault(p => p.PM_Uid == Guid.Parse(vclist[i].uid));
                     pmdatalist.Add(pmdata);
                 }
                 for (var i = 0; i < pmdataanalysis.Count; i++)
                 {
-                    if (vclist.Where(p => p.uid == pmdataanalysis[i].pressuremeter.PM_UId.ToString()).Count() == 0)
+                    if (vclist.Where(p => p.uid == pmdataanalysis[i].PM_Uid.ToString()).Count() == 0)
                     {
                         pmdatalist.Add(pmdataanalysis[i]);
                     }
