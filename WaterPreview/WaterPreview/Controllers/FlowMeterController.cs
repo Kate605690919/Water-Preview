@@ -72,7 +72,7 @@ namespace WaterPreview.Controllers
             //User_t account = UserContext.account;
             FlowMeter_t flowmeter = flowmeter_Service.GetFlowMeterByFMUid(uid);
             Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(flowmeter, (DateTime)time);
-            result.Data = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]);
+            result.Data = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]+uid);
 
                 //Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
 
@@ -156,11 +156,28 @@ namespace WaterPreview.Controllers
             {
                 int start = int.Parse(startDt.ToString("yyyyMMdd"));
                 int end = int.Parse(endDt.ToString("yyyyMMdd"));
-                rs.Data = flowday_Service.GetAllFlowDayByFMUid(uid).Where(p => p.Fld_Time > start && p.Fld_Time < end).OrderBy(p => p.Fld_Time).Select(p => new
+                var fds = flowday_Service.GetAllFlowDayByFMUid(uid).Where(p => p.Fld_Time > start && p.Fld_Time < end).OrderBy(p => p.Fld_Time).ToList();
+                List<object> fdsobj = new List<object>();
+                foreach (var item in fds)
                 {
-                    value = p.Fld_TotalValue,
-                    time = p.Fld_Time
-                });
+                    object obj = new
+                    {
+                        value = item.Fld_TotalValue,
+                        time = item.Fld_Time
+                    };
+                    fdsobj.Add(obj);
+                }
+                rs.Data = fdsobj;
+                //rs.Data =fds.Select(p => new
+                //{
+                //    value = p.Fld_TotalValue,
+                //    time = p.Fld_Time
+                //});
+                //rs.Data = flowday_Service.GetAllFlowDayByFMUid(uid).Where(p => p.Fld_Time > start && p.Fld_Time < end).OrderBy(p => p.Fld_Time).Select(p => new
+                //{
+                //    value = p.Fld_TotalValue,
+                //    time = p.Fld_Time
+                //});
             }
             return rs;
         }

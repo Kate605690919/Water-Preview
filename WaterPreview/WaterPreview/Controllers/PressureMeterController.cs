@@ -171,10 +171,13 @@ namespace WaterPreview.Controllers
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             User_t account = UserContext.account;
             Guid useruid = account == null||account.Usr_UId==new Guid()?Guid.Parse(Session["wp_username"].ToString()):account.Usr_UId;
+            PressureMeter_t pm = pressuremeter_service.GetAllPressureMeter().FirstOrDefault(p=>p.PM_UId==pmuid);
+            Func<PressureMeterData> pmdataFunc = () => pressuremeter_service.GetAnalysisByPressureMeter(pm, (DateTime)pm.PM_CountLast);
+            result.Data = DBHelper.getT<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["PressureMeterAnalysisByPMUid"] + pm.PM_UId);
 
-            Func<List<PressureMeterData>> pmdataFunc = ()=>pressuremeter_service.GetPressureMetersDataByUser(account);
-            var pmdataanalysis = DBHelper.get<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["allPressureAnalysisByUserUid"] + account.Usr_UId);
-            result.Data = pmdataanalysis.Where(p=>p.pressuremeter.PM_UId==pmuid).FirstOrDefault();
+            //Func<List<PressureMeterData>> pmdataFunc = ()=>pressuremeter_service.GetPressureMetersDataByUser(account);
+            //var pmdataanalysis = DBHelper.get<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["allPressureAnalysisByUserUid"] + account.Usr_UId);
+            //result.Data = pmdataanalysis.Where(p=>p.pressuremeter.PM_UId==pmuid).FirstOrDefault();
             return result;
         }
 

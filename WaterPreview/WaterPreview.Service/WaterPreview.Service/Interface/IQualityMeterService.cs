@@ -9,6 +9,6 @@ namespace WaterPreview.Service.Interface
 {
     public interface IQualityMeterService
     {
-        List<QualityMeterStatusAndArea> GetQualityMeterStatusAndArea();
+        List<QualityMeterStatusAndArea> GetQualityMeterStatusByArea(Guid areaUid);
     }
 }
