@@ -81,7 +81,7 @@ namespace WaterPreview.Controllers
                 id = area.Ara_UId,
                 Lat = area.Ara_Lat,//纬度
                 Lng = area.Ara_Lng,//经度
-                children = areaChild
+                children = areaChild,
             };
             result.Data = list;
             return result;
@@ -235,6 +235,8 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
+
+
             Func<List<QualityMeterStatusAndArea>> qmAndStatusArea = () => qualitymeterService.GetQualityMeterStatusAndArea();
             List<QualityMeterStatusAndArea> qmstatusAndAreaList = DBHelper.get<QualityMeterStatusAndArea>(qmAndStatusArea,ConfigurationManager.AppSettings["allQualityMeterStatusAndArea"]);
 
