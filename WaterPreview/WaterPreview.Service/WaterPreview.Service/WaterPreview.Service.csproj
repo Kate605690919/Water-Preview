@@ -199,19 +199,12 @@
     <Compile Include="Interface\IPressureService.cs" />
     <Compile Include="Interface\IQualityMeterService.cs" />
     <Compile Include="Interface\IQualityMeterStatusService.cs" />
-    <Compile Include="other\GetSubAreaList.cs" />
-    <Compile Include="RedisContract\AreaAnalysisData.cs" />
-    <Compile Include="RedisContract\DevicesDataAndUser.cs" />
-    <Compile Include="RedisContract\FlowMeterStatusAndArea.cs" />
-    <Compile Include="RedisContract\PressureMeterStatusAndArea.cs" />
-    <Compile Include="RedisContract\QualityMeterStatusAndArea.cs" />
-    <Compile Include="RedisContract\VisitCount.cs" />
-    <Compile Include="Service\AreaDeviceService.cs" />
-    <Compile Include="Service\AreaService.cs" />
-    <Compile Include="Interface\IAccountService.cs" />
+    <Compile Include="Interface\IRoleService.cs" />
+    <Compile Include="Interface\IUserInnerRoleService.cs" />
     <Compile Include="OldQuality_t.cs">
       <DependentUpon>WaterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="other\GetSubAreaList.cs" />
     <Compile Include="PressureDay_t.cs">
       <DependentUpon>WaterModel.tt</DependentUpon>
     </Compile>
@@ -233,7 +226,6 @@
     <Compile Include="Pressure_t.cs">
       <DependentUpon>WaterModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QualityDay_t.cs">
       <DependentUpon>WaterModel.tt</DependentUpon>
     </Compile>
@@ -255,6 +247,16 @@
     <Compile Include="Quality_t.cs">
       <DependentUpon>WaterModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="RedisContract\AreaAnalysisData.cs" />
+    <Compile Include="RedisContract\DevicesDataAndUser.cs" />
+    <Compile Include="RedisContract\FlowMeterStatusAndArea.cs" />
+    <Compile Include="RedisContract\PressureMeterStatusAndArea.cs" />
+    <Compile Include="RedisContract\QualityMeterStatusAndArea.cs" />
+    <Compile Include="RedisContract\VisitCount.cs" />
+    <Compile Include="Service\AreaDeviceService.cs" />
+    <Compile Include="Service\AreaService.cs" />
+    <Compile Include="Interface\IAccountService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\AccountService.cs" />
     <Compile Include="Service\AreaUserService.cs" />
     <Compile Include="Service\ExceptionService.cs" />
@@ -272,6 +274,8 @@
     <Compile Include="Service\PressureService.cs" />
     <Compile Include="Service\QualityMeterService.cs" />
     <Compile Include="Service\QualityMeterStatusService.cs" />
+    <Compile Include="Service\RoleService.cs" />
+    <Compile Include="Service\UserInnerRoleService.cs" />
     <Compile Include="sp_helpdiagramdefinition_Result.cs">
       <DependentUpon>WaterModel.tt</DependentUpon>
     </Compile>
@@ -306,20 +310,6 @@
       <DependentUpon>WaterModel.edmx</DependentUpon>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <EntityDeploy Include="WaterModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>WaterModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
-    <None Include="packages.config" />
-    <None Include="WaterModel.edmx.diagram">
-      <DependentUpon>WaterModel.edmx</DependentUpon>
-    </None>
-  </ItemGroup>
   <ItemGroup>
     <Content Include="WaterModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -331,6 +321,17 @@
       <DependentUpon>WaterModel.edmx</DependentUpon>
       <LastGenOutput>WaterModel.cs</LastGenOutput>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="packages.config" />
+    <EntityDeploy Include="WaterModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WaterModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="WaterModel.edmx.diagram">
+      <DependentUpon>WaterModel.edmx</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

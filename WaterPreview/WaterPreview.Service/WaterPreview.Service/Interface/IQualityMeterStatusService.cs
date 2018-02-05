@@ -8,6 +8,6 @@ namespace WaterPreview.Service.Interface
 {
     public interface IQualityMeterStatusService
     {
-        List<QualityMeterStatus_t> GetPressureMeterStatusByUid(Guid qmuid);
+        List<QualityMeterStatus_t> GetQualityMeterStatusByUid(Guid qmuid);
     }
 }

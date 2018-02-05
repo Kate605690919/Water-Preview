@@ -16,5 +16,10 @@ namespace WaterPreview.Service.Service
             return ad.Count() == 0 ? new AreaDevice_t() : ad.FirstOrDefault();
         }
 
+
+        public List<AreaDevice_t> GetAreaDeviceByAreaUid(Guid areaUid)
+        {
+            return FindAll().Where(p => p.AD_AreaUid == areaUid).ToList();
+        }
     }
 }

@@ -23,6 +23,7 @@ namespace WaterPreview.Controllers
         static IPressureDayService pressureday_service;
         static IPressureMonthService pressuremonth_service;
         static IAccountService account_service;
+        static IAreaDeviceService areadevice_service;
 
         public PressureMeterController()
         {
@@ -32,6 +33,7 @@ namespace WaterPreview.Controllers
             pressureday_service = new PressureDayService();
             pressuremonth_service = new PressureMonthService();
             account_service = new AccountService();
+            areadevice_service = new AreaDeviceService();
         }
         //public PressureMeterController(IPressureService pservice,IPressureMeterService pmservice,
         //    IPressureHourService phourservice, IPressureDayService pdayservice, IPressureMonthService pmonthservice, IAccountService accservice)
@@ -76,8 +78,13 @@ namespace WaterPreview.Controllers
             DBHelper.getAndFresh<VisitCount>(visitcount, useruid + ConfigurationManager.AppSettings["VisitPressureMeterCount"]);
 
             //获取并返回设备uid的区域状态数据
-            Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => (pressuremeter_service.GetPressureMeterStatusAndArea());
-            result.Data = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea, ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]).Where(p => p.pressuremeter.PM_UId == pmuid).ToList();
+            AreaDevice_t ad = areadevice_service.GetAreaDeviceByDeviceUid(pmuid);
+            Func<List<PressureMeterStatusAndArea>> pmsFunc = () => pressuremeter_service.GetPressureMeterStatusByArea(ad.AD_AreaUid);
+            result.Data = DBHelper.get<PressureMeterStatusAndArea>(pmsFunc,
+                ConfigurationManager.AppSettings["PressureMeterStatusByAreaUid"] + ad.AD_AreaUid).ToList();
+
+            //Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => (pressuremeter_service.GetPressureMeterStatusAndArea());
+            //result.Data = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea, ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]).Where(p => p.pressuremeter.PM_UId == pmuid).ToList();
             return result;
         }
 
@@ -164,9 +171,12 @@ namespace WaterPreview.Controllers
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             User_t account = UserContext.account;
             Guid useruid = account == null||account.Usr_UId==new Guid()?Guid.Parse(Session["wp_username"].ToString()):account.Usr_UId;
-            PressureMeter_t pressuremeter = pressuremeter_service.GetPressureMeterByPMUid(pmuid);
-            Func<PressureMeterData> pmdataFunc = () => pressuremeter_service.GetAnalysisByPressureMeter(pressuremeter, (DateTime)pressuremeter.PM_CountLast);
-            result.Data = DBHelper.getT<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["PressureMeterAnalysisByPMUid"] + pressuremeter.PM_UId);
+
+            PressureMeter_t pm = pressuremeter_service.GetAllPressureMeter().FirstOrDefault(p=>p.PM_UId==pmuid);
+            Func<PressureMeterData> pmdataFunc = () => pressuremeter_service.GetAnalysisByPressureMeter(pm, (DateTime)pm.PM_CountLast);
+            result.Data = DBHelper.getT<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["PressureMeterAnalysisByPMUid"] + pm.PM_UId);
+
+
             return result;
         }
 

@@ -23,6 +23,7 @@ namespace WaterPreview.Controllers
         private static IFlowMeterService flowmeterService;
         private static IPressureMeterService pressuremeterService;
         private static IQualityMeterService qualitymeterService;
+        private static IAreaUserService areauserService;
 
 
         public AreaController()
@@ -78,7 +79,9 @@ namespace WaterPreview.Controllers
                 text = area.Ara_Name,
                 description = area.Ara_Description,
                 id = area.Ara_UId,
-                children = areaChild
+                Lat = area.Ara_Lat,//纬度
+                Lng = area.Ara_Lng,//经度
+                children = areaChild,
             };
             result.Data = list;
             return result;
@@ -94,6 +97,8 @@ namespace WaterPreview.Controllers
                     description = p.Ara_Description,
                     //code=p.Ara_Short,
                     //isleaf = p.Ara_IsLeaf,
+                    Lat = p.Ara_Lat,//纬度
+                    Lng = p.Ara_Lng,//经度
                     id = p.Ara_UId,
                     children = GetChild(p.Ara_UId, all)
                 });
@@ -107,10 +112,10 @@ namespace WaterPreview.Controllers
             List<FlowMeterStatusAndArea> fms_areas_order = new List<FlowMeterStatusAndArea>();
             List<FlowMeterStatusAndArea> fms_areas = new List<FlowMeterStatusAndArea>();
 
-
-            Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusAndArea();
-            List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, 
-                ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]);
+            //获取areauid对应的设备信息，并以areauid区分存储在redis
+            Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusByArea(areaUid);
+            List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea,
+                ConfigurationManager.AppSettings["FlowMeterStatusByAreaUid"]+areaUid);
 
             User_t account = UserContext.account;
             if (account.Usr_Type == 3)
@@ -121,13 +126,21 @@ namespace WaterPreview.Controllers
             {
                 //筛选出子区域范围内的所有流量计
                 List<Area_t> subarealist = areaService.GetSubArea(areaUid);
-                foreach (var item in fmstatusAndAreaList)
+
+                foreach (var areaitem in subarealist)
                 {
-                    if (subarealist.Where(p => p.Ara_UId == item.area.Ara_UId).Count() > 0)
-                    {
-                        fms_areas.Add(item);
-                    }
+                    Func<List<FlowMeterStatusAndArea>> fmsFunc = () => flowmeterService.GetFlowMeterStatusByArea(areaUid);
+                    var  fmslist = DBHelper.get<FlowMeterStatusAndArea>(fmsFunc,
+                        ConfigurationManager.AppSettings["FlowMeterStatusByAreaUid"] + areaitem.Ara_UId);
+                    fms_areas.AddRange(fmslist);
                 }
+                //foreach (var item in fmstatusAndAreaList)
+                //{
+                //    if (subarealist.Where(p => p.Ara_UId == item.area.Ara_UId).Count() > 0)
+                //    {
+                //        fms_areas.Add(item);
+                //    }
+                //}
 
                
             }
@@ -163,9 +176,14 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => pressuremeterService.GetPressureMeterStatusAndArea();
+
+            //Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusByArea(areaUid);
+            //List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea,
+            //    ConfigurationManager.AppSettings["FlowMeterStatusByAreaUid"] + areaUid);
+
+            Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => pressuremeterService.GetPressureMeterStatusByArea(areaUid);
             List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea,
-                ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]).ToList();
+                ConfigurationManager.AppSettings["PressureMeterStatusByAreaUid"]+areaUid).ToList();
 
             User_t account = UserContext.account;
             List<PressureMeterStatusAndArea> pms_areas = new List<PressureMeterStatusAndArea>();
@@ -174,12 +192,13 @@ namespace WaterPreview.Controllers
             if (account.Usr_Type != 3)
             {
                 List<Area_t> subarealist = areaService.GetSubArea(areaUid);
-                foreach (var item in pmstatusAndAreaList)
+                foreach (var item in subarealist)
                 {
-                    if (subarealist.Where(p => p.Ara_UId == item.area.Ara_UId).Count() > 0)
-                    {
-                        pms_areas.Add(item);
-                    }
+                    Func<List<PressureMeterStatusAndArea>> pmsaFunc = () => pressuremeterService.GetPressureMeterStatusByArea(areaUid);
+                    var pmsalist = DBHelper.get<PressureMeterStatusAndArea>(pmsaFunc,
+                        ConfigurationManager.AppSettings["PressureMeterStatusByAreaUid"] + areaUid).ToList();
+                    pms_areas.AddRange(pmsalist);
+
                 }
 
                 //获取设备访问次数,根据访问次数排序,再将剩余的设备整合
@@ -216,12 +235,47 @@ namespace WaterPreview.Controllers
         {
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
-            Func<List<QualityMeterStatusAndArea>> qmAndStatusArea = () => qualitymeterService.GetQualityMeterStatusAndArea();
-            List<QualityMeterStatusAndArea> qmstatusAndAreaList = DBHelper.get<QualityMeterStatusAndArea>(qmAndStatusArea,ConfigurationManager.AppSettings["allQualityMeterStatusAndArea"]);
 
+            List<QualityMeterStatusAndArea> qms_areas = new List<QualityMeterStatusAndArea>();
+            List<QualityMeterStatusAndArea> qms_areas_order = new List<QualityMeterStatusAndArea>();
+            if (UserContext.account.Usr_Type != 3)
+            {
+                
+
+
+                List<Area_t> subarealist = areaService.GetSubArea(areaUid);
+                foreach (var item in subarealist)
+                {
+                    Func<List<QualityMeterStatusAndArea>> qmAndStatusArea = () => qualitymeterService.GetQualityMeterStatusByArea(areaUid);
+                    var qmslist = DBHelper.get<QualityMeterStatusAndArea>(qmAndStatusArea, ConfigurationManager.AppSettings["QualityMeterStatusByAreaUid"] + areaUid);
+                    qms_areas.AddRange(qmslist);
+
+                }
+
+                //获取设备访问次数,根据访问次数排序,再将剩余的设备整合
+                //Func<List<VisitCount>> initvisit = () => { return new List<VisitCount>(); };
+                //List<VisitCount> vclist = DBHelper.getWithNoExpire<List<VisitCount>>(initvisit, UserContext.account.Usr_UId + ConfigurationManager.AppSettings["VisitQualityMeterCount"]);
+                //vclist = vclist.OrderByDescending(p => p.count).ToList();
+                //foreach (var item in vclist)
+                //{
+                //    var data = qms_areas.Where(p => p.qualitymeter.QM_UId == Guid.Parse(item.uid)).FirstOrDefault();
+                //    if (data != null)
+                //    {
+                //        qms_areas_order.Add(data);
+                //    }
+                //}
+                //foreach (var item in qms_areas)
+                //{
+                //    if (vclist.Where(p => p.uid == item.qualitymeter.QM_UId.ToString()).Count() == 0)
+                //    {
+                //        qms_areas_order.Add(item);
+                //    }
+                //}
+            }
+           
 
             //result.Data = qmstatusAndAreaList;
-            string dataresult = ToJson<List<QualityMeterStatusAndArea>>.Obj2Json<List<QualityMeterStatusAndArea>>(qmstatusAndAreaList).Replace("\\\\", "");
+            string dataresult = ToJson<List<QualityMeterStatusAndArea>>.Obj2Json<List<QualityMeterStatusAndArea>>(qms_areas).Replace("\\\\", "");
             dataresult = dataresult.Replace("\\\\", "");
 
             result.Data = dataresult;
@@ -239,28 +293,51 @@ namespace WaterPreview.Controllers
             List<PressureMeterStatusAndArea> pmlist = new List<PressureMeterStatusAndArea>();
             List<QualityMeterStatusAndArea> qmlist = new List<QualityMeterStatusAndArea>();
 
-            Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusAndArea();
-            List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, 
-                ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]);
+            //Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => flowmeterService.GetFlowMeterStatusAndArea();
+            //List<FlowMeterStatusAndArea> fmstatusAndAreaList = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, 
+            //    ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]);
 
-            Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => pressuremeterService.GetPressureMeterStatusAndArea();
-            List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea,
-                ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]).ToList();
+            //Func<List<PressureMeterStatusAndArea>> pmAndStatusArea = () => pressuremeterService.GetPressureMeterStatusAndArea();
+            //List<PressureMeterStatusAndArea> pmstatusAndAreaList = DBHelper.get<PressureMeterStatusAndArea>(pmAndStatusArea,
+            //    ConfigurationManager.AppSettings["allPressureMeterStatusAndArea"]).ToList();
 
-            Func<List<QualityMeterStatusAndArea>> qmAndStatusArea = () => qualitymeterService.GetQualityMeterStatusAndArea();
-            List<QualityMeterStatusAndArea> qmstatusAndAreaList = DBHelper.get<QualityMeterStatusAndArea>(qmAndStatusArea,
-                ConfigurationManager.AppSettings["allQualityMeterStatusAndArea"]);
+            //Func<List<QualityMeterStatusAndArea>> qmAndStatusArea = () => qualitymeterService.GetQualityMeterStatusAndArea();
+            //List<QualityMeterStatusAndArea> qmstatusAndAreaList = DBHelper.get<QualityMeterStatusAndArea>(qmAndStatusArea,
+            //    ConfigurationManager.AppSettings["allQualityMeterStatusAndArea"]);
 
             if(account.Usr_Type==3){
-                fmlist = fmstatusAndAreaList.Where(p => p.flowmeter.FM_WaterConsumerUId==account.Usr_UId).ToList();
+                //fmlist = fmstatusAndAreaList.Where(p => p.flowmeter.FM_WaterConsumerUId==account.Usr_UId).ToList();
                 //qmlist = qmstatusAndAreaList.Where(p=>p.qualitymeter);
-                //pmlist = pmstatusAndAreaList.Where(p=>p.pressuremeter)
+                //pmlist = pmstatusAndAreaList.Where(p=>p.pressuremeter);
+
+                AreaUser_t au = areauserService.GetAreaUserByUser(account.Usr_UId);
+                Func<List<FlowMeterStatusAndArea>> fmsFunc = () => flowmeterService.GetFlowMeterStatusByArea(au.AU_AreaUId);
+                fmlist = DBHelper.get<FlowMeterStatusAndArea>(fmsFunc,
+                    ConfigurationManager.AppSettings["FlowMeterStatusByAreaUid"] + au.AU_AreaUId).Where(p=>p.flowmeter.FM_WaterConsumerUId==account.Usr_UId).ToList();
             }
             else
             {
-                fmlist = fmstatusAndAreaList;
-                pmlist = pmstatusAndAreaList;
-                qmlist = qmstatusAndAreaList;
+                List<Area_t> arealist = areaService.GetAllArea();
+                foreach (var areaitem in arealist)
+                {
+                    Func<List<FlowMeterStatusAndArea>> fmsFunc = () => flowmeterService.GetFlowMeterStatusByArea(areaitem.Ara_UId);
+                    var fmdata = DBHelper.get<FlowMeterStatusAndArea>(fmsFunc,
+                        ConfigurationManager.AppSettings["FlowMeterStatusByAreaUid"] + areaitem.Ara_UId);
+                    fmlist.AddRange(fmdata);
+
+                    Func<List<PressureMeterStatusAndArea>> pmsFunc = () => pressuremeterService.GetPressureMeterStatusByArea(areaitem.Ara_UId);
+                    var pmsalist = DBHelper.get<PressureMeterStatusAndArea>(pmsFunc,
+                        ConfigurationManager.AppSettings["PressureMeterStatusByAreaUid"] + areaitem.Ara_UId).ToList();
+                    pmlist.AddRange(pmsalist);
+
+                    Func<List<QualityMeterStatusAndArea>> qmAndStatusArea = () => qualitymeterService.GetQualityMeterStatusByArea(areaitem.Ara_UId);
+                    var qmslist = DBHelper.get<QualityMeterStatusAndArea>(qmAndStatusArea, ConfigurationManager.AppSettings["QualityMeterStatusByAreaUid"] + areaitem.Ara_UId);
+
+                    qmlist.AddRange(qmslist);
+                }
+                //fmlist = fmstatusAndAreaList;
+                //pmlist = pmstatusAndAreaList;
+                //qmlist = qmstatusAndAreaList;
             }
             result.Data = new
             {

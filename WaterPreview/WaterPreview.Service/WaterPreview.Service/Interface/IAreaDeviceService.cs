@@ -9,5 +9,7 @@ namespace WaterPreview.Service.Interface
     public interface IAreaDeviceService
     {
         AreaDevice_t GetAreaDeviceByDeviceUid(Guid deviceUid);
+
+        List<AreaDevice_t> GetAreaDeviceByAreaUid(Guid areaUid);
     }
 }

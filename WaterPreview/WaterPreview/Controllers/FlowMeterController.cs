@@ -24,6 +24,7 @@ namespace WaterPreview.Controllers
         private static IFlowDayService flowday_Service;
         private static IAccountService account_Service;
         private static IFlowService flow_Service;
+        private static IAreaDeviceService areadevice_Service;
 
 
         public FlowMeterController()
@@ -34,6 +35,7 @@ namespace WaterPreview.Controllers
             flowday_Service = new FlowDayService();
             account_Service = new AccountService();
             flow_Service = new FlowService();
+            areadevice_Service = new AreaDeviceService();
         }
 
         /// <summary>
@@ -49,8 +51,14 @@ namespace WaterPreview.Controllers
             //User_t account = UserContext.account;
             FlowMeter_t flowmeter = flowmeter_Service.GetFlowMeterByFMUid(uid);
             Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(flowmeter, (DateTime)time);
-            result.Data = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]);
-         
+
+            result.Data = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]+uid);
+
+                //Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
+
+                //var fmdataanalysis = DBHelper.get<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["allFlowAnalysisByUserUid"] + account.Usr_UId);
+                //result.Data = fmdataanalysis.Where(p => p.flowmeter.FM_UId == uid).FirstOrDefault();
+
             return result;
         }
 
@@ -70,8 +78,15 @@ namespace WaterPreview.Controllers
             Func<List<VisitCount>> visitcount = () => account_Service.AddDeviceVisits(vclist,uid);
             DBHelper.getAndFresh<VisitCount>(visitcount, UserContext.account.Usr_UId + ConfigurationManager.AppSettings["VisitFlowMeterCount"]);
             //获取并返回设备uid的区域状态数据
-            Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => (flowmeter_Service.GetFlowMeterStatusAndArea());
-            result.Data = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]).Where(p => p.flowmeter.FM_UId == uid).ToList();
+
+            AreaDevice_t ad = areadevice_Service.GetAreaDeviceByDeviceUid(uid);
+
+            Func<List<FlowMeterStatusAndArea>> fmsFunc = () => flowmeter_Service.GetFlowMeterStatusByArea(ad.AD_AreaUid);
+            result.Data = DBHelper.get<FlowMeterStatusAndArea>(fmsFunc,
+                ConfigurationManager.AppSettings["FlowMeterStatusByAreaUid"] + ad.AD_AreaUid).Where(p=>p.flowmeter.FM_UId==uid).ToList();
+
+            //Func<List<FlowMeterStatusAndArea>> fmAndStatusArea = () => (flowmeter_Service.GetFlowMeterStatusAndArea());
+            //result.Data = DBHelper.get<FlowMeterStatusAndArea>(fmAndStatusArea, ConfigurationManager.AppSettings["allFlowMeterStatusAndArea"]).Where(p => p.flowmeter.FM_UId == uid).ToList();
             return result;
         }
 
@@ -120,11 +135,28 @@ namespace WaterPreview.Controllers
             {
                 int start = int.Parse(startDt.ToString("yyyyMMdd"));
                 int end = int.Parse(endDt.ToString("yyyyMMdd"));
-                rs.Data = flowday_Service.GetAllFlowDayByFMUid(uid).Where(p => p.Fld_Time > start && p.Fld_Time < end).OrderBy(p => p.Fld_Time).Select(p => new
+                var fds = flowday_Service.GetAllFlowDayByFMUid(uid).Where(p => p.Fld_Time > start && p.Fld_Time < end).OrderBy(p => p.Fld_Time).ToList();
+                List<object> fdsobj = new List<object>();
+                foreach (var item in fds)
                 {
-                    value = p.Fld_TotalValue,
-                    time = p.Fld_Time
-                });
+                    object obj = new
+                    {
+                        value = item.Fld_TotalValue,
+                        time = item.Fld_Time
+                    };
+                    fdsobj.Add(obj);
+                }
+                rs.Data = fdsobj;
+                //rs.Data =fds.Select(p => new
+                //{
+                //    value = p.Fld_TotalValue,
+                //    time = p.Fld_Time
+                //});
+                //rs.Data = flowday_Service.GetAllFlowDayByFMUid(uid).Where(p => p.Fld_Time > start && p.Fld_Time < end).OrderBy(p => p.Fld_Time).Select(p => new
+                //{
+                //    value = p.Fld_TotalValue,
+                //    time = p.Fld_Time
+                //});
             }
             return rs;
         }
@@ -134,6 +166,7 @@ namespace WaterPreview.Controllers
         /// </summary>
         /// <param name="fmUids"></param>
         /// <returns></returns>
+        /// 
         public JsonResult GetMostVisitsFlowMeter()
         {
             JsonResult result = new JsonResult();
@@ -201,6 +234,7 @@ namespace WaterPreview.Controllers
         /// <returns></returns>
         public JsonResult GetLastDayFlowList()
         {
+
             JsonResult result = new JsonResult();
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             List<FlowMeterData> fmdata_account = new List<FlowMeterData>();

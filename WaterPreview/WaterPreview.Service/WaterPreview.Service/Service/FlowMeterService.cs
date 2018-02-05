@@ -13,36 +13,49 @@ namespace WaterPreview.Service.Service
     {
         public List<FlowMeter_t> GetAllFlowMeter()
         {
-            return FindAll();
+            return FindAll().Where(p=>p.FM_Enable==1).ToList();
         }
 
         public List<FlowMeter_t> GetFlowMetersByUserUid(Guid userUid)
         {
-            return FindAll().Where(p => p.FM_WaterConsumerUId == userUid).ToList();
+            return FindAll().Where(p => p.FM_WaterConsumerUId == userUid&&p.FM_Enable==1).ToList();
         }
 
-        public List<FlowMeterStatusAndArea> GetFlowMeterStatusAndArea()
+        /// <summary>
+        /// 获取areaUid对应的流量计信息
+        /// </summary>
+        /// <param name="areaUid"></param>
+        /// <returns></returns>
+        public List<FlowMeterStatusAndArea> GetFlowMeterStatusByArea(Guid areaUid)
         {
             IFlowMeterStatusService fms_service = new FlowMeterStatusService();
             IAreaService area_service = new AreaService();
+            IAreaDeviceService areadevice_service = new AreaDeviceService();
             List<FlowMeterStatusAndArea> fmsalist = new List<FlowMeterStatusAndArea>();
-            List<FlowMeter_t> fmlist = FindAll();
-            foreach (var fmsa_item in fmlist)
+            List<FlowMeter_t> fmlist = FindAll().Where(p=>p.FM_Enable==1).ToList();
+           
+            List<AreaDevice_t> adlist = areadevice_service.GetAreaDeviceByAreaUid(areaUid);
+
+            foreach (var aditem in adlist)
             {
-                FlowMeterStatusAndArea item = new FlowMeterStatusAndArea()
+                if (fmlist.Where(p => p.FM_UId == aditem.AD_DeviceUid).Count()>0)
                 {
-                    flowmeter = FindAll().Where(p => p.FM_UId == fmsa_item.FM_UId).FirstOrDefault(),
-                    status = fms_service.GetFlowMeterStatusByUid(fmsa_item.FM_UId).FirstOrDefault(),
-                    area = area_service.GetAreaByDeviceUid(fmsa_item.FM_UId)
-                };
-                fmsalist.Add(item);
+                    FlowMeterStatusAndArea item = new FlowMeterStatusAndArea()
+                    {
+                        flowmeter = FindAll().Where(p => p.FM_UId == aditem.AD_DeviceUid).FirstOrDefault(),
+                        status = fms_service.GetFlowMeterStatusByUid(aditem.AD_DeviceUid).FirstOrDefault(),
+                        area = area_service.GetAreaByDeviceUid(aditem.AD_DeviceUid)
+                    };
+                    fmsalist.Add(item);
+                }
+                
             }
             return fmsalist;
         }
 
         public FlowMeter_t GetFlowMeterByFMUid(Guid fmUid)
         {
-            return FindAll().FirstOrDefault(p => p.FM_UId == fmUid);
+            return FindAll().FirstOrDefault(p => p.FM_UId == fmUid&&p.FM_Enable==1);
         }
         /// <summary>
         /// 客户获取最新的流量分析数据
@@ -54,11 +67,11 @@ namespace WaterPreview.Service.Service
             List<FlowMeter_t> fmlist = new List<FlowMeter_t>();
             if (account.Usr_Type == 3)
             {
-                fmlist = FindAll().Where(p => p.FM_WaterConsumerUId == account.Usr_UId).ToList();
+                fmlist = FindAll().Where(p => p.FM_WaterConsumerUId == account.Usr_UId&&p.FM_Enable==1).ToList();
             }
             else
             {
-                fmlist = FindAll();
+                fmlist = FindAll().Where(p=>p.FM_Enable==1).ToList();
             }
 
             List<FlowMeterData> fmdatalist = new List<FlowMeterData>();

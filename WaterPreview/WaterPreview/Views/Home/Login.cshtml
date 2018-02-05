@@ -64,7 +64,7 @@
         <h2>智慧水务</h2>
     </div>
     <div class="login-body">
-        <form method="post" action="/Home/login">
+        <form method="post" id = "form">
             <div class="form-group">
                 <input id="userName" class="form-control" type="text" name="userName" placeholder="账户"  minlength="3" required="required"/>
             </div>
@@ -83,19 +83,37 @@
         <h2><small>输入信息有误，请重新输入</small></h2>
     }
 </div>
-@*@section scripts{
-    <script src="~/Scripts/particles/particles.js"></script> 
-    <script src="~/Scripts/particles/appLogin.js"></script>
+section scripts{
     <script>
-        function Check() {
-            if (document.getElementById(userName).length < 3) {
-                var userChecked = document.getElementById(userCheck);
-                userChecked.style.display = block;
-            }
-            if (document.getElementById(passWord).length < 3) {
-                var pwChecked = document.getElementById(pwCheck);
-                pwChecked.style, display = block;
-            }
-        }
+        // function Check() {
+        //     if (document.getElementById(userName).length < 3) {
+        //         var userChecked = document.getElementById(userCheck);
+        //         userChecked.style.display = block;
+        //     }
+        //     if (document.getElementById(passWord).length < 3) {
+        //         var pwChecked = document.getElementById(pwCheck);
+        //         pwChecked.style, display = block;
+        //     }
+        // }
+        form.addEventListener('submit',(e)=>{
+            e.preventDefault();
+            $.ajax({
+                url: '/home/login',
+                method: 'POST',
+                xhrFields:{withCredentials:true},
+                beforeSend: function(request) {
+                    request.setRequestHeader("access_token", 'token');
+                },
+                data: $('#form').serialize(),
+                success:function(data, status, xhr) {
+                    let headers = xhr.getAllResponseHeaders();
+                    const {hkAdmin, access_token, useruid} = headers;
+                    sessionStorage.setItem('username', xhr.getResponseHeader('username'));
+                    sessionStorage.setItem('access_token', xhr.getResponseHeader('access_token'));
+                    sessionStorage.setItem('useruid', xhr.getResponseHeader('useruid'));
+                    window.location.pathname = 'home/index';
+                }
+            })
+        });
     </script>
-}*@
+}

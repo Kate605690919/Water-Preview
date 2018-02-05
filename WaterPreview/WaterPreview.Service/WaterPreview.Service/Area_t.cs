@@ -14,7 +14,7 @@ namespace WaterPreview.Service
     
     public partial class Area_t
     {
-        public int Ara_Id { get; set; }
+        public long Ara_Id { get; set; }
         public System.Guid Ara_UId { get; set; }
         public string Ara_Code { get; set; }
         public string Ara_Name { get; set; }

@@ -15,6 +15,10 @@ namespace WaterPreview.Service.Service
             return FindAll();
         }
 
+        public AreaUser_t GetAreaUserByUser(Guid userUid)
+        {
+            return FindAll().FirstOrDefault(p => p.AU_UserUId == userUid);
+        }
        
     }
 }

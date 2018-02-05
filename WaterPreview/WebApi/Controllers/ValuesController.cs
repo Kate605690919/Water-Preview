@@ -5,42 +5,36 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace WaterPreview.Other
+namespace WebApi.Controllers
 {
-    [RoutePrefix("api/CredentialsGrant")]
-    public class CredentialsGrantController : ApiController
+    //[Authorize]
+    public class ValuesController : ApiController
     {
-        // GET api/<controller>
-        [HttpGet,Route("api/hello")]
+        // GET api/values
         public IEnumerable<string> Get()
         {
-            return new string[] { "hello", "world" };
+            return new string[] { "value1", "value2" };
         }
 
-        // GET api/<controller>/5
+        // GET api/values/5
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<controller>
+        // POST api/values
         public void Post([FromBody]string value)
         {
         }
 
-        // PUT api/<controller>/5
+        // PUT api/values/5
         public void Put(int id, [FromBody]string value)
         {
         }
 
-        // DELETE api/<controller>/5
+        // DELETE api/values/5
         public void Delete(int id)
         {
-        }
-
-        public void Login(string name, string password)
-        {
-
         }
     }
 }

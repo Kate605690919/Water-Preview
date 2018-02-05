@@ -1,12 +1,14 @@
 ﻿using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using WaterPreview.Redis;
 
 namespace WaterPreview.Other.Client
 {
@@ -30,6 +32,7 @@ namespace WaterPreview.Other.Client
         {
             var token = await GetAccessToken(username,password);
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
             Console.WriteLine(await (await _httpClient.GetAsync("/api/users/current")).Content.ReadAsStringAsync());
         }
 
@@ -52,14 +55,26 @@ namespace WaterPreview.Other.Client
             var responseValue = await response.Content.ReadAsStringAsync();
             if (response.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                Console.WriteLine(responseValue);
-                Console.ReadKey();
+                //Console.WriteLine(responseValue);
+                //Console.ReadKey();
+                //response.Headers.Add("access_token",JObject.Parse(responseValue)["access_token"].Value<string>());
+                //HttpContext.Current.Response.Cookies["access_token"].Value = JObject.Parse(responseValue)["access_token"].Value<string>();
+                UserContext.access_token = JObject.Parse(responseValue)["access_token"].Value<string>();
+                HttpContext.Current.Response.Headers.Add("access_token", JObject.Parse(responseValue)["access_token"].Value<string>());
+
+                Func<string> tokenFunc = ()=>{return JObject.Parse(responseValue)["access_token"].Value<string>();};
+                DBHelper.getAndFreshT<string>(tokenFunc,ConfigurationManager.AppSettings["tokenByUserUid"]+UserContext.account.Usr_UId);
+
+                Func<Guid> tokenvalueFunc = () => { return UserContext.account.Usr_UId; };
+                DBHelper.getAndFreshT<Guid>(tokenvalueFunc,
+                    "token-"+JObject.Parse(responseValue)["access_token"].Value<string>());
+
                 return JObject.Parse(responseValue)["access_token"].Value<string>();
             }
             else
             {
-                Console.WriteLine(responseValue);
-                Console.ReadKey();
+                //Console.WriteLine(responseValue);
+                //Console.ReadKey();
 
                 return string.Empty;
             }
