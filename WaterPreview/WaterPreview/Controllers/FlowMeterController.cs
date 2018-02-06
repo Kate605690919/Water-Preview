@@ -51,7 +51,7 @@ namespace WaterPreview.Controllers
             //User_t account = UserContext.account;
             FlowMeter_t flowmeter = flowmeter_Service.GetFlowMeterByFMUid(uid);
             Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(flowmeter, (DateTime)time);
-
+            time = time == null ? System.DateTime.Now : time;
             result.Data = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]+uid);
 
                 //Func<List<FlowMeterData>> fmdataFunc = () => flowmeter_Service.GetFlowMetersDataByUserUid(account);
@@ -195,14 +195,16 @@ namespace WaterPreview.Controllers
                 vclist = vclist.OrderByDescending(p => p.count).ToList();
                 foreach(var vcitem in vclist){
                     FlowMeter_t fm = fmlist.First(p => p.FM_UId == Guid.Parse(vcitem.uid));
-                    Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(fm, (DateTime)fm.FM_FlowCountLast);
-                    var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]+fm.FM_UId);
-                    fmdata_account.Add(fmdata);
-
+                    if (fm.FM_FlowCountLast != null)
+                    {
+                        Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(fm, (DateTime)fm.FM_FlowCountLast);
+                        var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"] + fm.FM_UId);
+                        fmdata_account.Add(fmdata);
+                    }
                 }
                 foreach (FlowMeter_t item in fmlist)
                 {
-                    if (vclist.All(p => p.uid != item.FM_UId.ToString()))
+                    if (vclist.All(p => p.uid != item.FM_UId.ToString())&&item.FM_FlowCountLast!=null)
                     {
                         Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(item, (DateTime)item.FM_FlowCountLast);
                         var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"] + item.FM_UId);
@@ -214,10 +216,12 @@ namespace WaterPreview.Controllers
             {
                 foreach (var item in fmlist)
                 {
-                    Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(item, (DateTime)item.FM_FlowCountLast);
-                    var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]+item.FM_UId);
-                    fmdata_account.Add(fmdata);
-
+                    if (item.FM_FlowCountLast != null)
+                    {
+                        Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(item, (DateTime)item.FM_FlowCountLast);
+                        var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"] + item.FM_UId);
+                        fmdata_account.Add(fmdata);
+                    }
                 }
             }
 
@@ -251,12 +255,12 @@ namespace WaterPreview.Controllers
             List<FlowMeterData> fmdatalist = new List<FlowMeterData>();
             foreach (var item in fmlist)
             {
-                Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(item, (DateTime)item.FM_FlowCountLast);
-                var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"]+item.FM_UId);
-
-                //var fmdata = GetAnalysisByFlowMeter(item,(DateTime)item.FM_FlowCountLast);
-                fmdatalist.Add(fmdata);
-
+                if (item.FM_FlowCountLast != null)
+                {
+                    Func<FlowMeterData> fmdataFunc = () => flowmeter_Service.GetAnalysisByFlowMeter(item, (DateTime)item.FM_FlowCountLast);
+                    var fmdata = DBHelper.getT<FlowMeterData>(fmdataFunc, ConfigurationManager.AppSettings["FlowMeterAnalysisByFMUid"] + item.FM_UId);
+                    fmdatalist.Add(fmdata);
+                }
             }
             
             //先剔除“无法计算”的昨日流量比例，按大小排序，再补上“无法计算”

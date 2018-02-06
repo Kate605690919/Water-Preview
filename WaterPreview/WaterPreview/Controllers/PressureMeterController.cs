@@ -171,9 +171,11 @@ namespace WaterPreview.Controllers
             result.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
             User_t account = UserContext.account;
             Guid useruid = account == null||account.Usr_UId==new Guid()?Guid.Parse(Session["wp_username"].ToString()):account.Usr_UId;
-
+            
             PressureMeter_t pm = pressuremeter_service.GetAllPressureMeter().FirstOrDefault(p=>p.PM_UId==pmuid);
-            Func<PressureMeterData> pmdataFunc = () => pressuremeter_service.GetAnalysisByPressureMeter(pm, (DateTime)pm.PM_CountLast);
+            //time = time == null ? pm.PM_CountLast : time;
+            //time = time == pm.PM_CountLast && pm.PM_CountLast == null ? System.DateTime.Now : time;
+            Func<PressureMeterData> pmdataFunc = () => pressuremeter_service.GetAnalysisByPressureMeter(pm, (DateTime)time);
             result.Data = DBHelper.getT<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["PressureMeterAnalysisByPMUid"] + pm.PM_UId);
 
 
@@ -203,9 +205,12 @@ namespace WaterPreview.Controllers
                 pmlist = pressuremeter_service.GetAllPressureMeter();
                 foreach (var item in pmlist)
                 {
-                    Func<PressureMeterData> pmdataFunc = () => pressuremeter_service.GetAnalysisByPressureMeter(item, (DateTime)item.PM_CountLast);
-                    var pmdata = DBHelper.getT<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["PressureMeterAnalysisByPMUid"] + item.PM_UId);
-                    pmdataanalysis.Add(pmdata);
+                    if (item.PM_CountLast != null)
+                    {
+                        Func<PressureMeterData> pmdataFunc = () => pressuremeter_service.GetAnalysisByPressureMeter(item, (DateTime)item.PM_CountLast);
+                        var pmdata = DBHelper.getT<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["PressureMeterAnalysisByPMUid"] + item.PM_UId);
+                        pmdataanalysis.Add(pmdata);
+                    }
                 }
             }
 
@@ -268,9 +273,12 @@ namespace WaterPreview.Controllers
                 pmlist = pressuremeter_service.GetAllPressureMeter();
                 foreach (var item in pmlist)
                 {
-                    Func<PressureMeterData> pmdataFunc = () => pressuremeter_service.GetAnalysisByPressureMeter(item, (DateTime)item.PM_CountLast);
-                    var pmdata = DBHelper.getT<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["PressureMeterAnalysisByPMUid"] + item.PM_UId);
-                    pmdataanalysis.Add(pmdata);
+                    if (item.PM_CountLast != null)
+                    {
+                        Func<PressureMeterData> pmdataFunc = () => pressuremeter_service.GetAnalysisByPressureMeter(item, (DateTime)item.PM_CountLast);
+                        var pmdata = DBHelper.getT<PressureMeterData>(pmdataFunc, ConfigurationManager.AppSettings["PressureMeterAnalysisByPMUid"] + item.PM_UId);
+                        pmdataanalysis.Add(pmdata);
+                    }  
                 }
             }
 
