@@ -145,19 +145,38 @@ namespace WaterPreview.Controllers
             return View();
         }
 
-        public ActionResult LogOut()
+        public JsonResult LogOut()
         {
+            JsonResult result  = new JsonResult();
             User_t account = UserContext.account;
-            account = account != null && account.Usr_UId != new Guid() ? account : new User_t();
-            HttpCookie cookie = Request.Cookies[ConfigurationManager.AppSettings["CookieName"]];
-            if (cookie != null)
+            try
             {
-                cookie.Domain = ConfigurationManager.AppSettings["DomainName"];
-                cookie.Expires = DateTime.Now.AddDays(-1);
-                Response.Cookies.Add(cookie);
+                //清除token和账号uid对应缓存
+                DBHelper.SetExpire(ConfigurationManager.AppSettings["tokenByUserUid"] + UserContext.account.Usr_UId);
+                DBHelper.SetExpire("token-" + UserContext.access_token);
+                UserContext.access_token = UserContext.access_token != null ? "" : UserContext.access_token;
+                //清除用户信息上下文
+                account = account != null && account.Usr_UId != new Guid() ? account : new User_t();
+                //清除可能的cookie
+                HttpCookie cookiename = Request.Cookies["username"];
+                if (cookiename != null)
+                {
+                    cookiename.Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies.Add(cookiename);
+                }
+                HttpCookie cookieuid = Request.Cookies["useruid"];
+                if (cookieuid != null)
+                {
+                    cookieuid.Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies.Add(cookieuid);
+                }
+                result.Data = true;
             }
-
-            return RedirectToAction("Login", "Home");
+            catch
+            {
+                result.Data = false;
+            }            
+            return result;
         }
     }
 }

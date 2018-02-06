@@ -145,18 +145,31 @@ namespace WaterPreview.Redis
             }
         }
 
-        public static void ClearCache()
+        /// <summary>
+        /// 设置过期
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="datetime"></param>
+        public static bool SetExpire(string key,int dbindex =1)
         {
             try
             {
-                //if (!IsOpenCache) return;
                 using (IRedisClient Redis = new RedisClient(ConnectionString))
                 {
-                    Redis.FlushAll();
+                    Redis.Select(dbindex);
+                    var name = key;
+                    if (Redis.Exists(name))
+                    {
+                        Redis.Expire(key, new TimeSpan(0, 0, 0));//立即过期
+                        return true;
+                    }
+                    else return false;
                 }
             }
-            catch { return; }
-        } 
+            catch { return false; }
+        }
+
+       
 
      
 
